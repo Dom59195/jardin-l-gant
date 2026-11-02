@@ -76,7 +76,7 @@ function Contact() {
           />
           <div className="relative">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 px-4 py-1.5 text-xs font-medium">
-              <span className="h-2 w-2 rounded-full bg-sage" /> Devis gratuit · sans engagement
+              <span className="h-2 w-2 rounded-full bg-primary-foreground" /> Devis gratuit · sans engagement
             </span>
             <h1 className="mt-8 font-display text-5xl leading-[1.02] md:text-7xl">
               Parlons de votre <em className="text-primary-foreground">jardin</em>.
@@ -89,7 +89,7 @@ function Contact() {
           <div className="relative space-y-3">
             <a
               href="tel:+33783551969"
-              className="group flex items-center justify-between rounded-2xl bg-sage px-6 py-5 text-primary transition hover:opacity-90"
+              className="group flex items-center justify-between rounded-2xl bg-primary-foreground px-6 py-5 text-primary transition hover:opacity-90"
             >
               <span className="flex items-center gap-4">
                 <Phone className="h-5 w-5" />
@@ -99,11 +99,11 @@ function Contact() {
             </a>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="flex items-start gap-3 rounded-2xl border border-primary-foreground/15 p-4 text-sm">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-sage" />
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary-foreground/70" />
                 <span>Lun – Ven<br /><span className="text-primary-foreground/60">8h30–12h · 13h–16h30</span></span>
               </div>
               <div className="flex items-start gap-3 rounded-2xl border border-primary-foreground/15 p-4 text-sm">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sage" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary-foreground/70" />
                 <span>Hérin (59)<br /><span className="text-primary-foreground/60">+50 km autour de Valenciennes</span></span>
               </div>
             </div>
@@ -185,7 +185,7 @@ function Contact() {
                 className="group mt-auto inline-flex items-center justify-between rounded-full bg-primary py-2 pl-8 pr-2 font-medium text-primary-foreground transition hover:opacity-95"
               >
                 Envoyer ma demande
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sage text-primary transition group-hover:rotate-45">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground transition group-hover:rotate-45">
                   <ArrowUpRight className="h-5 w-5" />
                 </span>
               </button>
