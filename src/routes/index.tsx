@@ -2,24 +2,26 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sprout, Scissors, TreeDeciduous, Shovel } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
 import { projets } from "@/lib/projets";
+import { avisGoogle } from "@/lib/avis";
+import { Star } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Verdure & Jardins — Jardinier paysagiste" },
-      { name: "description", content: "Création, entretien et aménagement de jardins d'exception par un jardinier paysagiste passionné." },
-      { property: "og:title", content: "Verdure & Jardins — Jardinier paysagiste" },
-      { property: "og:description", content: "Création, entretien et aménagement de jardins d'exception." },
+      { title: "Blondel Jardin — Jardinier paysagiste à Hérin (Nord)" },
+      { name: "description", content: "Entretien et aménagement de jardins à Hérin et dans le Valenciennois. Devis gratuit, 50 % de crédit d'impôt." },
+      { property: "og:title", content: "Blondel Jardin — Jardinier paysagiste à Hérin" },
+      { property: "og:description", content: "Entretien et aménagement de jardins à Hérin et alentours." },
     ],
   }),
   component: Index,
 });
 
 const services = [
-  { icon: Sprout, t: "Création de jardins", d: "Conception sur mesure, du plan à la plantation." },
-  { icon: Shovel, t: "Entretien", d: "Tonte, désherbage et soins au fil des saisons." },
-  { icon: Scissors, t: "Taille & élagage", d: "Haies, arbustes et arbres taillés avec précision." },
-  { icon: TreeDeciduous, t: "Aménagement extérieur", d: "Terrasses, allées, bassins et éclairage." },
+  { icon: Sprout, t: "Entretien de jardin", d: "Tonte, débroussaillage, ramassage de feuilles." },
+  { icon: Shovel, t: "Travaux saisonniers", d: "Nettoyage de printemps et d'automne, scarification, engrais." },
+  { icon: Scissors, t: "Taille de haies", d: "Haies, arbustes et conifères taillés avec soin." },
+  { icon: TreeDeciduous, t: "Aménagement", d: "Massifs, plantations, engazonnement et évacuation des déchets verts." },
 ];
 
 function Index() {
@@ -29,12 +31,12 @@ function Index() {
         <img src={hero} alt="Jardin paysager au coucher du soleil" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" />
         <div className="hero-overlay absolute inset-0" />
         <div className="relative mx-auto w-full max-w-7xl px-6 pb-24 text-primary-foreground animate-fade-up">
-          <p className="eyebrow opacity-80">Jardinier paysagiste</p>
+          <p className="eyebrow opacity-80">Jardinier paysagiste · Hérin (59)</p>
           <h1 className="mt-4 max-w-3xl font-display text-5xl leading-[1.05] md:text-7xl">
             L'art de sublimer <em>votre jardin</em>
           </h1>
           <p className="mt-6 max-w-xl text-lg opacity-85">
-            Des espaces verts pensés avec soin, créés et entretenus dans le respect du vivant.
+            Clément Blondel met sa passion du végétal au service de vos extérieurs, avec soin et dans le respect de votre budget.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link to="/contact" className="eyebrow rounded-sm bg-background px-7 py-4 text-primary transition-opacity hover:opacity-90">Demander un devis</Link>
@@ -84,15 +86,40 @@ function Index() {
 
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-28 md:grid-cols-3">
         {[
-          ["15 ans", "d'expérience au service des jardins"],
-          ["300+", "projets réalisés avec passion"],
-          ["100 %", "devis gratuits et sans engagement"],
+          ["5,0 ★", "note moyenne sur Google"],
+          ["50 %", "de crédit d'impôt (service à la personne)"],
+          ["Gratuit", "devis rapide et sans engagement"],
         ].map(([n, t]) => (
           <div key={n} className="border-t border-border pt-6">
             <p className="font-display text-6xl text-primary">{n}</p>
             <p className="mt-2 text-muted-foreground">{t}</p>
           </div>
         ))}
+      </section>
+
+      <section className="bg-secondary py-28">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="eyebrow text-moss">Avis Google</p>
+              <h2 className="mt-3 font-display text-4xl text-primary md:text-5xl">Ils m'ont fait confiance</h2>
+              <div className="mt-4 flex items-center gap-2 text-primary">
+                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-5 w-5 fill-current" />)}
+                <span className="ml-2 text-sm text-muted-foreground">{avisGoogle.note.toFixed(1).replace(".", ",")} / 5 · {avisGoogle.total} avis</span>
+              </div>
+            </div>
+            <a href={avisGoogle.lien} target="_blank" rel="noreferrer" className="eyebrow text-primary underline-offset-8 hover:underline">Voir sur Google →</a>
+          </div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {avisGoogle.avis.map((a, i) => (
+              <figure key={i} className="flex flex-col rounded-md border border-border bg-card p-8">
+                <div className="flex gap-1 text-moss">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className="h-4 w-4 fill-current" />)}</div>
+                <blockquote className="mt-5 flex-1 font-display text-xl leading-snug text-primary">« {a.texte} »</blockquote>
+                <figcaption className="eyebrow mt-6 text-muted-foreground">Client Google · {a.date}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="bg-forest py-24 text-center text-primary-foreground">

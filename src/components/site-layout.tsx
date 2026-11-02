@@ -14,7 +14,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="font-display text-2xl tracking-wide text-primary">
-          Verdure <span className="italic text-moss">&amp; Jardins</span>
+          Blondel <span className="italic text-moss">Jardin</span>
         </Link>
         <nav className="hidden items-center gap-10 md:flex">
           {nav.map((n) => (
@@ -66,16 +66,16 @@ export function SiteFooter() {
     <footer className="bg-forest text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-3">
         <div>
-          <p className="font-display text-3xl">Verdure &amp; Jardins</p>
+          <p className="font-display text-3xl">Blondel Jardin</p>
           <p className="mt-3 text-sm opacity-75">
-            Jardinier paysagiste — création, entretien et aménagement de jardins d'exception.
+            Jardinier paysagiste à Hérin (Nord). Entretien et aménagement de jardins pour particuliers.
           </p>
         </div>
         <div className="text-sm opacity-85">
           <p className="eyebrow mb-3 opacity-70">Contact</p>
-          <p>12 rue des Tilleuls, 69000 Lyon</p>
-          <p>06 12 34 56 78</p>
-          <p>contact@verdure-jardins.fr</p>
+          <p>38 rue Auguste Caron, 59195 Hérin</p>
+          <p><a href="tel:+33783551969">07 83 55 19 69</a></p>
+          <p>Lun – Ven : 8h30 – 16h30</p>
         </div>
         <div className="text-sm">
           <p className="eyebrow mb-3 opacity-70">Navigation</p>
@@ -89,7 +89,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-primary-foreground/15 py-6 text-center text-xs opacity-60">
-        © {new Date().getFullYear()} Verdure &amp; Jardins — Mentions légales
+        © {new Date().getFullYear()} Blondel Jardin — Clément Blondel, EI — SIREN 987 914 991
       </div>
     </footer>
   );
