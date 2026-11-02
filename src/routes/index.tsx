@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
 import p1 from "@/assets/projet-1.jpg";
 import p2 from "@/assets/projet-2.jpg";
@@ -49,6 +50,67 @@ function Stars({ n, className = "h-4 w-4" }: { n: number; className?: string }) 
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} className={`${className} ${i < Math.round(n) ? "fill-current" : "opacity-30"}`} />
       ))}
+    </div>
+  );
+}
+
+function CarouselAvis({ items }: { items: AvisData["avis"] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [pause, setPause] = useState(false);
+
+  const defiler = useCallback((dir: 1 | -1) => {
+    const el = ref.current;
+    if (!el) return;
+    const carte = el.querySelector<HTMLElement>("[data-carte]");
+    const pas = carte ? carte.offsetWidth + 20 : 400;
+    const aFin = el.scrollLeft + el.clientWidth >= el.scrollWidth - 8;
+    if (dir === 1 && aFin) el.scrollTo({ left: 0, behavior: "smooth" });
+    else if (dir === -1 && el.scrollLeft <= 8) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
+    else el.scrollBy({ left: pas * dir, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    if (pause) return;
+    const id = setInterval(() => defiler(1), 4500);
+    return () => clearInterval(id);
+  }, [pause, defiler]);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setPause(true)}
+      onMouseLeave={() => setPause(false)}
+    >
+      <div
+        ref={ref}
+        className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {items.map((a, i) => (
+          <figure
+            key={i}
+            data-carte
+            className="flex w-[22rem] shrink-0 snap-start flex-col justify-between rounded-3xl border border-border bg-card p-7 max-sm:w-[80%]"
+          >
+            <div className="text-moss"><Stars n={a.note} /></div>
+            <blockquote className="mt-4 leading-relaxed text-foreground">« {a.texte} »</blockquote>
+            <figcaption className="mt-6 flex items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-sm font-semibold text-primary">{a.nom.charAt(0)}</span>
+              <span className="text-sm font-semibold text-primary">
+                {a.nom}
+                <span className="block text-xs font-normal text-muted-foreground">{a.date}</span>
+              </span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <div className="mt-6 flex justify-end gap-2 max-sm:hidden">
+        <button onClick={() => defiler(-1)} aria-label="Avis précédents" className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition-colors hover:bg-secondary">
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <button onClick={() => defiler(1)} aria-label="Avis suivants" className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition-colors hover:bg-secondary">
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      </div>
     </div>
   );
 }
@@ -192,34 +254,24 @@ function Index() {
 
       {/* AVIS */}
       <section className="mx-auto max-w-7xl px-6 py-28 max-sm:py-16">
-        <div className="grid gap-12 lg:grid-cols-3">
-          <div className="lg:sticky lg:top-28 lg:self-start">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
             <p className="text-sm font-semibold text-moss">Avis Google</p>
-            <p className="mt-4 font-display text-8xl max-sm:text-7xl leading-none text-primary">{noteTxt}</p>
-            <div className="mt-3 text-primary"><Stars n={avis.note} className="h-5 w-5" /></div>
-            <p className="mt-3 text-muted-foreground">Sur {avis.total} avis vérifiés</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a href={avis.laisserAvis} target="_blank" rel="noreferrer" className="rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">Laisser un avis</a>
-              <a href={avis.lien} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border px-5 py-3 text-sm font-semibold text-primary hover:bg-secondary">
-                Voir sur Google <ArrowUpRight className="h-4 w-4" />
-              </a>
-            </div>
+            <p className="mt-3 flex items-baseline gap-4 font-display text-6xl max-sm:text-5xl leading-none text-primary">
+              {noteTxt}
+              <span className="text-primary"><Stars n={avis.note} className="h-5 w-5" /></span>
+            </p>
+            <p className="mt-2 text-muted-foreground">Sur {avis.total} avis vérifiés</p>
           </div>
-          <div className="columns-1 gap-4 md:columns-2 lg:col-span-2 [&>*]:mb-4">
-            {avis.avis.map((a, i) => (
-              <figure key={i} className="break-inside-avoid rounded-3xl border border-border bg-card p-7">
-                <div className="text-moss"><Stars n={a.note} /></div>
-                <blockquote className="mt-4 leading-relaxed text-foreground">« {a.texte} »</blockquote>
-                <figcaption className="mt-6 flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-sm font-semibold text-primary">{a.nom.charAt(0)}</span>
-                  <span className="text-sm font-semibold text-primary">
-                    {a.nom}
-                    <span className="block text-xs font-normal text-muted-foreground">{a.date}</span>
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
+          <div className="flex flex-wrap gap-3">
+            <a href={avis.laisserAvis} target="_blank" rel="noreferrer" className="rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">Laisser un avis</a>
+            <a href={avis.lien} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border px-5 py-3 text-sm font-semibold text-primary hover:bg-secondary">
+              Voir sur Google <ArrowUpRight className="h-4 w-4" />
+            </a>
           </div>
+        </div>
+        <div className="mt-12">
+          <CarouselAvis items={avis.avis} />
         </div>
       </section>
 
