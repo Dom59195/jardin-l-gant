@@ -13,7 +13,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="font-display text-2xl tracking-wide text-primary">
+        <Link to="/" className="font-display text-3xl text-primary">
           Blondel <span className="italic text-moss">Jardin</span>
         </Link>
         <nav className="hidden items-center gap-10 md:flex">
@@ -30,7 +30,7 @@ export function SiteHeader() {
           ))}
           <Link
             to="/contact"
-            className="eyebrow rounded-sm bg-primary px-5 py-3 text-primary-foreground transition-opacity hover:opacity-90"
+            className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
             Demander un devis
           </Link>
