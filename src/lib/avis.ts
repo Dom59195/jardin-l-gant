@@ -7,7 +7,7 @@ export const avisGoogle = {
     { date: "Mai 2026", texte: "Un grand merci à Blondel Jardin pour le travail réalisé. Travail propre et soigné. On sent quelqu’un de passionné et sérieux. C’est agréable de pouvoir faire confiance à une entreprise locale qui prend vraiment le temps de bien faire les choses. Je recommande les yeux fermés !" },
     { date: "Avril 2026", texte: "Entretien complet du jardin : conifères, taille d'arbustes, des haies... Travail consciencieux et sérieux. Tarif compétitif. Personne très à l'écoute des attentes, et serviable. Je recommande." },
     { date: "Avril 2026", texte: "Excellent travail. Une personne sérieuse et motivée. Je recommande." },
-    { date: "Mars 2026", texte: "Clément Blondel est un jeune homme qui vient de créer sa société. Il est sérieux, ponctuel et professionnel. Je recommande vivement." },
+    { date: "Mars 2026", texte: "Blondel Jardin est une jeune entreprise. Il est sérieux, ponctuel et professionnel. Je recommande vivement." },
     { date: "Mars 2026", texte: "Bon travail. Il faut aider les jeunes dans leurs actions." },
   ],
 };

@@ -89,7 +89,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-primary-foreground/15 py-6 text-center text-xs opacity-60">
-        © {new Date().getFullYear()} Blondel Jardin — Clément Blondel, EI — SIREN 987 914 991
+        © {new Date().getFullYear()} Blondel Jardin — SIREN 987 914 991
       </div>
     </footer>
   );
