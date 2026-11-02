@@ -69,7 +69,7 @@ function Contact() {
     <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-16">
       <div className="grid overflow-hidden rounded-[2.5rem] border border-border bg-card lg:grid-cols-[0.9fr_1.1fr]">
         {/* Panneau gauche */}
-        <div className="relative flex flex-col justify-between gap-12 bg-forest p-8 text-primary-foreground md:p-14">
+        <div className="relative flex flex-col justify-between gap-12 overflow-hidden bg-forest p-8 text-primary-foreground md:p-14">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/20 blur-3xl"
@@ -82,7 +82,7 @@ function Contact() {
               Parlons de votre <em className="text-accent">jardin</em>.
             </h1>
             <p className="mt-6 max-w-sm text-primary-foreground/70">
-              Racontez-nous votre projet, Blondel Jardin vous répond sous 48&nbsp;h.
+              Racontez-nous votre projet, Blondel Jardin vous recontacte rapidement.
             </p>
           </div>
 
