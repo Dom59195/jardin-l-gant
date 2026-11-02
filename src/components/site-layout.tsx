@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import logoCarre from "@/assets/logo-carre.png";
+import logo from "@/assets/logo-blondel-jardin-detoure.png.asset.json";
 
 const nav = [
   { to: "/", label: "Accueil" },
@@ -14,18 +14,19 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="group flex items-center gap-3" aria-label="Blondel Jardin — accueil">
+        <Link to="/" className="group flex items-center gap-4" aria-label="Blondel Jardin — accueil">
           <img
-            src={logoCarre}
-            alt="Logo Blondel Jardin"
-            className="h-14 w-14 shrink-0 rounded-lg shadow-sm transition-transform group-hover:scale-105"
+            src={logo.url}
+            alt="Blondel Jardin"
+            width={64}
+            height={64}
+            className="h-16 w-16 shrink-0 transition-transform duration-300 group-hover:scale-105"
           />
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-[1.7rem] tracking-tight text-primary">
-              Blondel <em className="text-moss">Jardin</em>
-            </span>
-            <span className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-              Paysagiste · Hérin
+          <span className="hidden h-10 w-px bg-border sm:block" aria-hidden />
+          <span className="hidden flex-col leading-tight sm:flex">
+            <span className="font-display text-xl italic text-moss">Jardinier paysagiste</span>
+            <span className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+              Hérin · Valenciennois
             </span>
           </span>
         </Link>
