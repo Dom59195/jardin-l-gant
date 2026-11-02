@@ -12,7 +12,11 @@ const STARS: Record<string, number> = { ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE:
 let cache: { at: number; data: AvisData } | null = null;
 
 function nettoyer(t: string) {
-  return t.split("\n\n(Translated by Google)")[0]!.trim();
+  return t
+    .split("\n\n(Translated by Google)")[0]!
+    .replace(/Cl[ée]ment Blondel est un jeune homme qui vient de créer sa société\.?/gi, "Blondel Jardin est une jeune entreprise.")
+    .replace(/(Monsieur |M\. )?Cl[ée]ment Blondel|Monsieur Blondel/gi, "Blondel Jardin")
+    .trim();
 }
 
 export const getAvisGoogle = createServerFn({ method: "GET" }).handler(async (): Promise<AvisData | null> => {
