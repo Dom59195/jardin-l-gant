@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
-export type Avis = { nom: string; photo?: string; note: number; texte: string; date: string };
+export type Avis = { nom: string; photo?: string | undefined; note: number; texte: string; date: string };
 export type AvisData = { note: number; total: number; avis: Avis[]; lien: string; laisserAvis: string };
 
 const ACCOUNT = "108270569088880212657";
