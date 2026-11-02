@@ -1,14 +1,25 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sprout, Scissors, TreeDeciduous, Shovel } from "lucide-react";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
-import { projets } from "@/lib/projets";
+import p1 from "@/assets/projet-1.jpg";
+import p2 from "@/assets/projet-2.jpg";
+import p3 from "@/assets/projet-3.jpg";
 import { avisGoogle } from "@/lib/avis";
 import { getAvisGoogle, type AvisData } from "@/lib/avis.functions";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-const secours: AvisData = { note: avisGoogle.note, total: avisGoogle.total, lien: avisGoogle.lien, laisserAvis: avisGoogle.lien, avis: avisGoogle.avis.map((a) => ({ nom: "Client Google", note: 5, texte: a.texte, date: a.date })) };
-const avisQuery = queryOptions({ queryKey: ["avis-google"], queryFn: async () => (await getAvisGoogle()) ?? secours, staleTime: 3600_000 });
-import { Star } from "lucide-react";
+const secours: AvisData = {
+  note: avisGoogle.note,
+  total: avisGoogle.total,
+  lien: avisGoogle.lien,
+  laisserAvis: avisGoogle.lien,
+  avis: avisGoogle.avis.map((a) => ({ nom: "Client Google", note: 5, texte: a.texte, date: a.date })),
+};
+const avisQuery = queryOptions({
+  queryKey: ["avis-google"],
+  queryFn: async () => (await getAvisGoogle()) ?? secours,
+  staleTime: 3600_000,
+});
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,110 +34,181 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const services = [
-  { icon: Sprout, t: "Entretien de jardin", d: "Tonte, débroussaillage, ramassage de feuilles." },
-  { icon: Shovel, t: "Travaux saisonniers", d: "Nettoyage de printemps et d'automne, scarification, engrais." },
-  { icon: Scissors, t: "Taille de haies", d: "Haies, arbustes et conifères taillés avec soin." },
-  { icon: TreeDeciduous, t: "Aménagement", d: "Massifs, plantations, engazonnement et évacuation des déchets verts." },
+const motsCles = ["Tonte", "Taille de haies", "Débroussaillage", "Massifs", "Scarification", "Plantation", "Feuilles mortes", "Déchets verts"];
+
+const etapes = [
+  { n: "01", t: "Premier contact", d: "Un appel ou un message : vous décrivez votre jardin et vos envies." },
+  { n: "02", t: "Visite & devis", d: "Passage sur place et devis clair, gratuit et sans engagement." },
+  { n: "03", t: "Intervention", d: "Travail soigné, ponctuel, et déchets verts évacués." },
+  { n: "04", t: "Suivi", d: "Un entretien régulier pour un jardin beau toute l'année." },
 ];
+
+function Stars({ n, className = "h-4 w-4" }: { n: number; className?: string }) {
+  return (
+    <div className="flex gap-0.5">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star key={i} className={`${className} ${i < Math.round(n) ? "fill-current" : "opacity-30"}`} />
+      ))}
+    </div>
+  );
+}
 
 function Index() {
   const { data: avis } = useSuspenseQuery(avisQuery);
   const noteTxt = avis.note.toFixed(1).replace(".", ",");
+
   return (
     <>
-      <section className="relative flex min-h-[88vh] items-end overflow-hidden">
-        <img src={hero} alt="Jardin paysager au coucher du soleil" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" />
-        <div className="hero-overlay absolute inset-0" />
-        <div className="relative mx-auto w-full max-w-7xl px-6 pb-24 text-primary-foreground animate-fade-up">
-          <p className="eyebrow opacity-80">Jardinier paysagiste · Hérin (59)</p>
-          <h1 className="mt-4 max-w-3xl font-display text-5xl leading-[1.05] md:text-7xl">
-            L'art de sublimer <em>votre jardin</em>
+      {/* HERO */}
+      <section className="mx-auto grid max-w-7xl gap-10 px-6 pt-12 pb-16 lg:grid-cols-12 lg:gap-8 lg:pt-20">
+        <div className="flex flex-col justify-center lg:col-span-6 animate-fade-up">
+          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground">
+            <span className="h-2 w-2 rounded-full bg-accent" /> Jardinier paysagiste · Hérin (59)
+          </span>
+          <h1 className="mt-6 font-display text-6xl leading-[0.95] tracking-tight text-primary md:text-7xl xl:text-8xl">
+            Votre jardin,
+            <br />
+            <em className="text-moss">entre de bonnes</em>
+            <br />
+            mains.
           </h1>
-          <p className="mt-6 max-w-xl text-lg opacity-85">
-            Clément Blondel met sa passion du végétal au service de vos extérieurs, avec soin et dans le respect de votre budget.
+          <p className="mt-8 max-w-md text-lg leading-relaxed text-muted-foreground">
+            Entretien, taille et aménagement pour les particuliers du Valenciennois. Un travail propre, ponctuel et passionné.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Link to="/contact" className="eyebrow rounded-sm bg-background px-7 py-4 text-primary transition-opacity hover:opacity-90">Demander un devis</Link>
-            <Link to="/projets" className="eyebrow rounded-sm border border-primary-foreground/60 px-7 py-4 transition-colors hover:bg-primary-foreground/10">Nos réalisations</Link>
+          <div className="mt-10 flex flex-wrap items-center gap-3">
+            <Link to="/contact" className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">
+              Demander un devis gratuit
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+            </Link>
+            <a href="tel:+33783551969" className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-4 text-sm font-semibold text-primary transition-colors hover:bg-secondary">
+              <Phone className="h-4 w-4" /> 07 83 55 19 69
+            </a>
+          </div>
+          <div className="mt-10 flex items-center gap-4">
+            <div className="flex -space-x-2">
+              {avis.avis.slice(0, 4).map((a, i) => (
+                <span key={i} className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-background bg-secondary text-sm font-semibold text-primary">
+                  {a.nom.charAt(0)}
+                </span>
+              ))}
+            </div>
+            <div className="text-sm">
+              <div className="flex items-center gap-2 text-primary">
+                <Stars n={avis.note} />
+                <span className="font-semibold">{noteTxt}</span>
+              </div>
+              <p className="text-muted-foreground">{avis.total} avis Google</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative lg:col-span-6">
+          <img src={hero} alt="Jardin entretenu par Blondel Jardin" width={1920} height={1088} className="h-[460px] w-full rounded-3xl object-cover lg:h-[620px]" />
+          <div className="absolute -bottom-6 left-6 rounded-2xl bg-card p-5 shadow-xl md:left-10">
+            <p className="font-display text-4xl text-primary">50 %</p>
+            <p className="text-xs text-muted-foreground">de crédit d'impôt
+              <br />service à la personne</p>
+          </div>
+          <div className="absolute top-6 right-6 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-accent-foreground">
+            Devis gratuit
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-28">
-        <div className="max-w-2xl">
-          <p className="eyebrow text-moss">Nos savoir-faire</p>
-          <h2 className="mt-3 font-display text-4xl text-primary md:text-5xl">Un accompagnement complet</h2>
-        </div>
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s) => (
-            <div key={s.t} className="rounded-md border border-border bg-card p-8 transition-transform hover:-translate-y-1">
-              <s.icon className="h-8 w-8 text-moss" strokeWidth={1.3} />
-              <h3 className="mt-6 font-display text-2xl text-primary">{s.t}</h3>
-              <p className="mt-3 text-sm text-muted-foreground">{s.d}</p>
-            </div>
+      {/* MARQUEE */}
+      <section className="overflow-hidden border-y border-border bg-forest py-6 text-primary-foreground">
+        <div className="flex w-max animate-marquee gap-12 whitespace-nowrap">
+          {[...motsCles, ...motsCles].map((m, i) => (
+            <span key={i} className="flex items-center gap-12 font-display text-3xl italic">
+              {m} <Leaf className="h-5 w-5 text-accent" />
+            </span>
           ))}
         </div>
       </section>
 
+      {/* SERVICES BENTO */}
+      <section className="mx-auto max-w-7xl px-6 py-28">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <h2 className="max-w-xl font-display text-5xl leading-tight text-primary md:text-6xl">
+            Des prestations <em className="text-moss">sur mesure</em>, au fil des saisons.
+          </h2>
+          <p className="max-w-sm text-muted-foreground">Chaque jardin est unique : Blondel Jardin s'adapte à vos envies, à votre budget et au rythme de la nature.</p>
+        </div>
+
+        <div className="mt-16 grid auto-rows-[260px] gap-4 md:grid-cols-4">
+          <div className="grain-card relative overflow-hidden rounded-3xl p-8 text-primary-foreground md:col-span-2 md:row-span-2">
+            <Sprout className="h-10 w-10 text-accent" strokeWidth={1.5} />
+            <h3 className="mt-8 font-display text-4xl">Entretien de jardin</h3>
+            <ul className="mt-6 space-y-3 text-sm opacity-85">
+              {["Tonte de pelouse", "Débroussaillage", "Ramassage de feuilles", "Nettoyage de fin de saison"].map((x) => (
+                <li key={x} className="flex items-center gap-3"><Check className="h-4 w-4 text-accent" /> {x}</li>
+              ))}
+            </ul>
+            <img src={p1} alt="" loading="lazy" className="absolute -right-10 -bottom-10 h-56 w-56 rounded-full border-4 border-primary-foreground/10 object-cover opacity-90" />
+          </div>
+          <div className="relative overflow-hidden rounded-3xl md:col-span-2">
+            <img src={p2} alt="Taille de haies" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="hero-overlay absolute inset-0" />
+            <div className="relative flex h-full flex-col justify-end p-8 text-primary-foreground">
+              <Scissors className="h-7 w-7 text-accent" strokeWidth={1.5} />
+              <h3 className="mt-3 font-display text-3xl">Taille de haies & arbustes</h3>
+            </div>
+          </div>
+          <div className="rounded-3xl bg-secondary p-8">
+            <Trees className="h-7 w-7 text-moss" strokeWidth={1.5} />
+            <h3 className="mt-6 font-display text-2xl text-primary">Travaux saisonniers</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Scarification, engrais, protection hivernale.</p>
+          </div>
+          <div className="rounded-3xl bg-accent p-8 text-accent-foreground">
+            <Leaf className="h-7 w-7" strokeWidth={1.5} />
+            <h3 className="mt-6 font-display text-2xl">Déchets verts évacués</h3>
+            <p className="mt-2 text-sm opacity-80">Vous n'avez rien à gérer, le jardin est laissé propre.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* PROCESS */}
       <section className="bg-secondary py-28">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p className="eyebrow text-moss">Réalisations</p>
-              <h2 className="mt-3 font-display text-4xl text-primary md:text-5xl">Projets récents</h2>
-            </div>
-            <Link to="/projets" className="eyebrow text-primary underline-offset-8 hover:underline">Voir tous les projets →</Link>
-          </div>
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {projets.slice(0, 3).map((p) => (
-              <article key={p.titre} className="group">
-                <div className="overflow-hidden rounded-md">
-                  <img src={p.img} alt={p.titre} loading="lazy" width={1024} height={1024} className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                </div>
-                <h3 className="mt-5 font-display text-2xl text-primary">{p.titre}</h3>
-                <p className="text-sm text-muted-foreground">{p.lieu} · {p.type}</p>
-              </article>
+          <h2 className="font-display text-5xl text-primary md:text-6xl">Simple, <em className="text-moss">du début à la fin.</em></h2>
+          <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-4">
+            {etapes.map((e) => (
+              <div key={e.n} className="bg-background p-8">
+                <span className="font-display text-5xl text-moss">{e.n}</span>
+                <h3 className="mt-8 text-lg font-semibold text-primary">{e.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{e.d}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-6 py-28 md:grid-cols-3">
-        {[
-          [`${noteTxt} ★`, `note moyenne sur Google (${avis.total} avis)`],
-          ["50 %", "de crédit d'impôt (service à la personne)"],
-          ["Gratuit", "devis rapide et sans engagement"],
-        ].map(([n, t]) => (
-          <div key={n} className="border-t border-border pt-6">
-            <p className="font-display text-6xl text-primary">{n}</p>
-            <p className="mt-2 text-muted-foreground">{t}</p>
-          </div>
-        ))}
-      </section>
-
-      <section className="bg-secondary py-28">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p className="eyebrow text-moss">Avis Google</p>
-              <h2 className="mt-3 font-display text-4xl text-primary md:text-5xl">Ils m'ont fait confiance</h2>
-              <div className="mt-4 flex items-center gap-2 text-primary">
-                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className={i < Math.round(avis.note) ? "h-5 w-5 fill-current" : "h-5 w-5"} />)}
-                <span className="ml-2 text-sm text-muted-foreground">{noteTxt} / 5 · {avis.total} avis</span>
-              </div>
+      {/* AVIS */}
+      <section className="mx-auto max-w-7xl px-6 py-28">
+        <div className="grid gap-12 lg:grid-cols-3">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <p className="text-sm font-semibold text-moss">Avis Google</p>
+            <p className="mt-4 font-display text-8xl leading-none text-primary">{noteTxt}</p>
+            <div className="mt-3 text-primary"><Stars n={avis.note} className="h-5 w-5" /></div>
+            <p className="mt-3 text-muted-foreground">Sur {avis.total} avis vérifiés</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={avis.laisserAvis} target="_blank" rel="noreferrer" className="rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">Laisser un avis</a>
+              <a href={avis.lien} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border px-5 py-3 text-sm font-semibold text-primary hover:bg-secondary">
+                Voir sur Google <ArrowUpRight className="h-4 w-4" />
+              </a>
             </div>
-            <a href={avis.laisserAvis} target="_blank" rel="noreferrer" className="eyebrow text-primary underline-offset-8 hover:underline">Laisser un avis</a>
-            <a href={avis.lien} target="_blank" rel="noreferrer" className="eyebrow text-primary underline-offset-8 hover:underline">Voir sur Google →</a>
           </div>
-          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="columns-1 gap-4 md:columns-2 lg:col-span-2 [&>*]:mb-4">
             {avis.avis.map((a, i) => (
-              <figure key={i} className="flex flex-col rounded-md border border-border bg-card p-8">
-                <div className="flex gap-1 text-moss">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className={j < a.note ? "h-4 w-4 fill-current" : "h-4 w-4"} />)}</div>
-                <blockquote className="mt-5 flex-1 font-display text-xl leading-snug text-primary">« {a.texte} »</blockquote>
+              <figure key={i} className="break-inside-avoid rounded-3xl border border-border bg-card p-7">
+                <div className="text-moss"><Stars n={a.note} /></div>
+                <blockquote className="mt-4 leading-relaxed text-foreground">« {a.texte} »</blockquote>
                 <figcaption className="mt-6 flex items-center gap-3">
-                  {a.photo && <img src={a.photo} alt="" width={36} height={36} loading="lazy" referrerPolicy="no-referrer" className="h-9 w-9 rounded-full" />}
-                  <span className="text-sm text-primary">{a.nom}<span className="block text-xs text-muted-foreground">{a.date}</span></span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-sm font-semibold text-primary">{a.nom.charAt(0)}</span>
+                  <span className="text-sm font-semibold text-primary">
+                    {a.nom}
+                    <span className="block text-xs font-normal text-muted-foreground">{a.date}</span>
+                  </span>
                 </figcaption>
               </figure>
             ))}
@@ -134,9 +216,18 @@ function Index() {
         </div>
       </section>
 
-      <section className="bg-forest py-24 text-center text-primary-foreground">
-        <h2 className="mx-auto max-w-2xl px-6 font-display text-4xl md:text-5xl">Parlons de votre futur jardin</h2>
-        <Link to="/contact" className="eyebrow mt-10 inline-block rounded-sm bg-background px-8 py-4 text-primary hover:opacity-90">Prendre contact</Link>
+      {/* CTA */}
+      <section className="px-6 pb-24">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem]">
+          <img src={p3} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="hero-overlay absolute inset-0" />
+          <div className="relative flex flex-col items-start gap-8 px-8 py-20 text-primary-foreground md:px-16 md:py-28">
+            <h2 className="max-w-2xl font-display text-5xl leading-tight md:text-7xl">Prêt à redonner vie à votre jardin ?</h2>
+            <Link to="/contact" className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5">
+              Obtenir mon devis gratuit <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+            </Link>
+          </div>
+        </div>
       </section>
     </>
   );
