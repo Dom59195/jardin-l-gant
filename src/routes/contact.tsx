@@ -5,9 +5,9 @@ import { z } from "zod";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact & devis — Verdure & Jardins" },
+      { title: "Contact & devis — Blondel Jardin" },
       { name: "description", content: "Contactez votre jardinier paysagiste pour un devis gratuit et sans engagement." },
-      { property: "og:title", content: "Contact & devis — Verdure & Jardins" },
+      { property: "og:title", content: "Contact & devis — Blondel Jardin" },
       { property: "og:description", content: "Demandez votre devis gratuit pour votre jardin." },
     ],
   }),
@@ -45,12 +45,12 @@ function Contact() {
       <div className="md:col-span-2">
         <p className="eyebrow text-moss">Contact</p>
         <h1 className="mt-3 font-display text-5xl text-primary md:text-6xl">Parlons de votre projet</h1>
-        <p className="mt-6 text-muted-foreground">Devis gratuit, réponse sous 48 h.</p>
+        <p className="mt-6 text-muted-foreground">Devis gratuit et sans engagement. 50 % de crédit d'impôt.</p>
         <div className="mt-12 space-y-8 text-sm">
-          <div><p className="eyebrow mb-2 text-moss">Adresse</p><p>12 rue des Tilleuls, 69000 Lyon</p></div>
-          <div><p className="eyebrow mb-2 text-moss">Téléphone</p><p>06 12 34 56 78</p></div>
-          <div><p className="eyebrow mb-2 text-moss">Email</p><p>contact@verdure-jardins.fr</p></div>
-          <div><p className="eyebrow mb-2 text-moss">Horaires</p><p>Lundi – Vendredi : 8h – 18h</p><p>Samedi : 9h – 12h</p></div>
+          <div><p className="eyebrow mb-2 text-moss">Adresse</p><p>38 rue Auguste Caron, 59195 Hérin</p></div>
+          <div><p className="eyebrow mb-2 text-moss">Téléphone</p><p><a href="tel:+33783551969">07 83 55 19 69</a></p></div>
+          <div><p className="eyebrow mb-2 text-moss">Zone</p><p>Hérin et alentours (Valenciennois)</p></div>
+          <div><p className="eyebrow mb-2 text-moss">Horaires</p><p>Lundi – Vendredi : 8h30 – 12h / 13h – 16h30</p><p>Samedi – Dimanche : fermé</p></div>
         </div>
       </div>
       <div className="rounded-md border border-border bg-card p-8 md:col-span-3 md:p-12">

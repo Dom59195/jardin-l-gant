@@ -4,9 +4,9 @@ import { projets } from "@/lib/projets";
 export const Route = createFileRoute("/projets")({
   head: () => ({
     meta: [
-      { title: "Nos projets — Verdure & Jardins" },
+      { title: "Nos projets — Blondel Jardin" },
       { name: "description", content: "Découvrez nos réalisations : créations de jardins, terrasses, bassins et entretien de parcs." },
-      { property: "og:title", content: "Nos projets — Verdure & Jardins" },
+      { property: "og:title", content: "Nos projets — Blondel Jardin" },
       { property: "og:description", content: "Découvrez nos réalisations de jardins et d'aménagements extérieurs." },
     ],
   }),
@@ -18,7 +18,7 @@ function Projets() {
     <section className="mx-auto max-w-7xl px-6 py-24">
       <p className="eyebrow text-moss">Portfolio</p>
       <h1 className="mt-3 font-display text-5xl text-primary md:text-6xl">Nos projets</h1>
-      <p className="mt-4 max-w-xl text-muted-foreground">Chaque jardin raconte une histoire. Voici quelques-unes des nôtres.</p>
+      <p className="mt-4 max-w-xl text-muted-foreground">Un aperçu des prestations réalisées.</p>
       <div className="mt-16 grid gap-10 md:grid-cols-2">
         {projets.map((p) => (
           <article key={p.titre} className="group">
