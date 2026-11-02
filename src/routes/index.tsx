@@ -116,16 +116,13 @@ function Index() {
       </section>
 
       {/* SAVOIR-FAIRE */}
-      <section className="border-y border-border bg-secondary/50 py-12">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-10 gap-y-4 px-6">
-          <p className="w-full text-center font-display text-xl italic text-moss">Au quotidien</p>
-          {motsCles.map((m) => (
-            <span key={m} className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary/75 md:text-sm">
-              {m}
-              <Leaf className="h-3.5 w-3.5 text-moss" strokeWidth={1.5} />
-            </span>
+      <section className="border-y border-border bg-secondary/50 py-14">
+        <p className="mx-auto max-w-4xl px-6 text-center font-display text-2xl italic leading-relaxed text-primary md:text-3xl">
+          {motsCles.map((m, i) => (
+            <span key={m}>{m}{i < motsCles.length - 1 ? ", " : "\u00A0: "}</span>
           ))}
-        </div>
+          <span className="text-moss">un jardin entretenu au fil des saisons.</span>
+        </p>
       </section>
 
       {/* SERVICES BENTO */}
