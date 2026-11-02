@@ -61,11 +61,11 @@ function Contact() {
           </div>
         ) : (
           <form onSubmit={onSubmit} className="space-y-6" noValidate>
-            {[
+            {([
               ["nom", "Nom", "text"],
               ["email", "Email", "email"],
               ["telephone", "Téléphone (facultatif)", "tel"],
-            ].map(([n, l, t]) => (
+            ] as const).map(([n, l, t]) => (
               <div key={n}>
                 <label htmlFor={n} className="eyebrow mb-2 block text-muted-foreground">{l}</label>
                 <input id={n} name={n} type={t} className={field} />
@@ -75,7 +75,7 @@ function Contact() {
             <div>
               <label htmlFor="message" className="eyebrow mb-2 block text-muted-foreground">Votre projet</label>
               <textarea id="message" name="message" rows={5} className={field} />
-              {errors.message && <p className="mt-1 text-sm text-destructive">{errors.message}</p>}
+              {errors["message"] && <p className="mt-1 text-sm text-destructive">{errors["message"]}</p>}
             </div>
             <button type="submit" className="eyebrow w-full rounded-sm bg-primary px-6 py-4 text-primary-foreground hover:opacity-90">Envoyer ma demande</button>
           </form>
