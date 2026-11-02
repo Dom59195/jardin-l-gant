@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Use Embla with its Auto Scroll plugin for the Google reviews carousel, keeping drag and arrow navigation; a continuous track makes automatic movement visible and reliable.
