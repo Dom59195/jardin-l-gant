@@ -3,6 +3,11 @@ import { Sprout, Scissors, TreeDeciduous, Shovel } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
 import { projets } from "@/lib/projets";
 import { avisGoogle } from "@/lib/avis";
+import { getAvisGoogle, type AvisData } from "@/lib/avis.functions";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+
+const secours: AvisData = { note: avisGoogle.note, total: avisGoogle.total, lien: avisGoogle.lien, laisserAvis: avisGoogle.lien, avis: avisGoogle.avis.map((a) => ({ nom: "Client Google", note: 5, texte: a.texte, date: a.date })) };
+const avisQuery = queryOptions({ queryKey: ["avis-google"], queryFn: async () => (await getAvisGoogle()) ?? secours, staleTime: 3600_000 });
 import { Star } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -14,6 +19,7 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Entretien et aménagement de jardins à Hérin et alentours." },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(avisQuery).catch(() => secours),
   component: Index,
 });
 
@@ -25,6 +31,8 @@ const services = [
 ];
 
 function Index() {
+  const { data: avis } = useSuspenseQuery(avisQuery);
+  const noteTxt = avis.note.toFixed(1).replace(".", ",");
   return (
     <>
       <section className="relative flex min-h-[88vh] items-end overflow-hidden">
@@ -86,7 +94,7 @@ function Index() {
 
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-28 md:grid-cols-3">
         {[
-          ["5,0 ★", "note moyenne sur Google"],
+          [`${noteTxt} ★`, `note moyenne sur Google (${avis.total} avis)`],
           ["50 %", "de crédit d'impôt (service à la personne)"],
           ["Gratuit", "devis rapide et sans engagement"],
         ].map(([n, t]) => (
@@ -104,18 +112,22 @@ function Index() {
               <p className="eyebrow text-moss">Avis Google</p>
               <h2 className="mt-3 font-display text-4xl text-primary md:text-5xl">Ils m'ont fait confiance</h2>
               <div className="mt-4 flex items-center gap-2 text-primary">
-                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-5 w-5 fill-current" />)}
-                <span className="ml-2 text-sm text-muted-foreground">{avisGoogle.note.toFixed(1).replace(".", ",")} / 5 · {avisGoogle.total} avis</span>
+                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className={i < Math.round(avis.note) ? "h-5 w-5 fill-current" : "h-5 w-5"} />)}
+                <span className="ml-2 text-sm text-muted-foreground">{noteTxt} / 5 · {avis.total} avis</span>
               </div>
             </div>
-            <a href={avisGoogle.lien} target="_blank" rel="noreferrer" className="eyebrow text-primary underline-offset-8 hover:underline">Voir sur Google →</a>
+            <a href={avis.laisserAvis} target="_blank" rel="noreferrer" className="eyebrow text-primary underline-offset-8 hover:underline">Laisser un avis</a>
+            <a href={avis.lien} target="_blank" rel="noreferrer" className="eyebrow text-primary underline-offset-8 hover:underline">Voir sur Google →</a>
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {avisGoogle.avis.map((a, i) => (
+            {avis.avis.map((a, i) => (
               <figure key={i} className="flex flex-col rounded-md border border-border bg-card p-8">
-                <div className="flex gap-1 text-moss">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className="h-4 w-4 fill-current" />)}</div>
+                <div className="flex gap-1 text-moss">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className={j < a.note ? "h-4 w-4 fill-current" : "h-4 w-4"} />)}</div>
                 <blockquote className="mt-5 flex-1 font-display text-xl leading-snug text-primary">« {a.texte} »</blockquote>
-                <figcaption className="eyebrow mt-6 text-muted-foreground">Client Google · {a.date}</figcaption>
+                <figcaption className="mt-6 flex items-center gap-3">
+                  {a.photo && <img src={a.photo} alt="" width={36} height={36} loading="lazy" referrerPolicy="no-referrer" className="h-9 w-9 rounded-full" />}
+                  <span className="text-sm text-primary">{a.nom}<span className="block text-xs text-muted-foreground">{a.date}</span></span>
+                </figcaption>
               </figure>
             ))}
           </div>
