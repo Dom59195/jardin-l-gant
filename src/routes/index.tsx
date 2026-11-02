@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const motsCles = ["Tonte", "Taille de haies", "Débroussaillage", "Massifs", "Scarification", "Plantation", "Feuilles mortes", "Déchets verts"];
+import { Compteur } from "@/components/compteur";
 
 const etapes = [
   { n: "01", t: "Premier contact", d: "Un appel ou un message : vous décrivez votre jardin et vos envies." },
@@ -116,13 +116,17 @@ function Index() {
       </section>
 
       {/* SAVOIR-FAIRE */}
-      <section className="border-y border-border bg-secondary/50 py-14">
-        <p className="mx-auto max-w-4xl px-6 text-center font-display text-2xl italic leading-relaxed text-primary md:text-3xl">
-          {motsCles.map((m, i) => (
-            <span key={m}>{m}{i < motsCles.length - 1 ? ", " : "\u00A0: "}</span>
-          ))}
-          <span className="text-moss">un jardin entretenu au fil des saisons.</span>
-        </p>
+      <section className="border-y border-border bg-secondary/50 py-16">
+        <div className="mx-auto grid max-w-4xl gap-10 px-6 text-center sm:grid-cols-2 sm:divide-x sm:divide-border">
+          <div>
+            <p className="font-display text-7xl leading-none text-primary md:text-8xl"><Compteur fin={2} duree={1200} /></p>
+            <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-moss">ans d'expérience</p>
+          </div>
+          <div>
+            <p className="font-display text-7xl leading-none text-primary md:text-8xl"><Compteur fin={30} prefixe="+" /></p>
+            <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-moss">clients satisfaits</p>
+          </div>
+        </div>
       </section>
 
       {/* SERVICES BENTO */}
