@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import AutoScroll from "embla-carousel-auto-scroll";
+import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
 import p1 from "@/assets/projet-1.jpg";
@@ -29,6 +32,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Entretien et aménagement de jardins à Hérin et dans le Valenciennois. Devis gratuit, 50 % de crédit d'impôt." },
       { property: "og:title", content: "Blondel Jardin — Jardinier paysagiste à Hérin" },
       { property: "og:description", content: "Entretien et aménagement de jardins à Hérin et alentours." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(avisQuery).catch(() => secours),
@@ -55,41 +60,38 @@ function Stars({ n, className = "h-4 w-4" }: { n: number; className?: string }) 
 }
 
 function CarouselAvis({ items }: { items: AvisData["avis"] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [pause, setPause] = useState(false);
-
-  const defiler = useCallback((dir: 1 | -1) => {
-    const el = ref.current;
-    if (!el) return;
-    const carte = el.querySelector<HTMLElement>("[data-carte]");
-    const pas = carte ? carte.offsetWidth + 20 : 400;
-    const aFin = el.scrollLeft + el.clientWidth >= el.scrollWidth - 8;
-    if (dir === 1 && aFin) el.scrollTo({ left: 0, behavior: "smooth" });
-    else if (dir === -1 && el.scrollLeft <= 8) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
-    else el.scrollBy({ left: pas * dir, behavior: "smooth" });
-  }, []);
-
+  const [autoScroll] = useState(() => AutoScroll({
+    speed: 1,
+    startDelay: 600,
+    stopOnInteraction: false,
+    stopOnMouseEnter: true,
+    stopOnFocusIn: true,
+  }));
+  const [carouselRef, carousel] = useEmblaCarousel(
+    { loop: true, align: "start" },
+    [autoScroll],
+  );
   useEffect(() => {
-    if (pause) return;
-    const id = setInterval(() => defiler(1), 4500);
-    return () => clearInterval(id);
-  }, [pause, defiler]);
+    if (!carousel) return;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const appliquer = () => {
+      if (preference.matches) autoScroll.stop();
+      else autoScroll.play();
+    };
+    appliquer();
+    preference.addEventListener("change", appliquer);
+    return () => preference.removeEventListener("change", appliquer);
+  }, [carousel, autoScroll]);
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setPause(true)}
-      onMouseLeave={() => setPause(false)}
-    >
-      <div
-        ref={ref}
-        className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
+    <div className="relative min-w-0" role="region" aria-label="Avis Google" aria-roledescription="carrousel">
+      <div ref={carouselRef} className="overflow-hidden">
+      <div className="flex touch-pan-y gap-5 pb-2">
         {items.map((a, i) => (
           <figure
             key={i}
             data-carte
-            className="flex w-[22rem] shrink-0 snap-start flex-col justify-between rounded-3xl border border-border bg-card p-7 max-sm:w-[80%]"
+            className="flex min-w-0 flex-[0_0_22rem] flex-col justify-between rounded-3xl border border-border bg-card p-7 max-sm:flex-[0_0_85%]"
           >
             <div className="text-moss"><Stars n={a.note} /></div>
             <blockquote className="mt-4 leading-relaxed text-foreground">« {a.texte} »</blockquote>
@@ -103,13 +105,14 @@ function CarouselAvis({ items }: { items: AvisData["avis"] }) {
           </figure>
         ))}
       </div>
+      </div>
       <div className="mt-6 flex justify-end gap-2 max-sm:hidden">
-        <button onClick={() => defiler(-1)} aria-label="Avis précédents" className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition-colors hover:bg-secondary">
+        <Button variant="outline" size="icon" onClick={() => carousel?.scrollPrev()} aria-label="Avis précédents" title="Avis précédents" className="h-11 w-11 rounded-full text-primary hover:bg-secondary">
           <ChevronLeft className="h-5 w-5" />
-        </button>
-        <button onClick={() => defiler(1)} aria-label="Avis suivants" className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition-colors hover:bg-secondary">
+        </Button>
+        <Button variant="outline" size="icon" onClick={() => carousel?.scrollNext()} aria-label="Avis suivants" title="Avis suivants" className="h-11 w-11 rounded-full text-primary hover:bg-secondary">
           <ChevronRight className="h-5 w-5" />
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -257,10 +260,10 @@ function Index() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="text-sm font-semibold text-moss">Avis Google</p>
-            <p className="mt-3 flex items-baseline gap-4 font-display text-6xl max-sm:text-5xl leading-none text-primary">
+            <div className="mt-3 flex items-baseline gap-4 font-display text-6xl max-sm:text-5xl leading-none text-primary">
               {noteTxt}
               <span className="text-primary"><Stars n={avis.note} className="h-5 w-5" /></span>
-            </p>
+            </div>
             <p className="mt-2 text-muted-foreground">Sur {avis.total} avis vérifiés</p>
           </div>
           <div className="flex flex-wrap gap-3">

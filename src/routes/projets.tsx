@@ -8,6 +8,8 @@ export const Route = createFileRoute("/projets")({
       { name: "description", content: "Découvrez nos réalisations : créations de jardins, terrasses, bassins et entretien de parcs." },
       { property: "og:title", content: "Nos projets — Blondel Jardin" },
       { property: "og:description", content: "Découvrez nos réalisations de jardins et d'aménagements extérieurs." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Projets,
