@@ -67,19 +67,19 @@ function Contact() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-16">
-      <div className="grid overflow-hidden rounded-[2.5rem] border border-border bg-card lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid overflow-hidden rounded-[2.5rem] border border-border bg-background lg:grid-cols-[0.9fr_1.1fr]">
         {/* Panneau gauche */}
-        <div className="relative flex flex-col justify-between gap-12 overflow-hidden bg-forest p-8 text-primary-foreground md:p-14">
+        <div className="relative flex flex-col justify-between gap-12 overflow-hidden bg-primary p-8 text-primary-foreground md:p-14">
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-sage/15 blur-3xl"
+            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/5 blur-3xl"
           />
           <div className="relative">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 px-4 py-1.5 text-xs font-medium">
               <span className="h-2 w-2 rounded-full bg-sage" /> Devis gratuit · sans engagement
             </span>
             <h1 className="mt-8 font-display text-5xl leading-[1.02] md:text-7xl">
-              Parlons de votre <em className="text-gold">jardin</em>.
+              Parlons de votre <em className="text-primary-foreground">jardin</em>.
             </h1>
             <p className="mt-6 max-w-sm text-primary-foreground/70">
               Racontez-nous votre projet, Blondel Jardin vous recontacte rapidement.
@@ -89,7 +89,7 @@ function Contact() {
           <div className="relative space-y-3">
             <a
               href="tel:+33783551969"
-              className="group flex items-center justify-between rounded-2xl bg-sage px-6 py-5 text-forest transition hover:opacity-90"
+              className="group flex items-center justify-between rounded-2xl bg-sage px-6 py-5 text-primary transition hover:opacity-90"
             >
               <span className="flex items-center gap-4">
                 <Phone className="h-5 w-5" />
@@ -114,13 +114,13 @@ function Contact() {
         <div className="p-8 md:p-14">
           {sent ? (
             <div className="flex h-full flex-col items-center justify-center py-20 text-center">
-              <p className="font-display text-6xl italic text-moss">Merci&nbsp;!</p>
+              <p className="font-display text-6xl italic text-primary">Merci&nbsp;!</p>
               <p className="mt-4 text-muted-foreground">Votre demande a bien été reçue. Blondel Jardin revient vers vous très vite.</p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="flex h-full flex-col gap-8" noValidate>
               <div>
-                <p className="eyebrow text-moss">Votre demande</p>
+                <p className="eyebrow text-primary">Votre demande</p>
                 <h2 className="mt-2 font-display text-4xl text-primary">Quelques mots suffisent.</h2>
               </div>
               <div className="grid gap-x-8 gap-y-6 md:grid-cols-2">
@@ -155,14 +155,14 @@ function Contact() {
                   type="button"
                   onClick={suggerer}
                   disabled={chargement || message.trim().length < 10}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-moss transition hover:text-primary disabled:opacity-40"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-primary transition hover:text-primary disabled:opacity-40"
                 >
                   <Sparkles className="h-4 w-4" />
                   {chargement ? "Analyse…" : "Suggérer la prestation adaptée"}
                 </button>
                 {sugg && "erreur" in sugg && <p className="mt-2 text-sm text-destructive">{sugg.erreur}</p>}
                 {sugg && "prestation" in sugg && (
-                  <div className="mt-3 flex flex-wrap items-center gap-3 rounded-2xl bg-secondary px-5 py-4">
+                  <div className="mt-3 flex flex-wrap items-center gap-3 rounded-2xl bg-background px-5 py-4">
                     <div className="mr-auto">
                       <p className="font-display text-2xl text-primary">{sugg.prestation}</p>
                       <p className="text-sm text-muted-foreground">{sugg.raison}</p>
@@ -185,7 +185,7 @@ function Contact() {
                 className="group mt-auto inline-flex items-center justify-between rounded-full bg-primary py-2 pl-8 pr-2 font-medium text-primary-foreground transition hover:opacity-95"
               >
                 Envoyer ma demande
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sage text-forest transition group-hover:rotate-45">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sage text-primary transition group-hover:rotate-45">
                   <ArrowUpRight className="h-5 w-5" />
                 </span>
               </button>
