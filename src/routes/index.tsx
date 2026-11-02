@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
 import p1 from "@/assets/projet-1.jpg";
 import p2 from "@/assets/projet-2.jpg";
