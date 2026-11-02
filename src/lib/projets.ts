@@ -4,8 +4,8 @@ import p3 from "@/assets/projet-3.jpg";
 import hero from "@/assets/hero-jardin.jpg";
 
 export const projets = [
-  { img: p1, titre: "Terrasse contemporaine", lieu: "Écully", type: "Création & terrasse bois" },
-  { img: p2, titre: "Jardin à la française", lieu: "Caluire", type: "Topiaires & allées" },
-  { img: p3, titre: "Jardin naturel & bassin", lieu: "Saint-Cyr", type: "Massifs & point d'eau" },
-  { img: hero, titre: "Parc de propriété", lieu: "Monts d'Or", type: "Entretien annuel" },
+  { img: p1, titre: "Aménagement de massifs", lieu: "Hérin", type: "Plantation & graminées" },
+  { img: p2, titre: "Taille de haies & arbustes", lieu: "Valenciennois", type: "Taille de précision" },
+  { img: p3, titre: "Entretien de massifs fleuris", lieu: "Nord", type: "Entretien saisonnier" },
+  { img: hero, titre: "Tonte & entretien complet", lieu: "Hérin", type: "Entretien régulier" },
 ];
