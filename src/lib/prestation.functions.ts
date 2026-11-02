@@ -38,7 +38,7 @@ export const suggererPrestation = createServerFn({ method: "POST" })
           `Choisis exactement une prestation dans cette liste : ${PRESTATIONS.join(" ; ")}. ` +
           "Donne une raison courte (une phrase, en français, vouvoiement).",
         prompt: `Description du jardin par le visiteur : """${data.description}"""`,
-        experimental_output: Output.object({
+        output: Output.object({
           schema: z.object({ prestation: z.enum(PRESTATIONS), raison: z.string() }),
         }),
         providerOptions: {
@@ -51,7 +51,7 @@ export const suggererPrestation = createServerFn({ method: "POST" })
           },
         },
       });
-      const out = await result.experimental_output;
+      const out = await result.output;
       return { prestation: out.prestation, raison: out.raison };
     } catch (e) {
       console.error("suggererPrestation", e);
