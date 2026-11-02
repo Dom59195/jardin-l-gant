@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Leaf, Menu, X } from "lucide-react";
 
 const nav = [
   { to: "/", label: "Accueil" },
@@ -13,8 +13,18 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="font-display text-3xl text-primary">
-          Blondel <span className="italic text-moss">Jardin</span>
+        <Link to="/" className="group flex items-center gap-3" aria-label="Blondel Jardin — accueil">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-accent transition-transform group-hover:rotate-12">
+            <Leaf className="h-5 w-5" strokeWidth={1.75} />
+          </span>
+          <span className="flex flex-col leading-none">
+            <span className="font-display text-[1.7rem] tracking-tight text-primary">
+              Blondel <em className="text-moss">Jardin</em>
+            </span>
+            <span className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+              Paysagiste · Hérin
+            </span>
+          </span>
         </Link>
         <nav className="hidden items-center gap-10 md:flex">
           {nav.map((n) => (
