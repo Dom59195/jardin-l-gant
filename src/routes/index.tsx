@@ -116,15 +116,19 @@ function Index() {
       </section>
 
       {/* SAVOIR-FAIRE */}
-      <section className="border-y border-border bg-secondary/50 py-16">
-        <div className="mx-auto grid max-w-4xl gap-10 px-6 text-center sm:grid-cols-2 sm:divide-x sm:divide-border">
+      <section className="border-y border-border/40 bg-secondary/50 py-20">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 text-center sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border/30">
           <div>
-            <p className="font-display text-7xl leading-none text-primary md:text-8xl"><Compteur fin={2} duree={1200} /></p>
+            <p className="font-display text-6xl leading-none text-primary md:text-7xl"><Compteur fin={2} duree={1200} /></p>
             <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-moss">ans d'expérience</p>
           </div>
           <div>
-            <p className="font-display text-7xl leading-none text-primary md:text-8xl"><Compteur fin={30} prefixe="+" /></p>
+            <p className="font-display text-6xl leading-none text-primary md:text-7xl"><Compteur fin={30} prefixe="+" /></p>
             <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-moss">clients satisfaits</p>
+          </div>
+          <div>
+            <p className="font-display text-6xl leading-none text-primary md:text-7xl"><Compteur fin={50} prefixe="+" suffixe=" km" /></p>
+            <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-moss">rayon d'action autour de Valenciennes</p>
           </div>
         </div>
       </section>
