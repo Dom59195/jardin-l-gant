@@ -9,7 +9,7 @@ export function Compteur({ fin, duree = 1800, prefixe = "", suffixe = "" }: { fi
     if (!el) return;
     let raf = 0;
     const obs = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting) return;
+      if (!e?.isIntersecting) return;
       obs.disconnect();
       const t0 = performance.now();
       const step = (t: number) => {
