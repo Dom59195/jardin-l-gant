@@ -60,27 +60,27 @@ function Index() {
   return (
     <>
       {/* HERO */}
-      <section className="mx-auto grid max-w-7xl gap-10 px-6 pt-12 pb-16 lg:grid-cols-12 lg:gap-8 lg:pt-20">
+      <section className="mx-auto grid max-w-7xl gap-10 px-6 pt-12 pb-16 max-sm:gap-8 max-sm:pt-8 max-sm:pb-12 lg:grid-cols-12 lg:gap-8 lg:pt-20">
         <div className="flex flex-col justify-center lg:col-span-6 animate-fade-up">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground">
             <span className="h-2 w-2 rounded-full bg-accent" /> Jardinier paysagiste · Hérin (59)
           </span>
-          <h1 className="mt-6 font-display text-6xl leading-[0.95] tracking-tight text-primary md:text-7xl xl:text-8xl">
+          <h1 className="mt-6 font-display text-6xl max-sm:mt-5 max-sm:text-[3.6rem] leading-[0.95] tracking-tight text-primary md:text-7xl xl:text-8xl">
             Votre jardin,
             <br />
             <em className="text-moss">entre de bonnes</em>
             <br />
             mains.
           </h1>
-          <p className="mt-8 max-w-md text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-8 max-sm:mt-6 max-sm:text-base max-w-md text-lg leading-relaxed text-muted-foreground">
             Entretien, taille et aménagement pour les particuliers du Valenciennois. Un travail propre, ponctuel et passionné.
           </p>
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <Link to="/contact" className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">
+          <div className="mt-10 max-sm:mt-8 max-sm:grid max-sm:grid-cols-1 flex flex-wrap items-center gap-3">
+            <Link to="/contact" className="group inline-flex max-sm:justify-center items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">
               Demander un devis gratuit
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
             </Link>
-            <a href="tel:+33783551969" className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-4 text-sm font-semibold text-primary transition-colors hover:bg-secondary">
+            <a href="tel:+33783551969" className="inline-flex max-sm:justify-center items-center gap-2 rounded-full border border-border px-7 py-4 text-sm font-semibold text-primary transition-colors hover:bg-secondary">
               <Phone className="h-4 w-4" /> 07 83 55 19 69
             </a>
           </div>
@@ -103,7 +103,7 @@ function Index() {
         </div>
 
         <div className="relative lg:col-span-6">
-          <img src={hero} alt="Jardin entretenu par Blondel Jardin" width={1920} height={1088} className="h-[460px] w-full rounded-3xl object-cover lg:h-[620px]" />
+          <img src={hero} alt="Jardin entretenu par Blondel Jardin" width={1920} height={1088} className="h-[460px] max-sm:h-[360px] w-full rounded-3xl object-cover lg:h-[620px]" />
           <div className="absolute -bottom-6 left-6 rounded-2xl bg-card p-5 shadow-xl md:left-10">
             <p className="font-display text-4xl text-primary">50 %</p>
             <p className="text-xs text-muted-foreground">de crédit d'impôt
@@ -116,25 +116,25 @@ function Index() {
       </section>
 
       {/* SAVOIR-FAIRE */}
-      <section className="border-y border-border/40 bg-secondary/50 py-20">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 text-center sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border/30">
+      <section className="border-y border-border/40 bg-secondary/50 py-20 max-sm:py-10">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 text-center max-sm:grid-cols-3 max-sm:gap-2 max-sm:px-4 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border/30">
           <div>
-            <p className="font-display text-6xl leading-none text-primary md:text-7xl"><Compteur fin={2} duree={1200} /></p>
-            <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-moss">ans d'expérience</p>
+            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={2} duree={1200} /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">ans d'expérience</p>
           </div>
           <div>
-            <p className="font-display text-6xl leading-none text-primary md:text-7xl"><Compteur fin={30} prefixe="+" /></p>
-            <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-moss">clients satisfaits</p>
+            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={30} prefixe="+" /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">clients satisfaits</p>
           </div>
           <div>
-            <p className="font-display text-6xl leading-none text-primary md:text-7xl"><Compteur fin={50} prefixe="+" suffixe=" km" /></p>
-            <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-moss">rayon d'action autour de Valenciennes</p>
+            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={50} prefixe="+" suffixe=" km" /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">rayon d'action autour de Valenciennes</p>
           </div>
         </div>
       </section>
 
       {/* SERVICES BENTO */}
-      <section className="mx-auto max-w-7xl px-6 py-28">
+      <section className="mx-auto max-w-7xl px-6 py-28 max-sm:py-16">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <h2 className="max-w-xl font-display text-5xl leading-tight text-primary md:text-6xl">
             Des prestations <em className="text-moss">sur mesure</em>, au fil des saisons.
@@ -142,8 +142,8 @@ function Index() {
           <p className="max-w-sm text-muted-foreground">Chaque jardin est unique : Blondel Jardin s'adapte à vos envies, à votre budget et au rythme de la nature.</p>
         </div>
 
-        <div className="mt-16 grid auto-rows-[260px] gap-4 md:grid-cols-4">
-          <div className="grain-card relative overflow-hidden rounded-3xl p-8 text-primary-foreground md:col-span-2 md:row-span-2">
+        <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-4">
+          <div className="grain-card relative overflow-hidden rounded-3xl p-8 max-sm:col-span-2 max-sm:p-7 max-sm:pb-40 text-primary-foreground md:col-span-2 md:row-span-2">
             <Sprout className="h-10 w-10 text-accent" strokeWidth={1.5} />
             <h3 className="mt-8 font-display text-4xl">Entretien de jardin</h3>
             <ul className="mt-6 space-y-3 text-sm opacity-85">
@@ -151,9 +151,9 @@ function Index() {
                 <li key={x} className="flex items-center gap-3"><Check className="h-4 w-4 text-accent" /> {x}</li>
               ))}
             </ul>
-            <img src={p1} alt="" loading="lazy" className="absolute -right-10 -bottom-10 h-56 w-56 rounded-full border-4 border-primary-foreground/10 object-cover opacity-90" />
+            <img src={p1} alt="" loading="lazy" className="absolute -right-10 -bottom-10 h-56 w-56 max-sm:-right-6 max-sm:-bottom-16 max-sm:h-48 max-sm:w-48 rounded-full border-4 border-primary-foreground/10 object-cover opacity-90" />
           </div>
-          <div className="relative overflow-hidden rounded-3xl md:col-span-2">
+          <div className="relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 md:col-span-2">
             <img src={p2} alt="Taille de haies" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
             <div className="hero-overlay absolute inset-0" />
             <div className="relative flex h-full flex-col justify-end p-8 text-primary-foreground">
@@ -161,28 +161,28 @@ function Index() {
               <h3 className="mt-3 font-display text-3xl">Taille de haies & arbustes</h3>
             </div>
           </div>
-          <div className="rounded-3xl bg-secondary p-8">
+          <div className="rounded-3xl bg-secondary p-8 max-sm:p-5">
             <Trees className="h-7 w-7 text-moss" strokeWidth={1.5} />
-            <h3 className="mt-6 font-display text-2xl text-primary">Travaux saisonniers</h3>
+            <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl text-primary">Travaux saisonniers</h3>
             <p className="mt-2 text-sm text-muted-foreground">Scarification, engrais, protection hivernale.</p>
           </div>
-          <div className="rounded-3xl bg-accent p-8 text-accent-foreground">
+          <div className="rounded-3xl bg-accent p-8 max-sm:p-5 text-accent-foreground">
             <Leaf className="h-7 w-7" strokeWidth={1.5} />
-            <h3 className="mt-6 font-display text-2xl">Déchets verts évacués</h3>
+            <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl">Déchets verts évacués</h3>
             <p className="mt-2 text-sm opacity-80">Vous n'avez rien à gérer, le jardin est laissé propre.</p>
           </div>
         </div>
       </section>
 
       {/* PROCESS */}
-      <section className="bg-secondary py-28">
+      <section className="bg-secondary py-28 max-sm:py-16">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="font-display text-5xl text-primary md:text-6xl">Simple, <em className="text-moss">du début à la fin.</em></h2>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-4">
+          <div className="mt-16 max-sm:mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border max-sm:grid-cols-2 md:grid-cols-4">
             {etapes.map((e) => (
-              <div key={e.n} className="bg-background p-8">
-                <span className="font-display text-5xl text-moss">{e.n}</span>
-                <h3 className="mt-8 text-lg font-semibold text-primary">{e.t}</h3>
+              <div key={e.n} className="bg-background p-8 max-sm:p-5">
+                <span className="font-display text-5xl max-sm:text-4xl text-moss">{e.n}</span>
+                <h3 className="mt-8 max-sm:mt-4 text-lg max-sm:text-base font-semibold text-primary">{e.t}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{e.d}</p>
               </div>
             ))}
@@ -191,11 +191,11 @@ function Index() {
       </section>
 
       {/* AVIS */}
-      <section className="mx-auto max-w-7xl px-6 py-28">
+      <section className="mx-auto max-w-7xl px-6 py-28 max-sm:py-16">
         <div className="grid gap-12 lg:grid-cols-3">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-sm font-semibold text-moss">Avis Google</p>
-            <p className="mt-4 font-display text-8xl leading-none text-primary">{noteTxt}</p>
+            <p className="mt-4 font-display text-8xl max-sm:text-7xl leading-none text-primary">{noteTxt}</p>
             <div className="mt-3 text-primary"><Stars n={avis.note} className="h-5 w-5" /></div>
             <p className="mt-3 text-muted-foreground">Sur {avis.total} avis vérifiés</p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -224,11 +224,11 @@ function Index() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-24 max-sm:px-4 max-sm:pb-16">
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem]">
           <img src={p3} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div className="hero-overlay absolute inset-0" />
-          <div className="relative flex flex-col items-start gap-8 px-8 py-20 text-primary-foreground md:px-16 md:py-28">
+          <div className="relative flex flex-col items-start gap-8 px-8 py-20 max-sm:px-6 max-sm:py-16 text-primary-foreground md:px-16 md:py-28">
             <h2 className="max-w-2xl font-display text-5xl leading-tight md:text-7xl">Prêt à redonner vie à votre jardin ?</h2>
             <Link to="/contact" className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5">
               Obtenir mon devis gratuit <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
