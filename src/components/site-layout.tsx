@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import logoEmbleme from "@/assets/logo-blondel-embleme.png.asset.json";
+import logoCarre from "@/assets/logo-carre.png";
 
 const nav = [
   { to: "/", label: "Accueil" },
@@ -15,9 +15,11 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="group flex items-center gap-3" aria-label="Blondel Jardin — accueil">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-card shadow-sm transition-transform group-hover:scale-105">
-            <img src={logoEmbleme.url} alt="Logo Blondel Jardin" className="h-5 w-auto" />
-          </span>
+          <img
+            src={logoCarre}
+            alt="Logo Blondel Jardin"
+            className="h-14 w-14 shrink-0 rounded-lg shadow-sm transition-transform group-hover:scale-105"
+          />
           <span className="flex flex-col leading-none">
             <span className="font-display text-[1.7rem] tracking-tight text-primary">
               Blondel <em className="text-moss">Jardin</em>
