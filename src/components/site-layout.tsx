@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Leaf, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import logo from "@/assets/logo-blondel-jardin.png.asset.json";
 
 const nav = [
   { to: "/", label: "Accueil" },
@@ -14,8 +15,8 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="group flex items-center gap-3" aria-label="Blondel Jardin — accueil">
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-accent transition-transform group-hover:rotate-12">
-            <Leaf className="h-5 w-5" strokeWidth={1.75} />
+          <span className="overflow-hidden rounded-2xl border border-border shadow-sm transition-transform group-hover:scale-105">
+            <img src={logo.url} alt="Logo Blondel Jardin" width={56} height={49} className="h-12 w-14 object-cover" />
           </span>
           <span className="flex flex-col leading-none">
             <span className="font-display text-[1.7rem] tracking-tight text-primary">
@@ -86,6 +87,7 @@ export function SiteFooter() {
           <p>38 rue Auguste Caron, 59195 Hérin</p>
           <p><a href="tel:+33783551969">07 83 55 19 69</a></p>
           <p>Lun – Ven : 8h30 – 16h30</p>
+          <p className="mt-2 opacity-75">Interventions dans un rayon de 50 km autour de Valenciennes.</p>
         </div>
         <div className="text-sm">
           <p className="eyebrow mb-3 opacity-70">Navigation</p>
