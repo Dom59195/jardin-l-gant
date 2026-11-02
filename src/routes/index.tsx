@@ -62,10 +62,11 @@ function Stars({ n, className = "h-4 w-4" }: { n: number; className?: string }) 
 function CarouselAvis({ items }: { items: AvisData["avis"] }) {
   const [autoScroll] = useState(() => AutoScroll({
     speed: 1,
-    startDelay: 600,
+    startDelay: 0,
+    playOnInit: true,
     stopOnInteraction: false,
-    stopOnMouseEnter: true,
-    stopOnFocusIn: true,
+    stopOnMouseEnter: false,
+    stopOnFocusIn: false,
   }));
   const [carouselRef, carousel] = useEmblaCarousel(
     { loop: true, align: "start" },
