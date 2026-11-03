@@ -113,7 +113,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
 
   if (compact) {
     return (
-      <div className="relative min-h-[420px] max-sm:min-h-[340px]">
+      <div className="relative h-full min-h-[420px] max-sm:min-h-[340px]">
         <div ref={container} className="absolute inset-0" role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes" />
         {status !== "ready" && (
           <div className="absolute inset-0 flex items-center justify-center bg-secondary text-sm text-muted-foreground" role="status">
