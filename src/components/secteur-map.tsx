@@ -13,7 +13,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
         <div className="absolute inset-0"><IllustratedSectorMap /></div>
       </div>
       <div className="mx-6 mb-5 flex shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t border-primary/15 pt-3 text-xs text-primary max-sm:mx-4 max-sm:mb-4">
-        <span className="inline-flex items-center gap-2"><span className="h-3 w-3 shrink-0 rounded-full border border-dashed border-primary/60 bg-primary/10" /> Rayon de 50 km <span className="text-[10px] text-muted-foreground">· carte indicative</span></span>
+        <span className="inline-flex items-center gap-2"><span className="h-px w-5 shrink-0 bg-primary/60" /> Secteur indicatif</span>
         <Button asChild variant="link" className="h-auto p-0 text-xs text-primary">
           <a href="https://www.google.com/maps/search/?api=1&query=38+rue+Auguste+Caron+59195+Herin" target="_blank" rel="noreferrer">Voir sur Google <ArrowUpRight /></a>
         </Button>
