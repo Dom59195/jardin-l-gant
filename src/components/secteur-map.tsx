@@ -41,10 +41,11 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       const primary = mapColor("--primary");
       const muted = mapColor("--muted-foreground");
       const sage = mapColor("--sage");
+      // Sur téléphone : dézoom léger et repère plus petit pour rester lisible.
+      const mobile = window.matchMedia("(max-width: 640px)").matches;
       map = new google.maps.Map(element, {
         center: valenciennes,
-        // Sur téléphone, on dézoome pour que tout le rayon reste visible.
-        zoom: window.matchMedia("(max-width: 640px)").matches ? 8 : 9,
+        zoom: mobile ? 8.5 : 9,
         disableDefaultUI: true,
         zoomControl: true,
         gestureHandling: "cooperative",
