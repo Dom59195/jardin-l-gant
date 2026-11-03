@@ -65,13 +65,21 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       });
       map.data.addGeoJson(interventionZone);
       map.data.setStyle({ fillColor: sage, fillOpacity: 0.32, strokeColor: primary, strokeOpacity: 0.35, strokeWeight: 1, clickable: false });
+      // Custom marker: deep-green teardrop with garden shears, drawn to match the site palette.
+      const markerSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='42' height='54' viewBox='0 0 42 54'>
+        <path d='M21 52.5C21 52.5 3 33.5 3 19.5A18 18 0 1 1 39 19.5C39 33.5 21 52.5 21 52.5Z' fill='#0D2B1C'/>
+        <circle cx='21' cy='19.5' r='12.5' fill='#F6F0E0'/>
+        <g transform='translate(9,7.5)' fill='none' stroke='#0D2B1C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+          <circle cx='6' cy='6' r='3'/>
+          <circle cx='6' cy='18' r='3'/>
+          <path d='M20 4 8.12 15.88'/>
+          <path d='M14.8 14.8 20 20'/>
+          <path d='M8.12 8.12 12 12'/>
+        </g>
+      </svg>`;
       marker = new google.maps.Marker({
         map, position: herin, title: "Blondel Jardin · Hérin",
-        icon: {
-          path: "M0 0C-5-7-14-16-14-25a14 14 0 1 1 28 0C14-16 5-7 0 0Z",
-          fillColor: pin, fillOpacity: 1, strokeColor: primary, strokeWeight: 1.5,
-          scale: 0.8, anchor: new google.maps.Point(0, 0),
-        },
+        icon: { url: `data:image/svg+xml,${encodeURIComponent(markerSvg)}`, anchor: new google.maps.Point(21, 53) },
       });
       setStatus("ready");
     };
