@@ -168,7 +168,7 @@ function Index() {
     <>
       {/* HERO */}
       <section className="mx-auto grid max-w-7xl gap-10 px-6 pt-12 pb-16 max-sm:gap-8 max-sm:pt-8 max-sm:pb-12 md:grid-cols-12 md:gap-8 md:pt-20">
-        <div className="flex flex-col justify-center lg:col-span-6 animate-fade-up">
+        <div className="flex flex-col justify-center md:col-span-6 animate-fade-up">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground">
             <span className="h-2 w-2 rounded-full bg-accent" /> Jardinier paysagiste · Hérin (59)
           </span>
@@ -209,8 +209,8 @@ function Index() {
           </div>
         </div>
 
-        <div className="relative lg:col-span-6">
-          <img src={hero} alt="Jardin entretenu par Blondel Jardin" width={1920} height={1088} className="h-[460px] max-sm:h-[360px] w-full rounded-3xl object-cover lg:h-[620px]" />
+        <div className="relative md:col-span-6">
+          <img src={hero} alt="Jardin entretenu par Blondel Jardin" width={1920} height={1088} className="h-[460px] max-sm:h-[360px] w-full rounded-3xl object-cover md:h-[620px]" />
           <div className="absolute -bottom-6 left-6 rounded-2xl bg-card p-5 shadow-xl md:left-10">
             <p className="font-display text-4xl text-primary">50 %</p>
             <p className="text-xs text-muted-foreground">de crédit d'impôt
