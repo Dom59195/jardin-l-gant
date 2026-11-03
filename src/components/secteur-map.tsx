@@ -33,6 +33,7 @@ export function SecteurMap() {
     let map: google.maps.Map | undefined;
     let marker: google.maps.Marker | undefined;
     let circle: google.maps.Circle | undefined;
+    let zoneRing: google.maps.Circle | undefined;
     let timeout: ReturnType<typeof setTimeout> | undefined;
     const init = () => {
       if (!active) return;
@@ -61,11 +62,17 @@ export function SecteurMap() {
           { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: muted }] },
         ],
       });
+      zoneRing = new google.maps.Circle({
+        map, center: valenciennes, radius: 50_000,
+        fillColor: primary, fillOpacity: 0,
+        strokeColor: primary, strokeOpacity: 0.16, strokeWeight: 8,
+        clickable: false, zIndex: 1,
+      });
       circle = new google.maps.Circle({
         map, center: valenciennes, radius: 50_000,
-        fillColor: primary, fillOpacity: 0.09,
-        strokeColor: primary, strokeOpacity: 0.5, strokeWeight: 1,
-        clickable: false,
+        fillColor: primary, fillOpacity: 0.12,
+        strokeColor: primary, strokeOpacity: 0.7, strokeWeight: 1.5,
+        clickable: false, zIndex: 2,
       });
       const bounds = circle.getBounds();
       if (bounds) map.fitBounds(bounds, 28);
