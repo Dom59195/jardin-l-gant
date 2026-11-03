@@ -1,5 +1,6 @@
 /// <reference types="google.maps" />
 import { useEffect, useRef, useState } from "react";
+import { interventionZone, interventionTowns } from "@/lib/intervention-zone";
 
 declare global {
   interface Window { initBlondelMap?: () => void }
@@ -30,6 +31,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
     let script: HTMLScriptElement | undefined;
     let map: google.maps.Map | undefined;
     let marker: google.maps.Marker | undefined;
+    const townLabels: google.maps.Marker[] = [];
     let timeout: ReturnType<typeof setTimeout> | undefined;
     const init = () => {
       if (!active) return;
@@ -40,6 +42,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       const primary = mapColor("--primary");
       const muted = mapColor("--muted-foreground");
       const sage = mapColor("--sage");
+      const pin = mapColor("--map-pin");
       map = new google.maps.Map(element, {
         center: valenciennes,
         zoom: 9,
@@ -51,7 +54,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
           { elementType: "geometry", stylers: [{ color: background }] },
           { elementType: "labels.text.fill", stylers: [{ color: muted }] },
           { elementType: "labels.text.stroke", stylers: [{ color: background }] },
-          { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: primary }] },
+          { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: muted }] },
           { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: secondary }] },
           { featureType: "road", elementType: "geometry", stylers: [{ color: card }] },
           { featureType: "road.highway", elementType: "geometry", stylers: [{ color: secondary }] },
@@ -61,12 +64,45 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
           { featureType: "transit", stylers: [{ visibility: "off" }] },
         ],
       });
+      map.data.addGeoJson(interventionZone);
+      map.data.setStyle({ fillColor: sage, fillOpacity: 0.32, strokeColor: primary, strokeOpacity: 0.35, strokeWeight: 1, clickable: false });
+      for (const town of interventionTowns) {
+        const [lng, lat] = town.coordinates;
+        if (lng === undefined || lat === undefined) continue;
+        townLabels.push(new google.maps.Marker({
+          map,
+          position: { lng, lat },
+          icon: { path: google.maps.SymbolPath.CIRCLE, scale: 0 },
+          label: { text: town.name, color: primary, fontSize: "12px", fontWeight: "600", fontFamily: "Manrope, sans-serif" },
+          clickable: false,
+        }));
+      }
+      // Keep labels legible: reveal more towns when zooming in, rather than
+      // stacking all names on the initial overview.
+      google.maps.event.addListener(map, "idle", () => {
+        if (!map) return;
+        const bounds = map.getBounds();
+        if (!bounds) return;
+        const northEast = bounds.getNorthEast();
+        const southWest = bounds.getSouthWest();
+        const occupied: { x: number; y: number; width: number }[] = [];
+        townLabels.forEach((label, index) => {
+          const position = label.getPosition();
+          if (!position || !bounds.contains(position)) { label.setVisible(false); return; }
+          const x = (position.lng() - southWest.lng()) / (northEast.lng() - southWest.lng()) * element.clientWidth;
+          const y = (northEast.lat() - position.lat()) / (northEast.lat() - southWest.lat()) * element.clientHeight;
+          const width = (interventionTowns[index]?.name.length ?? 12) * 7 + 16;
+          const overlaps = occupied.some((other) => Math.abs(other.y - y) < 24 && Math.abs(other.x - x) < (other.width + width) / 2);
+          label.setVisible(!overlaps);
+          if (!overlaps) occupied.push({ x, y, width });
+        });
+      });
       marker = new google.maps.Marker({
         map, position: herin, title: "Blondel Jardin · Hérin",
         icon: {
           path: "M0 0C-5-7-14-16-14-25a14 14 0 1 1 28 0C14-16 5-7 0 0Z",
-          fillColor: primary, fillOpacity: 1, strokeColor: background, strokeWeight: 2,
-          scale: 1, anchor: new google.maps.Point(0, 0),
+          fillColor: pin, fillOpacity: 1, strokeColor: primary, strokeWeight: 1.5,
+          scale: 0.8, anchor: new google.maps.Point(0, 0),
         },
       });
       setStatus("ready");
@@ -92,6 +128,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       observer.disconnect();
       if (timeout) clearTimeout(timeout);
       marker?.setMap(null);
+      townLabels.forEach((label) => label.setMap(null));
       if (map) google.maps.event.clearInstanceListeners(map);
       script?.remove();
       delete window.initBlondelMap;
