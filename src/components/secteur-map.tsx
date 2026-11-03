@@ -67,8 +67,8 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       // Custom marker: deep-green teardrop with garden shears, drawn to match the site palette.
       const markerSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='42' height='54' viewBox='0 0 42 54'>
         <path d='M21 52.5C21 52.5 3 33.5 3 19.5A18 18 0 1 1 39 19.5C39 33.5 21 52.5 21 52.5Z' fill='#0D2B1C'/>
-        <circle cx='21' cy='19.5' r='12.5' fill='#F6F0E0'/>
-        <g transform='translate(9,7.5)' fill='none' stroke='#0D2B1C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+        <circle cx='21' cy='19.5' r='14' fill='#F6F0E0'/>
+        <g transform='translate(11.6,10.1) scale(0.78)' fill='none' stroke='#0D2B1C' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'>
           <circle cx='6' cy='6' r='3'/>
           <circle cx='6' cy='18' r='3'/>
           <path d='M20 4 8.12 15.88'/>
