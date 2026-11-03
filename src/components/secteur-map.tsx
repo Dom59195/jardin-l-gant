@@ -64,17 +64,10 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       });
       map.data.addGeoJson(interventionZone);
       map.data.setStyle({ fillColor: sage, fillOpacity: 0.32, strokeColor: primary, strokeOpacity: 0.35, strokeWeight: 1, clickable: false });
-      // Custom marker: deep-green teardrop with garden shears, drawn to match the site palette.
+      // Simple teardrop marker, using the site's semantic palette.
       const markerSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='42' height='54' viewBox='0 0 42 54'>
-        <path d='M21 52.5C21 52.5 3 33.5 3 19.5A18 18 0 1 1 39 19.5C39 33.5 21 52.5 21 52.5Z' fill='#0D2B1C'/>
-        <circle cx='21' cy='19.5' r='14' fill='#F6F0E0'/>
-        <g transform='translate(11.6,10.1) scale(0.78)' fill='none' stroke='#0D2B1C' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'>
-          <circle cx='6' cy='6' r='3'/>
-          <circle cx='6' cy='18' r='3'/>
-          <path d='M20 4 8.12 15.88'/>
-          <path d='M14.8 14.8 20 20'/>
-          <path d='M8.12 8.12 12 12'/>
-        </g>
+        <path d='M21 52.5C21 52.5 3 33.5 3 19.5A18 18 0 1 1 39 19.5C39 33.5 21 52.5 21 52.5Z' fill='${primary}'/>
+        <circle cx='21' cy='19.5' r='14' fill='${background}'/>
       </svg>`;
       marker = new google.maps.Marker({
         map, position: herin, title: "Blondel Jardin · Hérin",
@@ -111,8 +104,8 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
 
   return (
     <div className={compact ? "relative flex h-full min-h-[420px] flex-col overflow-hidden bg-background max-sm:min-h-[340px]" : "relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-background max-sm:h-[370px]"} role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes">
-      <div className="shrink-0 px-8 py-5 text-primary max-sm:px-5 max-sm:py-4">
-        <h2 className="inline-block max-w-full rounded-lg border border-primary/25 px-5 py-3 font-display text-[32px] font-light leading-tight max-sm:px-4 max-sm:py-2.5 max-sm:text-[28px]">Zone d’intervention</h2>
+      <div className="w-full shrink-0 border-b border-primary/20 bg-primary px-8 py-5 text-primary-foreground max-sm:px-5 max-sm:py-4">
+        <h2 className="font-display text-[32px] font-light leading-tight max-sm:text-[28px]">Zone d’intervention</h2>
       </div>
       <div className="relative min-h-0 flex-1 bg-secondary">
         <div ref={container} className="absolute inset-0" />
