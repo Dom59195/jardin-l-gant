@@ -67,9 +67,11 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       map.data.addGeoJson(interventionZone);
       map.data.setStyle({ fillColor: sage, fillOpacity: 0.32, strokeColor: primary, strokeOpacity: 0.35, strokeWeight: 1, clickable: false });
       for (const town of interventionTowns) {
+        const [lng, lat] = town.coordinates;
+        if (lng === undefined || lat === undefined) continue;
         townLabels.push(new google.maps.Marker({
           map,
-          position: { lng: town.coordinates[0], lat: town.coordinates[1] },
+          position: { lng, lat },
           icon: { path: google.maps.SymbolPath.CIRCLE, scale: 0 },
           label: { text: town.name, color: primary, fontSize: "12px", fontWeight: "600", fontFamily: "Manrope, sans-serif" },
           clickable: false,
@@ -89,7 +91,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
           if (!position || !bounds.contains(position)) { label.setVisible(false); return; }
           const x = (position.lng() - southWest.lng()) / (northEast.lng() - southWest.lng()) * element.clientWidth;
           const y = (northEast.lat() - position.lat()) / (northEast.lat() - southWest.lat()) * element.clientHeight;
-          const width = interventionTowns[index].name.length * 7 + 16;
+          const width = (interventionTowns[index]?.name.length ?? 12) * 7 + 16;
           const overlaps = occupied.some((other) => Math.abs(other.y - y) < 24 && Math.abs(other.x - x) < (other.width + width) / 2);
           label.setVisible(!overlaps);
           if (!overlaps) occupied.push({ x, y, width });
