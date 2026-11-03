@@ -40,8 +40,6 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       const secondary = mapColor("--secondary");
       const primary = mapColor("--primary");
       const muted = mapColor("--muted-foreground");
-      const sage = mapColor("--sage");
-      const pin = mapColor("--map-pin");
       map = new google.maps.Map(element, {
         center: valenciennes,
         zoom: 9,
