@@ -10,4 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Use Embla with its Auto Scroll plugin for the Google reviews carousel, keeping drag and arrow navigation; a continuous track makes automatic movement visible and reliable.
-- Render the homepage service-area map through Google Maps JavaScript, loading it near the viewport in an effect with semantic CSS-token colors; this keeps SSR safe and the map consistent with the site theme.
+- Render the service-area map as a browser-safe illustrated SVG with geographic city coordinates and CSS-token colors, preserving the existing frame dimensions; this provides reliable preview rendering without Google Maps dependencies. Label its simplified geography as indicative.
