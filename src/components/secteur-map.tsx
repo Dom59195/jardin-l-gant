@@ -1,38 +1,77 @@
-import { ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { IllustratedSectorMap } from "@/components/illustrated-sector-map";
+/// <reference types="google.maps" />
+import { useEffect, useRef, useState } from "react";
+
+declare global {
+  interface Window { initBlondelMap?: () => void }
+}
+
+// Coordinates previously verified through Google Geocoding.
+const herin = { lat: 50.3570433, lng: 3.4535917 };
+const valenciennes = { lat: 50.357113, lng: 3.518332 };
 
 export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
-  const illustration = (
+  const container = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+  useEffect(() => {
+    const element = container.current;
+    if (!element) return;
+    let active = true;
+    let script: HTMLScriptElement | undefined;
+    let map: google.maps.Map | undefined;
+    let marker: google.maps.Marker | undefined;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    const init = () => {
+      if (!active) return;
+      if (timeout) clearTimeout(timeout);
+      map = new google.maps.Map(element, {
+        center: valenciennes,
+        zoom: 9,
+        disableDefaultUI: true,
+        zoomControl: true,
+        gestureHandling: "cooperative",
+        clickableIcons: false,
+        styles: [{ featureType: "poi", stylers: [{ visibility: "off" }] }],
+      });
+      marker = new google.maps.Marker({ map, position: herin, title: "Blondel Jardin · Hérin" });
+      setStatus("ready");
+    };
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      if (typeof google !== "undefined" && google.maps?.Map) { init(); return; }
+      const key = import.meta.env['VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY'];
+      if (!key) { setStatus("error"); return; }
+      window.initBlondelMap = init;
+      script = document.createElement("script");
+      const params = new URLSearchParams({ key, loading: "async", callback: "initBlondelMap", language: "fr", region: "FR", channel: import.meta.env['VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID'] ?? "" });
+      script.src = `https://maps.googleapis.com/maps/api/js?${params}`;
+      script.async = true;
+      script.onerror = () => { if (active) setStatus("error"); };
+      timeout = setTimeout(() => { if (active) setStatus("error"); }, 20000);
+      document.head.appendChild(script);
+    }, { rootMargin: "300px" });
+    observer.observe(element);
+    return () => {
+      active = false;
+      observer.disconnect();
+      if (timeout) clearTimeout(timeout);
+      marker?.setMap(null);
+      if (map) google.maps.event.clearInstanceListeners(map);
+      script?.remove();
+      delete window.initBlondelMap;
+    };
+  }, []);
+
+  return (
     <div className={compact ? "relative flex h-full min-h-[420px] flex-col overflow-hidden bg-background max-sm:min-h-[340px]" : "relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-background max-sm:h-[370px]"} role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes">
-      <div className="shrink-0 px-7 pt-6 text-primary max-sm:px-5 max-sm:pt-5">
-        <p className="text-[11px] font-semibold uppercase">Notre zone d’intervention</p>
-        <p className="mt-1 font-display text-3xl max-sm:text-2xl">Hérin <em>& le Valenciennois</em></p>
+      <div className="shrink-0 px-7 pb-5 pt-6 text-primary max-sm:px-5 max-sm:pb-4 max-sm:pt-5">
+        <h2 className="font-display text-3xl max-sm:text-2xl">Zone d’intervention</h2>
+        <p className="mt-2 text-sm text-muted-foreground max-sm:text-xs">Rayon de 50 kilomètres autour de Valenciennes</p>
       </div>
-      <div className="relative min-h-0 flex-1 px-2">
-        <div className="absolute inset-0"><IllustratedSectorMap /></div>
-      </div>
-      <div className="mx-6 mb-5 flex shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t border-primary/15 pt-3 text-xs text-primary max-sm:mx-4 max-sm:mb-4">
-        <span className="inline-flex items-center gap-2"><span className="h-px w-5 shrink-0 bg-primary/60" /> Secteur indicatif</span>
-        <Button asChild variant="link" className="h-auto p-0 text-xs text-primary">
-          <a href="https://www.google.com/maps/search/?api=1&query=38+rue+Auguste+Caron+59195+Herin" target="_blank" rel="noreferrer">Voir sur Google <ArrowUpRight /></a>
-        </Button>
+      <div className="relative min-h-0 flex-1 bg-secondary">
+        <div ref={container} className="absolute inset-0" />
+        {status !== "ready" && <div className="absolute inset-0 flex items-center justify-center px-5 text-center text-sm text-muted-foreground" role="status">{status === "loading" ? "Chargement de la carte…" : "Carte momentanément indisponible."}</div>}
       </div>
     </div>
-  );
-  if (compact) return illustration;
-  return (
-    <section className="border-t border-border/50 py-20 max-sm:py-14" aria-labelledby="secteur-title">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-9 flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="mb-3 text-sm font-semibold text-moss">Notre secteur</p>
-            <h2 id="secteur-title" className="font-display text-5xl leading-tight text-primary md:text-6xl">À Hérin, <em className="text-moss">et autour.</em></h2>
-          </div>
-          <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">Blondel Jardin intervient dans un rayon de plus de 50 km autour de Valenciennes.</p>
-        </div>
-        {illustration}
-      </div>
-    </section>
   );
 }
