@@ -75,13 +75,46 @@ function CarouselAvis({ items }: { items: AvisData["avis"] }) {
   useEffect(() => {
     if (!carousel) return;
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const appliquer = () => {
-      if (preference.matches) autoScroll.stop();
-      else autoScroll.play();
+    // Relance complète : le navigateur peut suspendre l'animation (onglet caché,
+    // aperçu pas encore actif) sans que le module le sache ; on la redémarre.
+    const relancer = () => {
+      if (preference.matches) { autoScroll.stop(); return; }
+      autoScroll.stop();
+      autoScroll.play(0);
     };
-    appliquer();
-    preference.addEventListener("change", appliquer);
-    return () => preference.removeEventListener("change", appliquer);
+    relancer();
+
+    // Surveillance : si le carrousel ne bouge plus, on le relance automatiquement.
+    let derniere = carousel.internalEngine().location.get();
+    const surveillance = window.setInterval(() => {
+      if (preference.matches || document.hidden) return;
+      const actuelle = carousel.internalEngine().location.get();
+      if (Math.abs(actuelle - derniere) < 0.5) {
+        if (carousel.scrollSnapList().length <= 1) carousel.reInit();
+        relancer();
+      }
+      derniere = actuelle;
+    }, 800);
+
+    // Relance dès que la section des avis apparaît à l'écran.
+    const observateur = new IntersectionObserver((entrees) => {
+      if (entrees.some((e) => e.isIntersecting)) relancer();
+    });
+    observateur.observe(carousel.rootNode());
+
+    const visible = () => { if (!document.hidden) relancer(); };
+    document.addEventListener("visibilitychange", visible);
+    window.addEventListener("focus", visible);
+    window.addEventListener("pageshow", visible);
+    preference.addEventListener("change", relancer);
+    return () => {
+      window.clearInterval(surveillance);
+      observateur.disconnect();
+      document.removeEventListener("visibilitychange", visible);
+      window.removeEventListener("focus", visible);
+      window.removeEventListener("pageshow", visible);
+      preference.removeEventListener("change", relancer);
+    };
   }, [carousel, autoScroll]);
 
   return (
