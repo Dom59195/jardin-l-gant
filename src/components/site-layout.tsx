@@ -25,7 +25,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="group flex items-center gap-4" aria-label="Blondel Jardin — accueil">
+        <Link to="/" onClick={onLogoClick} className="group flex items-center gap-4" aria-label="Blondel Jardin — revenir en haut de la page">
+
           <img
             src={logo.url}
             alt="Blondel Jardin"
