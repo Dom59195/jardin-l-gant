@@ -109,7 +109,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       </div>
       <div className="relative min-h-0 flex-1 bg-secondary">
         <div ref={container} className="absolute inset-0" />
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-primary/30 to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-primary/15 to-transparent" />
         {status !== "ready" && <div className="absolute inset-0 flex items-center justify-center px-5 text-center text-sm text-muted-foreground" role="status">{status === "loading" ? "Chargement de la carte…" : "Carte momentanément indisponible."}</div>}
       </div>
     </div>
