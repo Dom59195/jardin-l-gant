@@ -114,7 +114,7 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       <div className="flex shrink-0 items-center gap-5 border-b border-primary/10 px-8 py-6 text-primary max-sm:gap-4 max-sm:px-5 max-sm:py-5">
         <span aria-hidden="true" className="w-px self-stretch bg-primary/25" />
         <div className="min-w-0">
-          <h2 className="font-display text-4xl leading-tight max-sm:text-3xl">Zone d’intervention</h2>
+          <h2 className="font-display text-[32px] font-light leading-tight max-sm:text-[28px]">Zone d’intervention</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Rayon de 50 kilomètres autour de <span className="font-medium text-primary">Valenciennes</span></p>
         </div>
       </div>
