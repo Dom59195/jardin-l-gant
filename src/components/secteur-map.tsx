@@ -104,6 +104,7 @@ export function SecteurMap() {
       if (timeout) clearTimeout(timeout);
       marker?.setMap(null);
       circle?.setMap(null);
+      zoneRing?.setMap(null);
       if (map) google.maps.event.clearInstanceListeners(map);
       script?.remove();
       delete window.initBlondelMap;
