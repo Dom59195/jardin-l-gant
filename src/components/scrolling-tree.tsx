@@ -23,7 +23,7 @@ export function ScrollingTree() {
         if (!context) return new THREE.Color();
         context.fillStyle = tokens.getPropertyValue(token).trim();
         context.fillRect(0, 0, 1, 1);
-        const [r, g, b] = context.getImageData(0, 0, 1, 1).data;
+        const [r = 0, g = 0, b = 0] = context.getImageData(0, 0, 1, 1).data;
         return new THREE.Color().setRGB(r / 255, g / 255, b / 255, THREE.SRGBColorSpace);
       };
       const green = new THREE.MeshStandardMaterial({ color: color("--moss"), side: THREE.DoubleSide, roughness: 0.7 });
@@ -41,7 +41,7 @@ export function ScrollingTree() {
         shape.bezierCurveTo(-size * 0.65, -size * 0.4, -size * 0.38, -size * 0.85, 0, -size);
         shape.bezierCurveTo(size * 0.38, -size * 0.85, size * 0.65, -size * 0.4, 0, 0);
         const geometry = new THREE.ShapeGeometry(shape, 24);
-        const positions = geometry.attributes.position;
+        const positions = geometry.getAttribute("position");
         for (let i = 0; i < positions.count; i++) {
           positions.setZ(i, Math.sin(-positions.getY(i) / size * Math.PI) * size * 0.12 - Math.abs(positions.getX(i)) * 0.2);
         }
@@ -55,7 +55,7 @@ export function ScrollingTree() {
         return group;
       };
       const branch = new THREE.Group();
-      const twig = (points: number[][], radius: number) => {
+      const twig = (points: [number, number, number?][], radius: number) => {
         const curve = new THREE.CatmullRomCurve3(points.map(([x, y, z = 0]) => new THREE.Vector3(x, y, z)));
         branch.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 24, radius, 8, false), bark));
       };
@@ -63,7 +63,8 @@ export function ScrollingTree() {
       twig([[-90, 14], [-145, -26], [-210, -42]], 1.5);
       twig([[-205, 48], [-245, 98], [-305, 118]], 1.3);
       twig([[-330, 68], [-355, 32], [-398, 18]], 1);
-      [[-110, 12, 0.4], [-195, -39, -1.1], [-242, 94, 2.2], [-310, 69, -0.7], [-390, 20, 0.7], [-421, 57, -1.3]].forEach(([x, y, angle]) => {
+      const attachedLeaves: [number, number, number][] = [[-110, 12, 0.4], [-195, -39, -1.1], [-242, 94, 2.2], [-310, 69, -0.7], [-390, 20, 0.7], [-421, 57, -1.3]];
+      attachedLeaves.forEach(([x, y, angle]) => {
         const leaf = makeLeaf(38);
         leaf.position.set(x, y, 0);
         leaf.rotation.set(0.25, -0.3, angle);
@@ -80,12 +81,12 @@ export function ScrollingTree() {
       const resize = () => {
         width = window.innerWidth;
         height = window.innerHeight;
-        scale = width < 640 ? 0.4 : width < 1500 ? 0.7 : 1;
+        scale = width < 640 ? 0.27 : width < 1500 ? 0.7 : 1;
         renderer.setSize(width, height);
         camera.right = width;
         camera.bottom = height;
         camera.updateProjectionMatrix();
-        branch.position.set(width + 15, width < 640 ? 112 : 145, 0);
+        branch.position.set(width + 15, width < 640 ? 102 : 145, 0);
         branch.scale.setScalar(scale);
         fallingLeaf.scale.setScalar(scale);
       };
@@ -97,7 +98,7 @@ export function ScrollingTree() {
         progress += (target - progress) * 0.09;
         const p = preference.matches ? 0 : progress;
         fallingLeaf.visible = !preference.matches;
-        fallingLeaf.position.set(width - 305 * scale + Math.sin(p * Math.PI * 7) * 35 * scale, (width < 640 ? 112 : 145) + 118 * scale + Math.sqrt(p) * Math.max(0, height - 340), 30);
+        fallingLeaf.position.set(width - 305 * scale + Math.sin(p * Math.PI * 7) * 35 * scale, (width < 640 ? 102 : 145) + 118 * scale + Math.sqrt(p) * Math.max(0, height - 340), 30);
         fallingLeaf.rotation.set(Math.sin(p * 18) * 0.6, p * Math.PI * 6, 2.2 + Math.sin(p * 22) * 0.7);
         renderer.render(scene, camera);
         frame = window.requestAnimationFrame(render);
