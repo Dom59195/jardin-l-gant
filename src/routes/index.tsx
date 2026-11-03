@@ -128,15 +128,15 @@ function CarouselAvis({ items }: { items: AvisData["avis"] }) {
   return (
     <div className="relative min-w-0" role="region" aria-label="Avis Google" aria-roledescription="carrousel">
       <div ref={carouselRef} className="overflow-hidden">
-      <div className="flex touch-pan-y gap-5 pb-2">
+      <div className="flex touch-pan-y gap-5 max-sm:gap-4 pb-2">
         {items.map((a, i) => (
           <figure
             key={i}
             data-carte
-            className="flex min-w-0 flex-[0_0_22rem] flex-col justify-between rounded-3xl border border-border bg-card p-7 max-sm:flex-[0_0_85%]"
+            className="flex min-w-0 flex-[0_0_22rem] flex-col justify-between rounded-3xl border border-border bg-card p-7 max-sm:flex-[0_0_72%] max-sm:p-5"
           >
-            <div className="text-moss"><Stars n={a.note} /></div>
-            <blockquote className="mt-4 leading-relaxed text-foreground">« {a.texte} »</blockquote>
+            <div className="text-moss max-sm:[&>svg]:h-4 max-sm:[&>svg]:w-4"><Stars n={a.note} /></div>
+            <blockquote className="mt-4 leading-relaxed text-foreground max-sm:mt-3 max-sm:text-sm">« {a.texte} »</blockquote>
             <figcaption className="mt-6 flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-sm font-semibold text-primary">{a.nom.charAt(0)}</span>
               <span className="text-sm font-semibold text-primary">
