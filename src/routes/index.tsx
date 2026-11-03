@@ -245,7 +245,6 @@ function Index() {
           <h2 className="max-w-xl font-display text-5xl leading-tight text-primary md:text-6xl">
             Des prestations <em className="text-moss">sur mesure</em>, au fil des saisons.
           </h2>
-          <p className="max-w-sm text-muted-foreground">Chaque jardin est unique : Blondel Jardin s'adapte à vos envies, à votre budget et au rythme de la nature.</p>
         </div>
 
         <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-4">
