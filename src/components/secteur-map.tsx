@@ -120,7 +120,6 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
             <MapPin className="mr-2 h-4 w-4 text-primary" /> {status === "loading" ? "Chargement de la carte…" : "Carte momentanément indisponible."}
           </div>
         )}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-primary to-transparent max-lg:inset-x-0 max-lg:top-0 max-lg:bottom-auto max-lg:h-24 max-lg:w-full max-lg:bg-gradient-to-b" />
         <div className="pointer-events-none absolute bottom-5 right-5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-lg">
           <MapPin className="mr-1.5 inline h-3.5 w-3.5" />Hérin · zone 50 km
         </div>
