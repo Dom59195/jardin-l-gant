@@ -43,11 +43,12 @@ export const Route = createFileRoute("/")({
 import { Compteur } from "@/components/compteur";
 
 const etapes = [
-  { n: "01", t: "Premier contact", d: "Un appel, une photo, quelques mots sur vos envies — on en discute simplement." },
-  { n: "02", t: "Visite & devis", d: "Je passe chez vous, j'observe le jardin, et vous recevez un devis gratuit et sans surprise." },
-  { n: "03", t: "Intervention", d: "À l'heure, avec le sourire, et un jardin nettoyé comme à la fin d'une belle journée." },
-  { n: "04", t: "Suivi", d: "Je reviens au fil des saisons, et votre jardin reste beau toute l'année." },
+  { n: "01", t: "Premier contact", d: "Vous me contactez par téléphone ou par message pour exposer vos besoins." },
+  { n: "02", t: "Visite & devis", d: "Je visite votre jardin et vous remets un devis gratuit et détaillé." },
+  { n: "03", t: "Intervention", d: "Je réalise les travaux à la date convenue, avec un chantier laissé propre." },
+  { n: "04", t: "Suivi", d: "Un entretien régulier est mis en place pour préserver votre jardin toute l'année." },
 ];
+
 
 
 function Stars({ n, className = "h-4 w-4" }: { n: number; className?: string }) {
