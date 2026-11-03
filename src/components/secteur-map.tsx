@@ -104,11 +104,12 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
 
   return (
     <div className={compact ? "relative flex h-full min-h-[420px] flex-col overflow-hidden bg-background max-sm:min-h-[340px]" : "relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-background max-sm:h-[370px]"} role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes">
-      <div className="w-full shrink-0 border-b border-primary/20 bg-primary px-8 py-5 text-primary-foreground max-sm:px-5 max-sm:py-4">
+      <div className="w-full shrink-0 bg-primary px-8 py-5 text-primary-foreground max-sm:px-5 max-sm:py-4">
         <h2 className="font-display text-[32px] font-light leading-tight max-sm:text-[28px]">Zone d’intervention</h2>
       </div>
       <div className="relative min-h-0 flex-1 bg-secondary">
         <div ref={container} className="absolute inset-0" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-primary/30 to-transparent" />
         {status !== "ready" && <div className="absolute inset-0 flex items-center justify-center px-5 text-center text-sm text-muted-foreground" role="status">{status === "loading" ? "Chargement de la carte…" : "Carte momentanément indisponible."}</div>}
       </div>
     </div>
