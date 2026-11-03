@@ -94,16 +94,18 @@ export function ScrollingTree() {
       const render = () => {
         if (disposed) return;
         const distance = document.documentElement.scrollHeight - height;
+        // The leaf follows the scroll position directly: it moves only while the page scrolls.
         const target = distance > 0 ? Math.min(1, Math.max(0, window.scrollY / distance)) : 0;
-        progress += (target - progress) * 0.09;
-        const p = preference.matches ? 0 : progress;
-        fallingLeaf.visible = !preference.matches;
-        fallingLeaf.position.set(width - 305 * scale + Math.sin(p * Math.PI * 7) * 35 * scale, (width < 640 ? 102 : 145) + 118 * scale + Math.sqrt(p) * Math.max(0, height - 340), 30);
-        fallingLeaf.rotation.set(Math.sin(p * 18) * 0.6, p * Math.PI * 6, 2.2 + Math.sin(p * 22) * 0.7);
-        renderer.render(scene, camera);
+        if (target !== progress) {
+          progress = target;
+          const p = preference.matches ? 0 : progress;
+          fallingLeaf.position.set(width - 305 * scale + Math.sin(p * Math.PI * 7) * 35 * scale, (width < 640 ? 102 : 145) + 118 * scale + Math.sqrt(p) * Math.max(0, height - 340), 30);
+          fallingLeaf.rotation.set(Math.sin(p * 18) * 0.6, p * Math.PI * 6, 2.2 + Math.sin(p * 22) * 0.7);
+          renderer.render(scene, camera);
+        }
         frame = window.requestAnimationFrame(render);
       };
-      render();
+      renderer.render(scene, camera);
       window.addEventListener("resize", resize);
       cleanup = () => {
         window.removeEventListener("resize", resize);
