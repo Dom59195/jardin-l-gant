@@ -21,7 +21,7 @@ function mapColor(token: string) {
   return `#${Array.from(pixel).slice(0, 3).map((n) => n.toString(16).padStart(2, "0")).join("")}`;
 }
 
-export function SecteurMap() {
+export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
   const container = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -110,6 +110,19 @@ export function SecteurMap() {
       delete window.initBlondelMap;
     };
   }, []);
+
+  if (compact) {
+    return (
+      <div className="relative aspect-square w-64 shrink-0 overflow-hidden rounded-2xl border border-border bg-secondary shadow-xl max-sm:w-full max-sm:max-w-xs">
+        <div ref={container} className="h-full w-full" role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes" />
+        {status !== "ready" && (
+          <div className="absolute inset-0 flex items-center justify-center bg-secondary p-4 text-center text-xs text-muted-foreground" role="status">
+            {status === "loading" ? "Chargement de la carte…" : "La carte est momentanément indisponible."}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <section className="border-t border-border/50 py-20 max-sm:py-14" aria-labelledby="secteur-title">
