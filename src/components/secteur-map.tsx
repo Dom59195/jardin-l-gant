@@ -75,6 +75,26 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
           clickable: false,
         }));
       }
+      // Keep labels legible: reveal more towns when zooming in, rather than
+      // stacking all names on the initial overview.
+      google.maps.event.addListener(map, "idle", () => {
+        if (!map) return;
+        const bounds = map.getBounds();
+        if (!bounds) return;
+        const northEast = bounds.getNorthEast();
+        const southWest = bounds.getSouthWest();
+        const occupied: { x: number; y: number; width: number }[] = [];
+        townLabels.forEach((label, index) => {
+          const position = label.getPosition();
+          if (!position || !bounds.contains(position)) { label.setVisible(false); return; }
+          const x = (position.lng() - southWest.lng()) / (northEast.lng() - southWest.lng()) * element.clientWidth;
+          const y = (northEast.lat() - position.lat()) / (northEast.lat() - southWest.lat()) * element.clientHeight;
+          const width = interventionTowns[index].name.length * 7 + 16;
+          const overlaps = occupied.some((other) => Math.abs(other.y - y) < 24 && Math.abs(other.x - x) < (other.width + width) / 2);
+          label.setVisible(!overlaps);
+          if (!overlaps) occupied.push({ x, y, width });
+        });
+      });
       marker = new google.maps.Marker({
         map, position: herin, title: "Blondel Jardin · Hérin",
         icon: {
