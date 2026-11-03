@@ -11,7 +11,6 @@ import p2 from "@/assets/projet-2.jpg";
 import p3 from "@/assets/projet-3.jpg";
 import { avisGoogle } from "@/lib/avis";
 import { getAvisGoogle, type AvisData } from "@/lib/avis.functions";
-import { ScrollingTree } from "@/components/scrolling-tree";
 
 const secours: AvisData = {
   note: avisGoogle.note,
@@ -166,7 +165,6 @@ function Index() {
 
   return (
     <>
-      <ScrollingTree />
       {/* HERO */}
       <section className="mx-auto grid max-w-7xl gap-10 px-6 pt-12 pb-16 max-sm:gap-8 max-sm:pt-8 max-sm:pb-12 lg:grid-cols-12 lg:gap-8 lg:pt-20">
         <div className="flex flex-col justify-center lg:col-span-6 animate-fade-up">
