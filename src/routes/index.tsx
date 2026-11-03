@@ -248,8 +248,8 @@ function Index() {
           </h2>
         </div>
 
-        <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-4">
-          <div className="grain-card relative overflow-hidden rounded-3xl p-8 max-sm:col-span-2 max-sm:p-7 max-sm:pb-40 text-primary-foreground md:col-span-2 md:row-span-2">
+        <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grain-card relative overflow-hidden rounded-3xl p-8 max-sm:col-span-2 max-sm:p-7 max-sm:pb-40 text-primary-foreground md:row-span-2 lg:col-span-2">
             <Sprout className="h-10 w-10 text-accent" strokeWidth={1.5} />
             <h3 className="mt-8 font-display text-4xl">Entretien de jardin</h3>
             <ul className="mt-6 space-y-3 text-sm opacity-85">
@@ -259,7 +259,7 @@ function Index() {
             </ul>
             <img src={p1} alt="" loading="lazy" className="absolute -right-10 -bottom-10 h-56 w-56 max-sm:-right-6 max-sm:-bottom-16 max-sm:h-48 max-sm:w-48 rounded-full border-4 border-primary-foreground/10 object-cover opacity-90" />
           </div>
-          <div className="relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 md:col-span-2">
+          <div className="relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 lg:col-span-2">
             <img src={p2} alt="Taille de haies" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
             <div className="hero-overlay absolute inset-0" />
             <div className="relative flex h-full flex-col justify-end p-8 text-primary-foreground">
@@ -272,7 +272,7 @@ function Index() {
             <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl text-primary">Travaux saisonniers</h3>
             <p className="mt-2 text-sm text-muted-foreground">Scarification, engrais, protection hivernale.</p>
           </div>
-          <div className="rounded-3xl bg-accent p-8 max-sm:p-5 text-accent-foreground">
+          <div className="rounded-3xl bg-accent p-8 max-sm:p-5 text-accent-foreground md:col-span-2 lg:col-span-1">
             <Leaf className="h-7 w-7" strokeWidth={1.5} />
             <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl">Déchets verts évacués</h3>
             <p className="mt-2 text-sm opacity-80">Vous n'avez rien à gérer, le jardin est laissé propre.</p>
@@ -284,7 +284,7 @@ function Index() {
       <section className="bg-secondary py-28 max-sm:py-16">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="font-display text-5xl text-primary md:text-6xl">Simple, <em className="text-moss">du début à la fin.</em></h2>
-          <div className="mt-16 max-sm:mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border max-sm:grid-cols-2 md:grid-cols-4">
+          <div className="mt-16 max-sm:mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border max-sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {etapes.map((e) => (
               <div key={e.n} className="bg-background p-8 max-sm:p-5">
                 <span className="font-display text-5xl max-sm:text-4xl text-moss">{e.n}</span>
