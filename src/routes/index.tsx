@@ -319,7 +319,117 @@ function Index() {
         </div>
       </section>
 
-      <SecteurMap />
+      {/* CTA */}
+      <section className="px-6 pb-24 max-sm:px-4 max-sm:pb-16">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem]">
+          <img src={p3} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="hero-overlay absolute inset-0" />
+          <div className="relative flex flex-col items-start gap-8 px-8 py-20 max-sm:px-6 max-sm:py-16 text-primary-foreground md:px-16 md:py-28">
+            <div className="flex max-sm:flex-col max-sm:items-start flex-wrap items-center gap-6 md:gap-10">
+              <h2 className="max-w-2xl font-display text-5xl leading-tight md:text-7xl">Prêt à redonner vie à votre jardin ?</h2>
+              <SecteurMap compact />
+          <div className="absolute top-6 right-6 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-accent-foreground">
+            Devis gratuit
+          </div>
+        </div>
+      </section>
+
+      {/* SAVOIR-FAIRE */}
+      <section className="border-y border-border/40 bg-secondary/50 py-20 max-sm:py-10">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 text-center max-sm:grid-cols-3 max-sm:gap-2 max-sm:px-4 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border/30">
+          <div>
+            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={2} duree={1200} /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">ans d'expérience</p>
+          </div>
+          <div>
+            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={30} prefixe="+" /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">clients satisfaits</p>
+          </div>
+          <div>
+            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={50} prefixe="+" suffixe=" km" /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">rayon d'action autour de Valenciennes</p>
+          </div>
+        </div>
+      </section>
+
+      {/* SERVICES BENTO */}
+      <section className="mx-auto max-w-7xl px-6 py-28 max-sm:py-16">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <h2 className="max-w-xl font-display text-5xl leading-tight text-primary md:text-6xl">
+            Des prestations <em className="text-moss">sur mesure</em>, au fil des saisons.
+          </h2>
+        </div>
+
+        <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-4">
+          <div className="grain-card relative overflow-hidden rounded-3xl p-8 max-sm:col-span-2 max-sm:p-7 max-sm:pb-40 text-primary-foreground md:col-span-2 md:row-span-2">
+            <Sprout className="h-10 w-10 text-accent" strokeWidth={1.5} />
+            <h3 className="mt-8 font-display text-4xl">Entretien de jardin</h3>
+            <ul className="mt-6 space-y-3 text-sm opacity-85">
+              {["Tonte de pelouse", "Débroussaillage", "Ramassage de feuilles", "Nettoyage de fin de saison"].map((x) => (
+                <li key={x} className="flex items-center gap-3"><Check className="h-4 w-4 text-accent" /> {x}</li>
+              ))}
+            </ul>
+            <img src={p1} alt="" loading="lazy" className="absolute -right-10 -bottom-10 h-56 w-56 max-sm:-right-6 max-sm:-bottom-16 max-sm:h-48 max-sm:w-48 rounded-full border-4 border-primary-foreground/10 object-cover opacity-90" />
+          </div>
+          <div className="relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 md:col-span-2">
+            <img src={p2} alt="Taille de haies" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="hero-overlay absolute inset-0" />
+            <div className="relative flex h-full flex-col justify-end p-8 text-primary-foreground">
+              <Scissors className="h-7 w-7 text-accent" strokeWidth={1.5} />
+              <h3 className="mt-3 font-display text-3xl">Taille de haies & arbustes</h3>
+            </div>
+          </div>
+          <div className="rounded-3xl bg-secondary p-8 max-sm:p-5">
+            <Trees className="h-7 w-7 text-moss" strokeWidth={1.5} />
+            <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl text-primary">Travaux saisonniers</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Scarification, engrais, protection hivernale.</p>
+          </div>
+          <div className="rounded-3xl bg-accent p-8 max-sm:p-5 text-accent-foreground">
+            <Leaf className="h-7 w-7" strokeWidth={1.5} />
+            <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl">Déchets verts évacués</h3>
+            <p className="mt-2 text-sm opacity-80">Vous n'avez rien à gérer, le jardin est laissé propre.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* PROCESS */}
+      <section className="bg-secondary py-28 max-sm:py-16">
+        <div className="mx-auto max-w-7xl px-6">
+          <h2 className="font-display text-5xl text-primary md:text-6xl">Simple, <em className="text-moss">du début à la fin.</em></h2>
+          <div className="mt-16 max-sm:mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border max-sm:grid-cols-2 md:grid-cols-4">
+            {etapes.map((e) => (
+              <div key={e.n} className="bg-background p-8 max-sm:p-5">
+                <span className="font-display text-5xl max-sm:text-4xl text-moss">{e.n}</span>
+                <h3 className="mt-8 max-sm:mt-4 text-lg max-sm:text-base font-semibold text-primary">{e.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{e.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AVIS */}
+      <section className="mx-auto max-w-7xl px-6 py-28 max-sm:py-16">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="text-sm font-semibold text-moss">Avis Google</p>
+            <div className="mt-3 flex items-baseline gap-4 font-display text-6xl max-sm:text-5xl leading-none text-primary">
+              {noteTxt}
+              <span className="text-primary"><Stars n={avis.note} className="h-5 w-5" /></span>
+            </div>
+            <p className="mt-2 text-muted-foreground">Sur {avis.total} avis vérifiés</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <a href={avis.laisserAvis} target="_blank" rel="noreferrer" className="rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">Laisser un avis</a>
+            <a href={avis.lien} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border px-5 py-3 text-sm font-semibold text-primary hover:bg-secondary">
+              Voir sur Google <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+        <div className="mt-12">
+          <CarouselAvis items={avis.avis} />
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="px-6 pb-24 max-sm:px-4 max-sm:pb-16">
