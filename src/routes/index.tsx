@@ -226,16 +226,16 @@ function Index() {
       <section className="border-y border-border/40 bg-secondary/50 py-20 max-sm:py-10">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 text-center max-sm:grid-cols-3 max-sm:gap-2 max-sm:px-4 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border/30">
           <div>
-            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={2} duree={1200} /></p>
-            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">ans d'expérience</p>
+            <p className="font-display text-6xl max-sm:text-[2rem] leading-none text-primary md:text-7xl"><Compteur fin={2} duree={1200} /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.55rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">ans d'expérience</p>
           </div>
           <div>
-            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={30} prefixe="+" /></p>
-            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">clients satisfaits</p>
+            <p className="font-display text-6xl max-sm:text-[2rem] leading-none text-primary md:text-7xl"><Compteur fin={30} prefixe="+" /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.55rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">clients satisfaits</p>
           </div>
           <div>
-            <p className="font-display text-6xl max-sm:text-[2.6rem] leading-none text-primary md:text-7xl"><Compteur fin={50} prefixe="+" suffixe=" km" /></p>
-            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.6rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">rayon d'action autour de Valenciennes</p>
+            <p className="font-display text-6xl max-sm:text-[2rem] leading-none text-primary md:text-7xl"><Compteur fin={50} prefixe="+" suffixe=" km" /></p>
+            <p className="mt-3 text-sm max-sm:mt-2 max-sm:text-[0.55rem] max-sm:leading-snug max-sm:tracking-[0.12em] font-semibold uppercase tracking-[0.2em] text-moss">rayon d'action autour de Valenciennes</p>
           </div>
         </div>
       </section>
