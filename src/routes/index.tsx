@@ -321,8 +321,8 @@ function Index() {
 
       {/* CTA */}
       <section className="px-6 pb-24 max-sm:px-4 max-sm:pb-16">
-        <div className="mx-auto flex max-w-7xl flex-col items-stretch gap-6 max-sm:gap-4 lg:flex-row">
-          <div className="relative min-w-0 flex-1 overflow-hidden rounded-[2rem]">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 max-sm:gap-4 lg:grid-cols-2">
+          <div className="relative overflow-hidden rounded-[2rem]">
             <img src={p3} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
             <div className="hero-overlay absolute inset-0" />
             <div className="relative flex flex-col items-start gap-8 px-8 py-20 max-sm:px-6 max-sm:py-14 text-primary-foreground md:px-16 md:py-24">
@@ -333,7 +333,7 @@ function Index() {
               </Link>
             </div>
           </div>
-          <div className="shrink-0 overflow-hidden rounded-[2rem] max-sm:aspect-square lg:w-[420px] xl:w-[460px]">
+          <div className="overflow-hidden rounded-[2rem] max-sm:aspect-square">
             <SecteurMap compact />
           </div>
         </div>
