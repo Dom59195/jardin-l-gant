@@ -42,7 +42,7 @@ export function SiteHeader() {
             </span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-10 md:flex">
+        <nav className="hidden items-center gap-6 md:flex lg:gap-10">
           {nav.map((n) => (
             <Link
               key={n.to}
@@ -56,7 +56,7 @@ export function SiteHeader() {
           ))}
           <Link
             to="/contact"
-            className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+            className="whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 max-md:px-4"
           >
             Demander un devis
           </Link>

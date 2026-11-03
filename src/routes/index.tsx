@@ -248,7 +248,7 @@ function Index() {
           </h2>
         </div>
 
-        <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-4">
+        <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-2 lg:grid-cols-4">
           <div className="grain-card relative overflow-hidden rounded-3xl p-8 max-sm:col-span-2 max-sm:p-7 max-sm:pb-40 text-primary-foreground md:col-span-2 md:row-span-2">
             <Sprout className="h-10 w-10 text-accent" strokeWidth={1.5} />
             <h3 className="mt-8 font-display text-4xl">Entretien de jardin</h3>
@@ -284,7 +284,7 @@ function Index() {
       <section className="bg-secondary py-28 max-sm:py-16">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="font-display text-5xl text-primary md:text-6xl">Simple, <em className="text-moss">du début à la fin.</em></h2>
-          <div className="mt-16 max-sm:mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border max-sm:grid-cols-2 md:grid-cols-4">
+          <div className="mt-16 max-sm:mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border max-sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {etapes.map((e) => (
               <div key={e.n} className="bg-background p-8 max-sm:p-5">
                 <span className="font-display text-5xl max-sm:text-4xl text-moss">{e.n}</span>
