@@ -41,10 +41,11 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       const primary = mapColor("--primary");
       const muted = mapColor("--muted-foreground");
       const sage = mapColor("--sage");
+      // Sur téléphone : dézoom léger et repère plus petit pour rester lisible.
+      const mobile = window.matchMedia("(max-width: 640px)").matches;
       map = new google.maps.Map(element, {
         center: valenciennes,
-        // Sur téléphone, on dézoome pour que tout le rayon reste visible.
-        zoom: window.matchMedia("(max-width: 640px)").matches ? 8 : 9,
+        zoom: mobile ? 8.5 : 9,
         disableDefaultUI: true,
         zoomControl: true,
         gestureHandling: "cooperative",
@@ -66,13 +67,16 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       map.data.addGeoJson(interventionZone);
       map.data.setStyle({ fillColor: sage, fillOpacity: 0.32, strokeColor: primary, strokeOpacity: 0.35, strokeWeight: 1, clickable: false });
       // Simple teardrop marker, using the site's semantic palette.
-      const markerSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='42' height='54' viewBox='0 0 42 54'>
+      // Sur téléphone, on garde les mêmes proportions mais un repère nettement plus petit.
+      const largeur = mobile ? 24 : 42;
+      const hauteur = mobile ? 31 : 54;
+      const markerSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='${largeur}' height='${hauteur}' viewBox='0 0 42 54'>
         <path d='M21 52.5C21 52.5 3 33.5 3 19.5A18 18 0 1 1 39 19.5C39 33.5 21 52.5 21 52.5Z' fill='${primary}'/>
         <circle cx='21' cy='19.5' r='14' fill='${background}'/>
       </svg>`;
       marker = new google.maps.Marker({
         map, position: herin, title: "Blondel Jardin · Hérin",
-        icon: { url: `data:image/svg+xml,${encodeURIComponent(markerSvg)}`, anchor: new google.maps.Point(21, 53) },
+        icon: { url: `data:image/svg+xml,${encodeURIComponent(markerSvg)}`, anchor: new google.maps.Point(largeur / 2, hauteur - 1) },
       });
       setStatus("ready");
     };
