@@ -1,0 +1,3 @@
+- [ ] Délimiter le rayon de 50 km à la frontière française et accentuer ses villes.
+- [ ] Passer le repère en blanc et vert discret.
+- [ ] Vérifier les règles géographiques et conserver les dimensions.
