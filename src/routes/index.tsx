@@ -86,8 +86,12 @@ function CarouselAvis({ items }: { items: AvisData["avis"] }) {
 
     // Surveillance : si le carrousel ne bouge plus, on le relance automatiquement.
     let derniere = carousel.internalEngine().location.get();
+    let appui = false;
+    const enAppui = () => { appui = true; };
+    const relache = () => { appui = false; };
+    carousel.on("pointerDown", enAppui).on("pointerUp", relache);
     const surveillance = window.setInterval(() => {
-      if (preference.matches || document.hidden) return;
+      if (preference.matches || document.hidden || appui) return;
       const actuelle = carousel.internalEngine().location.get();
       if (Math.abs(actuelle - derniere) < 0.5) {
         if (carousel.scrollSnapList().length <= 1) carousel.reInit();
@@ -109,6 +113,7 @@ function CarouselAvis({ items }: { items: AvisData["avis"] }) {
     preference.addEventListener("change", relancer);
     return () => {
       window.clearInterval(surveillance);
+      carousel.off("pointerDown", enAppui).off("pointerUp", relache);
       observateur.disconnect();
       document.removeEventListener("visibilitychange", visible);
       window.removeEventListener("focus", visible);
