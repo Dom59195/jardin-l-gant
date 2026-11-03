@@ -281,14 +281,14 @@ function Index() {
       </section>
 
       {/* PROCESS */}
-      <section className="bg-secondary py-28 max-sm:py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <h2 className="font-display text-5xl text-primary md:text-6xl">Simple, <em className="text-moss">du début à la fin.</em></h2>
-          <div className="mt-16 max-sm:mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border max-sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+      <section className="bg-secondary py-28 max-sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl max-sm:px-4 lg:max-w-6xl px-6">
+          <h2 className="font-display text-5xl max-sm:text-4xl text-primary md:text-6xl lg:text-5xl">Simple, <em className="text-moss">du début à la fin.</em></h2>
+          <div className="mt-16 max-sm:mt-10 lg:mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border max-sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {etapes.map((e) => (
-              <div key={e.n} className="bg-background p-8 max-sm:p-5">
-                <span className="font-display text-5xl max-sm:text-4xl text-moss">{e.n}</span>
-                <h3 className="mt-8 max-sm:mt-4 text-lg max-sm:text-base font-semibold text-primary">{e.t}</h3>
+              <div key={e.n} className="bg-background p-8 max-sm:p-5 lg:p-7">
+                <span className="font-display text-5xl max-sm:text-4xl text-moss lg:text-4xl">{e.n}</span>
+                <h3 className="mt-8 max-sm:mt-4 text-lg max-sm:text-base font-semibold text-primary lg:text-base lg:mt-6">{e.t}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{e.d}</p>
               </div>
             ))}
