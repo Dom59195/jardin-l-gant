@@ -111,9 +111,12 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
 
   return (
     <div className={compact ? "relative flex h-full min-h-[420px] flex-col overflow-hidden bg-background max-sm:min-h-[340px]" : "relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-background max-sm:h-[370px]"} role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes">
-      <div className="shrink-0 border-b border-primary/10 px-7 pb-5 pt-6 text-primary max-sm:px-5 max-sm:pb-4 max-sm:pt-5">
-        <h2 className="font-display text-3xl max-sm:text-2xl">Zone <em>d’intervention</em></h2>
-        <p className="mt-2 text-sm text-muted-foreground max-sm:text-xs">Rayon de 50 kilomètres autour de <span className="font-semibold text-primary">Valenciennes</span></p>
+      <div className="flex shrink-0 items-center gap-5 border-b border-primary/10 px-8 py-6 text-primary max-sm:gap-4 max-sm:px-5 max-sm:py-5">
+        <span aria-hidden="true" className="w-px self-stretch bg-primary/25" />
+        <div className="min-w-0">
+          <h2 className="font-display text-4xl leading-tight max-sm:text-3xl">Zone d’intervention</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Rayon de 50 kilomètres autour de <span className="font-medium text-primary">Valenciennes</span></p>
+        </div>
       </div>
       <div className="relative min-h-0 flex-1 bg-secondary">
         <div ref={container} className="absolute inset-0" />
