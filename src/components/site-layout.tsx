@@ -11,6 +11,17 @@ const nav = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const onLogoClick = (e: { preventDefault: () => void }) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      setOpen(false);
+      if (window.location.hash) {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
