@@ -176,31 +176,3 @@
   overflow: hidden;
   contain: layout paint;
 }
-.scrolling-garden-branch {
-  position: absolute;
-  top: 85px;
-  right: -70px;
-  width: 560px;
-  transform: translateY(var(--branch-y, 0px)) rotate(-12deg);
-  transform-origin: right center;
-}
-.scrolling-garden-leaf {
-  position: absolute;
-  top: 235px;
-  right: 195px;
-  width: 60px;
-  height: 60px;
-  transform: translate(var(--leaf-x, 0px), var(--leaf-y, 0px)) rotate(var(--leaf-turn, 0deg));
-  will-change: transform;
-}
-@media (max-width: 1500px) {
-  .scrolling-garden-branch { width: 360px; right: -80px; top: 65px; }
-  .scrolling-garden-leaf { width: 42px; height: 42px; right: 45px; top: 170px; }
-}
-@media (max-width: 639px) {
-  .scrolling-garden-branch { width: 185px; right: -60px; top: 66px; }
-  .scrolling-garden-leaf { width: 28px; height: 28px; right: 5px; top: 140px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scrolling-garden-leaf { display: none; }
-}

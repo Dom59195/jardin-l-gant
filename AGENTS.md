@@ -10,4 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Use Embla with its Auto Scroll plugin for the Google reviews carousel, keeping drag and arrow navigation; a continuous track makes automatic movement visible and reliable.
-- Keep the homepage botanical scroll decoration isolated in a pointer-transparent component; update its scroll transforms through requestAnimationFrame and respect reduced-motion preferences so decoration never blocks navigation.
+- Keep the homepage botanical decoration in a pointer-transparent Three.js canvas loaded dynamically in a browser effect; keep the branch stationary and animate only the leaf with requestAnimationFrame, respecting reduced-motion preferences so decoration never blocks navigation.
