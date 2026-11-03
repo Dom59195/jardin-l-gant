@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Button } from "@/components/ui/button";
+import { SecteurMap } from "@/components/secteur-map";
 import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
 import p1 from "@/assets/projet-1.jpg";
@@ -317,6 +318,8 @@ function Index() {
           <CarouselAvis items={avis.avis} />
         </div>
       </section>
+
+      <SecteurMap />
 
       {/* CTA */}
       <section className="px-6 pb-24 max-sm:px-4 max-sm:pb-16">
