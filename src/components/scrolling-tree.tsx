@@ -89,6 +89,7 @@ export function ScrollingTree() {
         branch.position.set(width + 15, width < 640 ? 102 : 145, 0);
         branch.scale.setScalar(scale);
         fallingLeaf.scale.setScalar(scale);
+        fallingLeaf.visible = !preference.matches;
       };
       resize();
       const render = () => {
