@@ -123,6 +123,11 @@ export function SecteurMap() {
         </div>
         <div className="relative overflow-hidden rounded-3xl border border-border bg-secondary">
           <div ref={container} className="h-[480px] w-full max-sm:h-[370px]" role="region" aria-label="Carte du secteur de Blondel Jardin à Hérin et autour de Valenciennes" />
+          {status === "ready" && (
+            <div className="pointer-events-none absolute left-4 top-4 z-10 rounded-full border border-primary/20 bg-background/90 px-4 py-2 text-xs font-semibold text-primary backdrop-blur max-sm:left-3 max-sm:top-3 max-sm:px-3 max-sm:text-[11px]">
+              Zone d'intervention · 50 km autour de Valenciennes
+            </div>
+          )}
           {status !== "ready" && (
             <div className="absolute inset-0 flex items-center justify-center bg-secondary text-sm text-muted-foreground" role="status">
               {status === "loading" ? "Chargement de la carte…" : "La carte est momentanément indisponible."}
@@ -131,7 +136,7 @@ export function SecteurMap() {
         </div>
         <div className="mt-5 flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> Blondel Jardin · Hérin</span>
-          <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full border border-primary/50 bg-primary/10" /> Repère de 50 km · zone indicative, interventions au-delà possibles</span>
+          <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full border-[1.5px] border-primary/70 bg-primary/15" /> Zone délimitée : rayon de plus de 50 km autour de Valenciennes · zone indicative</span>
         </div>
         <p className="mt-4 text-[10px] text-muted-foreground"><a className="underline underline-offset-2" href="https://maps.google.com/help/terms_maps/" target="_blank" rel="noreferrer">Conditions Google Maps</a> · <a className="underline underline-offset-2" href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Confidentialité Google</a></p>
       </div>
