@@ -111,12 +111,8 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
 
   return (
     <div className={compact ? "relative flex h-full min-h-[420px] flex-col overflow-hidden bg-background max-sm:min-h-[340px]" : "relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-background max-sm:h-[370px]"} role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes">
-      <div className="flex shrink-0 items-center gap-5 border-b border-primary/10 px-8 py-6 text-primary max-sm:gap-4 max-sm:px-5 max-sm:py-5">
-        <span aria-hidden="true" className="w-px self-stretch bg-primary/25" />
-        <div className="min-w-0">
-          <h2 className="font-display text-[32px] font-light leading-tight max-sm:text-[28px]">Zone d’intervention</h2>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Rayon de 50 kilomètres autour de <span className="font-medium text-primary">Valenciennes</span></p>
-        </div>
+      <div className="shrink-0 px-8 py-5 text-primary max-sm:px-5 max-sm:py-4">
+        <h2 className="inline-block max-w-full rounded-lg border border-primary/25 px-5 py-3 font-display text-[32px] font-light leading-tight max-sm:px-4 max-sm:py-2.5 max-sm:text-[28px]">Zone d’intervention</h2>
       </div>
       <div className="relative min-h-0 flex-1 bg-secondary">
         <div ref={container} className="absolute inset-0" />
