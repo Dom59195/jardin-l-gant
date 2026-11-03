@@ -43,7 +43,8 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
       const sage = mapColor("--sage");
       map = new google.maps.Map(element, {
         center: valenciennes,
-        zoom: 9,
+        // Sur téléphone, on dézoome pour que tout le rayon reste visible.
+        zoom: window.matchMedia("(max-width: 640px)").matches ? 8 : 9,
         disableDefaultUI: true,
         zoomControl: true,
         gestureHandling: "cooperative",
