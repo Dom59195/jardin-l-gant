@@ -167,12 +167,3 @@
 @utility grain-card {
   background: linear-gradient(160deg, color-mix(in oklab, var(--forest) 92%, var(--moss)), var(--forest));
 }
-
-.scrolling-garden {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  pointer-events: none;
-  overflow: hidden;
-  contain: layout paint;
-}
