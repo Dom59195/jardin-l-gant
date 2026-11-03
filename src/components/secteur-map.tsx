@@ -113,21 +113,18 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
 
   if (compact) {
     return (
-      <figure className="w-full max-w-sm justify-self-center rounded-[1.75rem] bg-background/10 p-2 ring-1 ring-primary-foreground/20 backdrop-blur-md lg:w-80 lg:justify-self-end">
-        <div className="relative aspect-square overflow-hidden rounded-[1.4rem] bg-secondary">
-          <div ref={container} className="h-full w-full" role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes" />
-          {status !== "ready" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-secondary p-6 text-center text-xs text-muted-foreground" role="status">
-              <MapPin className="h-5 w-5 text-primary" />
-              {status === "loading" ? "Chargement de la carte…" : "Carte momentanément indisponible."}
-            </div>
-          )}
+      <div className="relative min-h-[420px] max-sm:min-h-[340px]">
+        <div ref={container} className="absolute inset-0" role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes" />
+        {status !== "ready" && (
+          <div className="absolute inset-0 flex items-center justify-center bg-secondary text-sm text-muted-foreground" role="status">
+            <MapPin className="mr-2 h-4 w-4 text-primary" /> {status === "loading" ? "Chargement de la carte…" : "Carte momentanément indisponible."}
+          </div>
+        )}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-primary to-transparent max-lg:inset-x-0 max-lg:top-0 max-lg:bottom-auto max-lg:h-24 max-lg:w-full max-lg:bg-gradient-to-b" />
+        <div className="pointer-events-none absolute bottom-5 right-5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-lg">
+          <MapPin className="mr-1.5 inline h-3.5 w-3.5" />Hérin · zone 50 km
         </div>
-        <figcaption className="flex items-center justify-between gap-3 px-3 pt-3 pb-1 text-xs text-primary-foreground/85">
-          <span className="inline-flex items-center gap-1.5 font-semibold"><MapPin className="h-3.5 w-3.5" /> Hérin</span>
-          <span>Zone · 50 km autour de Valenciennes</span>
-        </figcaption>
-      </figure>
+      </div>
     );
   }
 
