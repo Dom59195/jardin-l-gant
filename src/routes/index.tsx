@@ -324,14 +324,15 @@ function Index() {
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem]">
           <img src={p3} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div className="hero-overlay absolute inset-0" />
-          <div className="relative flex flex-col items-start gap-8 px-8 py-20 max-sm:px-6 max-sm:py-16 text-primary-foreground md:px-16 md:py-28">
-            <div className="flex max-sm:flex-col max-sm:items-start flex-wrap items-center gap-6 md:gap-10">
-              <h2 className="max-w-2xl font-display text-5xl leading-tight md:text-7xl">Prêt à redonner vie à votre jardin ?</h2>
-              <SecteurMap compact />
+          <div className="relative grid items-center gap-12 px-8 py-20 text-primary-foreground max-sm:gap-10 max-sm:px-6 max-sm:py-14 md:px-16 md:py-24 lg:grid-cols-[1fr_auto]">
+            <div className="flex flex-col items-start gap-8">
+              <h2 className="max-w-2xl font-display text-5xl leading-tight md:text-7xl">Prêt à redonner vie à votre <em>jardin</em> ?</h2>
+              <p className="max-w-md text-base leading-relaxed text-primary-foreground/80">Blondel Jardin intervient à Hérin et dans un rayon de plus de 50 km autour de Valenciennes.</p>
+              <Link to="/contact" className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5 max-sm:w-full max-sm:justify-center">
+                Obtenir mon devis gratuit <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+              </Link>
             </div>
-            <Link to="/contact" className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5">
-              Obtenir mon devis gratuit <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
-            </Link>
+            <SecteurMap compact />
           </div>
         </div>
       </section>

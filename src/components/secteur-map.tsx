@@ -113,14 +113,21 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
 
   if (compact) {
     return (
-      <div className="relative aspect-square w-64 shrink-0 overflow-hidden rounded-2xl border border-border bg-secondary shadow-xl max-sm:w-full max-sm:max-w-xs">
-        <div ref={container} className="h-full w-full" role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes" />
-        {status !== "ready" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-secondary p-4 text-center text-xs text-muted-foreground" role="status">
-            {status === "loading" ? "Chargement de la carte…" : "La carte est momentanément indisponible."}
-          </div>
-        )}
-      </div>
+      <figure className="w-full max-w-sm justify-self-center rounded-[1.75rem] bg-background/10 p-2 ring-1 ring-primary-foreground/20 backdrop-blur-md lg:w-80 lg:justify-self-end">
+        <div className="relative aspect-square overflow-hidden rounded-[1.4rem] bg-secondary">
+          <div ref={container} className="h-full w-full" role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes" />
+          {status !== "ready" && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-secondary p-6 text-center text-xs text-muted-foreground" role="status">
+              <MapPin className="h-5 w-5 text-primary" />
+              {status === "loading" ? "Chargement de la carte…" : "Carte momentanément indisponible."}
+            </div>
+          )}
+        </div>
+        <figcaption className="flex items-center justify-between gap-3 px-3 pt-3 pb-1 text-xs text-primary-foreground/85">
+          <span className="inline-flex items-center gap-1.5 font-semibold"><MapPin className="h-3.5 w-3.5" /> Hérin</span>
+          <span>Zone · 50 km autour de Valenciennes</span>
+        </figcaption>
+      </figure>
     );
   }
 
