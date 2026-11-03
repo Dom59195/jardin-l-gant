@@ -333,7 +333,7 @@ function Index() {
               </Link>
             </div>
           </div>
-          <div className="shrink-0 overflow-hidden rounded-[2rem] max-sm:aspect-square lg:w-[420px] xl:w-[460px]">
+          <div className="overflow-hidden rounded-[2rem] max-sm:aspect-square">
             <SecteurMap compact />
           </div>
         </div>
