@@ -9,6 +9,17 @@ declare global {
 const herin = { lat: 50.3570433, lng: 3.4535917 };
 const valenciennes = { lat: 50.357113, lng: 3.518332 };
 
+// Maps styling expects sRGB hex values; resolve the site's semantic CSS tokens.
+function mapColor(token: string) {
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 1;
+  const context = canvas.getContext("2d");
+  if (!context) return "";
+  context.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
+  context.fillRect(0, 0, 1, 1);
+  return `#${Array.from(context.getImageData(0, 0, 1, 1).data).slice(0, 3).map((value) => value.toString(16).padStart(2, "0")).join("")}`;
+}
+
 export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
   const container = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
@@ -23,6 +34,12 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
     const init = () => {
       if (!active) return;
       if (timeout) clearTimeout(timeout);
+      const background = mapColor("--background");
+      const card = mapColor("--card");
+      const secondary = mapColor("--secondary");
+      const primary = mapColor("--primary");
+      const muted = mapColor("--muted-foreground");
+      const sage = mapColor("--sage");
       map = new google.maps.Map(element, {
         center: valenciennes,
         zoom: 9,
@@ -30,9 +47,28 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
         zoomControl: true,
         gestureHandling: "cooperative",
         clickableIcons: false,
-        styles: [{ featureType: "poi", stylers: [{ visibility: "off" }] }],
+        styles: [
+          { elementType: "geometry", stylers: [{ color: background }] },
+          { elementType: "labels.text.fill", stylers: [{ color: muted }] },
+          { elementType: "labels.text.stroke", stylers: [{ color: background }] },
+          { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: primary }] },
+          { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: secondary }] },
+          { featureType: "road", elementType: "geometry", stylers: [{ color: card }] },
+          { featureType: "road.highway", elementType: "geometry", stylers: [{ color: secondary }] },
+          { featureType: "road", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+          { featureType: "water", elementType: "geometry", stylers: [{ color: sage }] },
+          { featureType: "poi", stylers: [{ visibility: "off" }] },
+          { featureType: "transit", stylers: [{ visibility: "off" }] },
+        ],
       });
-      marker = new google.maps.Marker({ map, position: herin, title: "Blondel Jardin · Hérin" });
+      marker = new google.maps.Marker({
+        map, position: herin, title: "Blondel Jardin · Hérin",
+        icon: {
+          path: "M0 0C-5-7-14-16-14-25a14 14 0 1 1 28 0C14-16 5-7 0 0Z",
+          fillColor: primary, fillOpacity: 1, strokeColor: background, strokeWeight: 2,
+          scale: 1, anchor: new google.maps.Point(0, 0),
+        },
+      });
       setStatus("ready");
     };
     const observer = new IntersectionObserver((entries) => {
@@ -64,9 +100,9 @@ export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
 
   return (
     <div className={compact ? "relative flex h-full min-h-[420px] flex-col overflow-hidden bg-background max-sm:min-h-[340px]" : "relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-background max-sm:h-[370px]"} role="region" aria-label="Carte de la zone d'intervention de Blondel Jardin : 50 km autour de Valenciennes">
-      <div className="shrink-0 px-7 pb-5 pt-6 text-primary max-sm:px-5 max-sm:pb-4 max-sm:pt-5">
-        <h2 className="font-display text-3xl max-sm:text-2xl">Zone d’intervention</h2>
-        <p className="mt-2 text-sm text-muted-foreground max-sm:text-xs">Rayon de 50 kilomètres autour de Valenciennes</p>
+      <div className="shrink-0 border-b border-primary/10 px-7 pb-5 pt-6 text-primary max-sm:px-5 max-sm:pb-4 max-sm:pt-5">
+        <h2 className="font-display text-3xl max-sm:text-2xl">Zone <em>d’intervention</em></h2>
+        <p className="mt-2 text-sm text-muted-foreground max-sm:text-xs">Rayon de 50 kilomètres autour de <span className="font-semibold text-primary">Valenciennes</span></p>
       </div>
       <div className="relative min-h-0 flex-1 bg-secondary">
         <div ref={container} className="absolute inset-0" />
