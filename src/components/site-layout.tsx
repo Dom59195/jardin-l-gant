@@ -36,7 +36,7 @@ export function SiteHeader() {
           />
           <span className="hidden h-10 w-px bg-border sm:block" aria-hidden />
           <span className="hidden flex-col leading-tight sm:flex">
-            <span className="font-display text-xl italic text-moss">Jardinier paysagiste</span>
+            <span className="font-display text-lg text-moss">Jardinier paysagiste</span>
             <span className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
               Hérin · Valenciennois
             </span>
@@ -95,15 +95,15 @@ export function SiteFooter() {
       <div className="relative mx-auto max-w-7xl px-6 pb-8 pt-16 md:pt-20">
         {/* Enseigne */}
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <div>
+          <div className="min-w-0 md:max-w-3xl">
             <p className="eyebrow text-primary-foreground/45">Jardinier paysagiste · Valenciennois</p>
-            <p className="mt-3 font-display text-5xl leading-[1.05] md:text-6xl">
-              Blondel Jardin <em className="text-primary-foreground/60">— le jardin, notre métier</em>
+            <p className="mt-3 font-display text-4xl leading-tight md:text-5xl">
+              Blondel Jardin <span className="mt-2 block font-sans text-lg font-normal text-primary-foreground/60">— le jardin, notre métier</span>
             </p>
           </div>
           <a
             href="tel:+33783551969"
-            className="inline-flex w-fit items-center gap-3 rounded-full border border-primary-foreground/25 px-6 py-3 transition-colors hover:border-primary-foreground/50 hover:bg-primary-foreground/5"
+            className="inline-flex w-fit shrink-0 items-center gap-3 rounded-full border border-primary-foreground/25 px-6 py-3 transition-colors hover:border-primary-foreground/50 hover:bg-primary-foreground/5"
           >
             <span className="h-2 w-2 rounded-full bg-primary-foreground/70" aria-hidden />
             <span className="font-display text-2xl tracking-wide">07 83 55 19 69</span>

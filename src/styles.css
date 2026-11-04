@@ -55,8 +55,8 @@
   --color-moss: var(--moss);
   --color-sage: var(--sage);
   --color-gold: var(--gold);
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-display: "Outfit", system-ui, sans-serif;
+  --font-sans: "Figtree", system-ui, sans-serif;
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -153,6 +153,22 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+/* Shared title treatment keeps the new typography consistent on every page. */
+.font-display {
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0;
+}
+.font-display em {
+  font-style: normal;
+}
+h1.font-display,
+h2.font-display,
+h3.font-display {
+  text-wrap: balance;
+  line-height: 1.12;
 }
 
 @utility hero-overlay {

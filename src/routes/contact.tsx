@@ -78,7 +78,7 @@ function Contact() {
             <span className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 px-4 py-1.5 text-xs font-medium">
               <span className="h-2 w-2 rounded-full bg-primary-foreground" /> Devis gratuit · sans engagement
             </span>
-            <h1 className="mt-8 font-display text-5xl leading-[1.02] md:text-7xl">
+            <h1 className="mt-8 font-display text-4xl md:text-5xl lg:text-6xl">
               Parlons de votre <em className="text-primary-foreground">jardin</em>.
             </h1>
             <p className="mt-6 max-w-sm text-primary-foreground/70">
@@ -93,7 +93,7 @@ function Contact() {
             >
               <span className="flex items-center gap-4">
                 <Phone className="h-5 w-5" />
-                <span className="font-display text-3xl">07 83 55 19 69</span>
+                <span className="whitespace-nowrap font-display text-xl sm:text-2xl">07 83 55 19 69</span>
               </span>
               <ArrowUpRight className="h-5 w-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
