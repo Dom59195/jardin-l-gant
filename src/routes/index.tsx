@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SecteurMap } from "@/components/secteur-map";
 import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
@@ -51,6 +52,25 @@ const etapes = [
 ];
 
 
+
+const faq = [
+  {
+    q: "À quelle période planter des arbustes ?",
+    r: "L'automne (octobre – novembre) est la meilleure période : le sol est encore tiède et la pluie aide à l'enracinement. La plantation au printemps est aussi possible, en évitant les périodes de gel et de forte chaleur.",
+  },
+  {
+    q: "Quand tailler ses arbustes ?",
+    r: "Les arbustes qui fleurissent au printemps se taillent juste après la floraison ; ceux qui fleurissent en été se taillent à la fin de l'hiver. On commence toujours par retirer le bois mort, en coupant juste au-dessus d'un bourgeon.",
+  },
+  {
+    q: "Comment entretenir ma pelouse ?",
+    r: "Tondez régulièrement sans jamais couper plus d'un tiers de la hauteur, et gardez le gazon assez haut (7 à 8 cm) en période sèche. Une scarification au printemps et un apport d'engrais à l'automne suffisent à garder une pelouse dense et verte.",
+  },
+  {
+    q: "Quand et comment arroser le jardin ?",
+    r: "Arrosez tôt le matin ou le soir, peu souvent mais en profondeur : les racines descendent et les plantes résistent mieux à la sécheresse. Un paillage au pied des plantations limite l'évaporation et l'arrosage.",
+  },
+];
 
 function Stars({ n, className = "h-4 w-4" }: { n: number; className?: string }) {
   return (
@@ -336,6 +356,28 @@ function Index() {
             <SecteurMap compact />
           </div>
         </div>
+      </section>
+
+      {/* FAQ / conseils d'entretien */}
+      <section className="mx-auto max-w-4xl px-6 pb-28 max-sm:px-4 max-sm:pb-16">
+        <div className="text-center">
+          <p className="eyebrow text-moss">Conseils de jardinier</p>
+          <h2 className="mt-3 font-display text-4xl leading-tight text-primary md:text-5xl">
+            Les <em>bonnes pratiques</em> pour votre jardin
+          </h2>
+        </div>
+        <Accordion type="single" collapsible className="mt-10 border-t border-border/70">
+          {faq.map((f) => (
+            <AccordionItem key={f.q} value={f.q} className="border-border/70">
+              <AccordionTrigger className="py-5 text-left font-display text-xl text-primary hover:no-underline max-sm:text-lg md:text-2xl [&>svg]:h-5 [&>svg]:w-5">
+                {f.q}
+              </AccordionTrigger>
+              <AccordionContent className="pb-5 text-[0.95rem] leading-relaxed text-muted-foreground">
+                {f.r}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </section>
     </>
   );
