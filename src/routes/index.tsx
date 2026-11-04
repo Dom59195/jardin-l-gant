@@ -192,7 +192,7 @@ function Index() {
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground">
             <span className="h-2 w-2 rounded-full bg-accent" /> Jardinier paysagiste · Hérin (59)
           </span>
-          <h1 className="mt-6 font-display text-6xl max-sm:mt-5 max-sm:text-[3.6rem] leading-[0.95] tracking-tight text-primary md:text-7xl xl:text-8xl">
+          <h1 className="mt-6 font-display text-5xl max-sm:mt-5 max-sm:text-[2.75rem] text-primary md:text-5xl lg:text-[4rem]">
             Votre jardin,
             <br />
             <em className="text-moss">entre de bonnes</em>
@@ -346,7 +346,7 @@ function Index() {
             <img src={p3} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
             <div className="hero-overlay absolute inset-0" />
             <div className="relative flex flex-col items-start gap-8 px-8 py-20 max-sm:px-6 max-sm:py-14 text-primary-foreground md:px-16 md:py-24">
-              <h2 className="max-w-2xl font-display text-5xl leading-tight md:text-6xl">Prêt à redonner vie à votre <em>jardin</em>&nbsp;?</h2>
+              <h2 className="max-w-2xl font-display text-4xl leading-tight md:text-5xl">Prêt à redonner vie à votre <em>jardin</em>&nbsp;?</h2>
               <Link to="/contact" className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5 max-sm:w-full max-sm:justify-center">
                 Obtenir mon devis gratuit <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
               </Link>
