@@ -6,6 +6,7 @@ import AutoScroll from "embla-carousel-auto-scroll";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SecteurMap } from "@/components/secteur-map";
+import { CreditImpot } from "@/components/credit-impot";
 import { ArrowUpRight, Leaf, Scissors, Sprout, Trees, Star, Phone, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import hero from "@/assets/hero-jardin.jpg";
 import p1 from "@/assets/projet-1.jpg";
@@ -299,6 +300,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <CreditImpot />
 
       {/* PROCESS */}
       <section className="bg-secondary py-28 max-sm:py-16 lg:py-10">
