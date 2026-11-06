@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowDownRight, ArrowUpRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { exempleCreditImmediate } from "@/lib/credit-impot";
+import { LogosServicesPersonne } from "@/components/logos-services-personne";
 
 const exemple = exempleCreditImmediate(100);
 const euros = (montant: number) => `${montant} €`;
@@ -19,6 +20,9 @@ export function CreditImpot() {
             de crédit d’impôt
             <span className="mt-2 block text-5xl leading-none tracking-tight text-moss md:text-6xl">immédiat</span>
           </h2>
+          <div className="mt-7">
+            <LogosServicesPersonne />
+          </div>
         </div>
 
         <div className="min-w-0">
