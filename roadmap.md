@@ -2,3 +2,4 @@
 - [x] Passer le repère en blanc et vert discret.
 - [x] Vérifier les règles géographiques et conserver les dimensions.
 - [ ] Remplacer les écritures par Outfit et Figtree, affiner les titres et vérifier les trois formats.
+- [ ] Ajouter une explication sobre du crédit d’impôt de 50 % et vérifier son affichage.
