@@ -1,10 +1,10 @@
-// Example only: eligibility, subsidies and annual ceilings are assessed separately.
+// Exemple indicatif : éligibilité, aides et plafonds annuels s'apprécient séparément.
 export const TAUX_CREDIT_IMPOT = 0.5;
 
-export function exempleCreditImpot(depenseEligible: number) {
-  if (!Number.isFinite(depenseEligible) || depenseEligible < 0) {
-    throw new RangeError("La dépense doit être un montant positif ou nul.");
+export function exempleCreditImmediate(facture: number) {
+  if (!Number.isFinite(facture) || facture < 0) {
+    throw new RangeError("La facture doit être un montant positif ou nul.");
   }
-  const credit = Math.round(depenseEligible * TAUX_CREDIT_IMPOT * 100) / 100;
-  return { depense: depenseEligible, credit, coutFinal: depenseEligible - credit };
+  const credit = Math.round(facture * TAUX_CREDIT_IMPOT * 100) / 100;
+  return { facture, credit, aPayer: facture - credit };
 }
