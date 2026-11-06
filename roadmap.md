@@ -1,5 +1,5 @@
 - [x] Délimiter le rayon de 50 km à la frontière française et accentuer ses villes.
 - [x] Passer le repère en blanc et vert discret.
 - [x] Vérifier les règles géographiques et conserver les dimensions.
-- [ ] Remplacer les écritures par Outfit et Figtree, affiner les titres et vérifier les trois formats.
-- [ ] Ajouter une explication sobre du crédit d’impôt de 50 % et vérifier son affichage.
+- [x] Remplacer les écritures par Outfit et Figtree, affiner les titres et vérifier les trois formats.
+- [x] Ajouter une explication sobre du crédit d’impôt de 50 % et vérifier son affichage.
