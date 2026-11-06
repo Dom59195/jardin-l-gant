@@ -3,3 +3,4 @@
 - [x] Vérifier les règles géographiques et conserver les dimensions.
 - [x] Remplacer les écritures par Outfit et Figtree, affiner les titres et vérifier les trois formats.
 - [x] Ajouter une explication sobre du crédit d’impôt de 50 % et vérifier son affichage.
+- [ ] Ajouter le vrai logo Services à la personne près du crédit d’impôt et au pied de page, puis vérifier son affichage.
