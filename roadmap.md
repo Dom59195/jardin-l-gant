@@ -3,4 +3,5 @@
 - [x] Vérifier les règles géographiques et conserver les dimensions.
 - [x] Remplacer les écritures par Outfit et Figtree, affiner les titres et vérifier les trois formats.
 - [x] Ajouter une explication sobre du crédit d’impôt de 50 % et vérifier son affichage.
-- [ ] Ajouter les deux logos fournis près du crédit d’impôt et au pied de page, puis vérifier leur affichage.
+- [x] Ajouter les deux logos fournis près du crédit d’impôt et au pied de page, puis vérifier leur affichage.
+- [x] Détourer et répartir les logos, redessiner le bandeau sans changer les textes et vérifier les trois formats.
