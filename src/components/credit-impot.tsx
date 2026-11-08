@@ -26,10 +26,7 @@ export function CreditImpot() {
         </div>
 
         <div className="min-w-0">
-          <div className="flex items-center justify-between gap-5">
-            <p className="max-w-xs font-display text-2xl leading-snug text-primary lg:text-3xl">Vous n’avancez pas l’argent.</p>
-            <div className="shrink-0"><LogosServicesPersonne logo="credit" /></div>
-          </div>
+          <p className="max-w-xl font-display text-2xl leading-snug text-primary lg:text-3xl">Vous n’avancez pas l’argent.</p>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-primary">
             Le crédit d’impôt est déduit tout de suite : vous réglez directement <strong className="font-semibold">50 % de la facture</strong>,
             pas la totalité à faire rembourser ensuite.
