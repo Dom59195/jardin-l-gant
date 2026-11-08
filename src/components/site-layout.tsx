@@ -2,7 +2,6 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import { Instagram, Menu, X } from "lucide-react";
 import logo from "@/assets/logo-blondel-jardin-detoure.png.asset.json";
-import { LogosServicesPersonne } from "@/components/logos-services-personne";
 
 const nav = [
   { to: "/", label: "Accueil" },
@@ -156,7 +155,6 @@ export function SiteFooter() {
           <span>© {new Date().getFullYear()} Blondel Jardin — SIREN 987 914 991</span>
           <div className="mt-4 flex flex-col gap-3 md:mt-0 md:items-end">
             <span>Devis gratuit · 50 % de crédit d'impôt</span>
-            <LogosServicesPersonne compact />
           </div>
         </div>
       </div>
