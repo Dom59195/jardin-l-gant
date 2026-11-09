@@ -355,7 +355,7 @@ function Index() {
               )}
             </ul>
             <img
-              src={p1}
+              src="https://unsplash.com/fr/photos/un-jardin-rempli-de-nombreuses-fleurs-violettes-et-blanches-0maooa3z3ok"
               alt=""
               loading="lazy"
               className="absolute -right-10 -bottom-10 h-56 w-56 max-sm:-right-6 max-sm:-bottom-16 max-sm:h-48 max-sm:w-48 rounded-full border-4 border-primary-foreground/10 object-cover opacity-90"
