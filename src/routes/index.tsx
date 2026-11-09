@@ -335,7 +335,7 @@ function Index() {
 
       {/* SERVICES BENTO */}
       <section className="mx-auto max-w-7xl px-6 py-28 max-sm:py-16">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+       <h2 className="max-w-none font-display text-4xl leading-tight text-primary sm:text-5xl lg:text-6xl">
           <h2 className="max-w-xl font-display text-5xl leading-tight text-primary md:text-6xl">
             Des prestations <em className="text-moss">sur mesure</em>, au fil des saisons.
           </h2>
