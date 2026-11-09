@@ -5,3 +5,4 @@
 - [x] Ajouter une explication sobre du crédit d’impôt de 50 % et vérifier son affichage.
 - [x] Ajouter les deux logos fournis près du crédit d’impôt et au pied de page, puis vérifier leur affichage.
 - [x] Détourer et répartir les logos, redessiner le bandeau sans changer les textes et vérifier les trois formats.
+- [x] Remplacer le cercle du crédit d’impôt par une facture illustrée en deux moitiés et vérifier les trois formats.
