@@ -19,12 +19,11 @@ export function CreditImpot() {
           </h2>
           <p className="mt-6 font-display text-xl leading-snug text-primary">Vous n’avancez pas l’argent.</p>
           <p className="mt-3 max-w-xl text-base leading-relaxed text-primary/80">
-            Le crédit d’impôt est déduit tout de suite : vous réglez directement <strong className="font-semibold">50 % de la facture</strong>,
-            pas la totalité à faire rembourser ensuite.
+            Le crédit d’impôt est appliqué immédiatement : vous ne réglez que <strong className="font-semibold">50 % de la facture</strong>, sans avoir à avancer la totalité puis à attendre un remboursement.
           </p>
           <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
             <Check aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-moss" />
-            Tonte, taille de haies, désherbage… L’entretien courant, pas la création de jardin.
+            Tonte, taille de haies, désherbage.
           </p>
 
           <div className="mt-6">
