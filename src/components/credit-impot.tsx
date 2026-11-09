@@ -32,7 +32,7 @@ export function CreditImpot() {
         </div>
 
         <div className="min-w-0">
-          <div className="flex min-h-16 items-center justify-between gap-4 lg:min-h-20">
+          <div className="flex min-h-10 items-center justify-between gap-4 sm:min-h-16 lg:min-h-20">
             <span aria-hidden="true" />
             <LogosServicesPersonne logo="services" />
           </div>
