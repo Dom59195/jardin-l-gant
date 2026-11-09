@@ -352,22 +352,22 @@ function Index() {
             {/* Voile sombre pour garantir la lisibilité du texte */}
             <div className="absolute inset-0 bg-primary/75 backdrop-blur-[1px]" />
 
-            {/* Contenu au premier plan */}
-            <div className="relative z-10">
-              <Sprout className="h-10 w-10 text-accent" strokeWidth={1.5} />
-              <h3 className="mt-8 font-display text-4xl">Entretien de jardin</h3>
-              <ul className="mt-6 space-y-3 text-sm opacity-90">
+                        {/* Contenu au premier plan réparti sur toute la hauteur */}
+            <div className="relative z-10 flex h-full flex-col justify-between py-2">
+              <div>
+                <Sprout className="h-12 w-12 text-accent" strokeWidth={1.5} />
+                <h3 className="mt-6 font-display text-4xl md:text-5xl">Entretien de jardin</h3>
+              </div>
+              <ul className="my-auto space-y-5 text-base md:text-lg opacity-95">
                 {["Tonte de pelouse", "Débroussaillage", "Ramassage de feuilles", "Nettoyage de fin de saison"].map(
                   (x) => (
-                    <li key={x} className="flex items-center gap-3">
-                      <Check className="h-4 w-4 text-accent" /> {x}
+                    <li key={x} className="flex items-center gap-3 font-medium">
+                      <Check className="h-5 w-5 text-accent shrink-0" /> {x}
                     </li>
                   ),
                 )}
               </ul>
             </div>
-          </div>
-
           <div className="relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 lg:col-span-2">
             <img
               src={p2}
