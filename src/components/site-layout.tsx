@@ -98,7 +98,7 @@ export function SiteFooter() {
           <div className="min-w-0 md:max-w-3xl">
             <p className="eyebrow text-primary-foreground/45">Jardinier paysagiste · Valenciennois</p>
             <p className="mt-3 font-display text-4xl leading-tight md:text-5xl">
-              Blondel Jardin <span className="mt-2 block font-sans text-lg font-normal text-primary-foreground/60">— le jardin, notre métier</span>
+              Blondel Jardin <span className="mt-2 block font-sans text-lg font-normal text-primary-foreground/60">{"\n"}</span>
             </p>
           </div>
           <a
