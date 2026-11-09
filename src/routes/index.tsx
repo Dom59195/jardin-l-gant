@@ -342,7 +342,7 @@ function Index() {
         </div>
 
         <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-2 lg:grid-cols-4">
-          <div className="relative overflow-hidden rounded-3xl p-10 max-sm:col-span-2 max-sm:p-6 text-primary-foreground lg:col-span-3">
+          <div className="relative overflow-hidden rounded-3xl p-8 max-sm:col-span-2 max-sm:p-6 text-primary-foreground md:row-span-2 lg:col-span-2">
             {/* Photo en arrière-plan complet */}
             <img
               src="https://images.unsplash.com/photo-1689954088471-1760a666774d?q=80&w=2044&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
