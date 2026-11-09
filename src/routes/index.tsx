@@ -352,7 +352,7 @@ function Index() {
             {/* Voile sombre pour garantir la lisibilité du texte */}
             <div className="absolute inset-0 bg-primary/75 backdrop-blur-[1px]" />
 
-                        {/* Contenu au premier plan réparti sur toute la hauteur */}
+            {/* Contenu au premier plan réparti sur toute la hauteur */}
             <div className="relative z-10 flex h-full flex-col justify-between py-2">
               <div>
                 <Sprout className="h-12 w-12 text-accent" strokeWidth={1.5} />
@@ -368,6 +368,8 @@ function Index() {
                 )}
               </ul>
             </div>
+          </div>
+
           <div className="relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 lg:col-span-2">
             <img
               src={p2}
