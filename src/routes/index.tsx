@@ -332,15 +332,13 @@ function Index() {
           </div>
         </div>
       </section>
-
       {/* SERVICES BENTO */}
-              <div className="flex flex-wrap items-end justify-between gap-6">
+      <section className="mx-auto max-w-7xl px-6 py-28 max-sm:py-16">
+        <div className="flex flex-wrap items-end justify-between gap-6">
           <h2 className="max-w-none font-display text-4xl leading-tight text-primary sm:text-5xl lg:text-6xl">
             Des prestations <em className="text-moss">sur mesure</em>, au fil des saisons.
           </h2>
         </div>
-
-
         <div className="mt-16 max-sm:mt-10 grid auto-rows-[260px] max-sm:auto-rows-auto max-sm:grid-cols-2 gap-4 max-sm:gap-3 md:grid-cols-2 lg:grid-cols-4">
           <div className="relative overflow-hidden rounded-3xl p-8 max-sm:col-span-2 max-sm:p-6 text-primary-foreground md:row-span-2 lg:col-span-2">
             {/* Photo en arrière-plan complet */}
