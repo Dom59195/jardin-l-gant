@@ -12,7 +12,7 @@ export function CreditImpot() {
     <section aria-labelledby="credit-impot-titre" className="credit-section text-primary">
       <div className="mx-auto grid max-w-[1400px] gap-10 px-6 py-12 md:grid-cols-[1.2fr_1fr] md:items-start md:gap-12 md:py-14 lg:gap-20 lg:py-16">
         <div className="min-w-0">
-          <p className="text-sm text-primary/85">Services à la personne · Particuliers</p>
+          <p className="text-sm text-primary/85">{"\n"}</p>
           <h2 id="credit-impot-titre" className="mt-8 font-display text-3xl font-semibold leading-tight text-primary lg:mt-12 lg:text-[44px]">
             50 % de crédit d’impôt
             <span className="credit-immediate mt-3 flex w-fit items-center gap-3 rounded-full px-4 py-3 text-2xl sm:text-3xl lg:gap-4 lg:px-6 lg:text-[40px]">
@@ -34,7 +34,7 @@ export function CreditImpot() {
 
         <div className="min-w-0">
           <div className="flex min-h-16 items-center justify-between gap-4 lg:min-h-20">
-            <p className="text-xs font-medium text-primary sm:text-sm">SUR UNE FACTURE DE {euros(exemple.facture)}</p>
+            <p className="text-xs font-medium text-primary sm:text-sm">{"\n"}</p>
             <LogosServicesPersonne logo="services" />
           </div>
 
