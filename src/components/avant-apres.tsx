@@ -24,7 +24,7 @@ export function AvantApres() {
       </h2>
       <div
         ref={zone}
-        className="relative mt-10 aspect-[16/9] w-full cursor-ew-resize touch-none select-none overflow-hidden rounded-3xl max-sm:mt-6 max-sm:aspect-[4/3]"
+        className="relative mt-10 aspect-[4/3] w-full cursor-ew-resize touch-none select-none overflow-hidden rounded-3xl max-sm:mt-6 max-sm:aspect-[3/4]"
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId);
           deplacer(e.clientX);
@@ -32,12 +32,28 @@ export function AvantApres() {
         onPointerMove={(e) => e.currentTarget.hasPointerCapture(e.pointerId) && deplacer(e.clientX)}
       >
         <div className="absolute inset-0" style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
-          <img src={apres} alt="Jardin après l'intervention" loading="lazy" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
-          <span className="absolute top-4 right-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">Après</span>
+          <img
+            src={apres}
+            alt="Jardin après l'intervention"
+            loading="lazy"
+            draggable={false}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <span className="absolute top-4 right-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
+            Après
+          </span>
         </div>
         <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
-          <img src={avant} alt="Jardin avant l'intervention" loading="lazy" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
-          <span className="absolute top-4 left-4 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-primary">Avant</span>
+          <img
+            src={avant}
+            alt="Jardin avant l'intervention"
+            loading="lazy"
+            draggable={false}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <span className="absolute top-4 left-4 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-primary">
+            Avant
+          </span>
         </div>
         <div className="absolute inset-y-0 w-0.5 bg-background" style={{ left: `${pos}%` }}>
           <div className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-background text-primary shadow-lg">
