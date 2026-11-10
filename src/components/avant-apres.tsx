@@ -24,7 +24,7 @@ export function AvantApres() {
       </h2>
       <div
         ref={zone}
-        className="relative mt-10 aspect-[4/3] w-full cursor-ew-resize touch-none select-none overflow-hidden rounded-3xl max-sm:mt-6 max-sm:aspect-[3/4]"
+        className="relative mx-auto mt-10 aspect-[3/4] max-w-2xl w-full cursor-ew-resize touch-none select-none overflow-hidden rounded-3xl max-sm:mt-6"
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId);
           deplacer(e.clientX);
