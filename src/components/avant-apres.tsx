@@ -18,7 +18,7 @@ export function AvantApres() {
   return (
     <section className="mx-auto max-w-6xl px-6 pb-28 max-sm:px-4 max-sm:pb-16">
       <h2 className="font-display text-4xl leading-tight text-primary md:text-5xl">
-        Nos réalisations
+        Nos <em className="text-moss">réalisations</em>
       </h2>
       <div
         ref={zone}
