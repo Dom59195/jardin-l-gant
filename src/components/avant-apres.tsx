@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { ChevronsLeftRight } from "lucide-react";
 
-import avantAsset from "@/assets/haie-avant.jpeg.asset.json";
-import apresAsset from "@/assets/haie-apres.jpeg.asset.json";
+import avantAsset from "@/assets/jardin-avant.png.asset.json";
+import apresAsset from "@/assets/jardin-apres.png.asset.json";
 
 const avant = avantAsset.url;
 const apres = apresAsset.url;
@@ -29,19 +29,16 @@ export function AvantApres() {
           e.currentTarget.setPointerCapture(e.pointerId);
           deplacer(e.clientX);
         }}
-        onPointerMove={(e) => e.buttons === 1 && deplacer(e.clientX)}
+        onPointerMove={(e) => e.currentTarget.hasPointerCapture(e.pointerId) && deplacer(e.clientX)}
       >
-        <img src={apres} alt="Jardin après l'intervention" loading="lazy" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
-        <img
-          src={avant}
-          alt="Jardin avant l'intervention"
-          loading="lazy"
-          draggable={false}
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
-        />
-        <span className="absolute top-4 left-4 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-primary">Avant</span>
-        <span className="absolute top-4 right-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">Après</span>
+        <div className="absolute inset-0" style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
+          <img src={apres} alt="Jardin après l'intervention" loading="lazy" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
+          <span className="absolute top-4 right-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">Après</span>
+        </div>
+        <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+          <img src={avant} alt="Jardin avant l'intervention" loading="lazy" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
+          <span className="absolute top-4 left-4 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-primary">Avant</span>
+        </div>
         <div className="absolute inset-y-0 w-0.5 bg-background" style={{ left: `${pos}%` }}>
           <div className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-background text-primary shadow-lg">
             <ChevronsLeftRight className="h-5 w-5" />
