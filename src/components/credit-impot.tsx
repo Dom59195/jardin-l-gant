@@ -52,14 +52,12 @@ export function CreditImpot() {
             <LogosServicesPersonne logo="services" />
           </div>
 
-          <figure className="credit-invoice mt-4 rounded-3xl border border-primary/8 p-4 sm:mt-5 sm:rounded-[30px] sm:p-7 lg:rounded-[32px]">
+          <figure className="credit-invoice mt-4 rounded-3xl border border-primary/8 p-4 sm:mt-5 sm:rounded-[30px] sm:p-5 lg:rounded-[32px] lg:p-7">
             <figcaption className="flex items-center justify-between gap-2 sm:gap-4">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-primary whitespace-nowrap sm:text-xs sm:tracking-[0.18em] lg:tracking-[0.3em]">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-primary whitespace-nowrap lg:text-xs lg:tracking-[0.22em]">
                 Facture : BLONDEL JARDIN
               </span>
-              <span className="shrink-0 text-[11px] text-primary whitespace-nowrap sm:text-sm lg:text-base">
-                Taille arbuste
-              </span>
+              <span className="shrink-0 text-[11px] text-primary whitespace-nowrap lg:text-sm">Taille arbuste</span>
             </figcaption>
 
             <div className="mt-4 space-y-2" aria-hidden="true">
