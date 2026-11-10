@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SecteurMap } from "@/components/secteur-map";
 import { CreditImpot } from "@/components/credit-impot";
+import { AvantApres } from "@/components/avant-apres";
 import {
   ArrowUpRight,
   Leaf,
@@ -395,6 +396,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <AvantApres />
 
       <CreditImpot />
 
