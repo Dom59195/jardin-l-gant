@@ -53,9 +53,13 @@ export function CreditImpot() {
           </div>
 
           <figure className="credit-invoice mt-4 rounded-3xl border border-primary/8 p-4 sm:mt-5 sm:rounded-[30px] sm:p-7 lg:rounded-[32px]">
-            <figcaption className="flex items-baseline justify-between gap-4">
-              <span className="eyebrow text-primary">Facture : BLONDEL JARDIN</span>
-              <span className="text-xs text-primary sm:text-sm lg:text-base">Taille arbuste</span>
+            <figcaption className="flex items-center justify-between gap-2 sm:gap-4">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-primary whitespace-nowrap sm:text-xs sm:tracking-[0.18em] lg:tracking-[0.3em]">
+                Facture : BLONDEL JARDIN
+              </span>
+              <span className="shrink-0 text-[11px] text-primary whitespace-nowrap sm:text-sm lg:text-base">
+                Taille arbuste
+              </span>
             </figcaption>
 
             <div className="mt-4 space-y-2" aria-hidden="true">
