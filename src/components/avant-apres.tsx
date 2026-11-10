@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
 import { ChevronsLeftRight } from "lucide-react";
 
-// Remplacer ces deux images par les vraies photos du chantier (même cadrage).
-import avant from "@/assets/projet-1.jpg";
-import apres from "@/assets/projet-2.jpg";
+import avantAsset from "@/assets/haie-avant.jpeg.asset.json";
+import apresAsset from "@/assets/haie-apres.jpeg.asset.json";
+
+const avant = avantAsset.url;
+const apres = apresAsset.url;
 
 export function AvantApres() {
   const [pos, setPos] = useState(50);
