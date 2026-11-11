@@ -256,7 +256,7 @@ function Index() {
             </Link>
             <a
               href="tel:+33783551969"
-              className="inline-flex max-sm:justify-center items-center gap-2 rounded-full border border-border px-7 py-4 text-sm font-semibold text-primary transition-colors hover:bg-secondary"
+              className="inline-flex max-sm:justify-center items-center gap-2 rounded-full border border-moss px-7 py-4 text-sm font-semibold text-primary transition-colors hover:bg-secondary"
             >
               <Phone className="h-4 w-4" /> 07 83 55 19 69
             </a>
