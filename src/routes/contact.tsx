@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { z } from "zod";
 import { Phone, MapPin, Clock, ArrowUpRight, Sparkles } from "lucide-react";
 import { suggererPrestation, type Suggestion } from "@/lib/prestation.functions";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -35,6 +36,7 @@ function Contact() {
   const [sent, setSent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [message, setMessage] = useState("");
+  const [prestations, setPrestations] = useState<string[]>([]);
   const [sugg, setSugg] = useState<Suggestion | null>(null);
   const [confirme, setConfirme] = useState<string | null>(null);
   const [chargement, setChargement] = useState(false);
@@ -136,6 +138,24 @@ function Contact() {
                   </div>
                 ))}
               </div>
+              <fieldset>
+                <legend className="mb-4 text-sm font-medium text-primary">Votre besoin <span className="font-normal text-muted-foreground">(facultatif)</span></legend>
+                <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
+                  {["Tonte", "Taille de haies", "Désherbage", "Entretien annuel"].map((prestation, index) => (
+                    <label key={prestation} htmlFor={`besoin-${index}`} className="flex cursor-pointer items-center gap-3 text-sm text-foreground">
+                      <Checkbox
+                        id={`besoin-${index}`}
+                        checked={prestations.includes(prestation)}
+                        onCheckedChange={(checked) => setPrestations((current) => checked === true
+                          ? [...current, prestation]
+                          : current.filter((item) => item !== prestation))}
+                      />
+                      {prestation}
+                    </label>
+                  ))}
+                </div>
+                <input type="hidden" name="prestations" value={prestations.join(", ")} />
+              </fieldset>
               <div className="relative">
                 <textarea
                   id="message"

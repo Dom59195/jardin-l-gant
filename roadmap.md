@@ -7,3 +7,6 @@
 - [x] Détourer et répartir les logos, redessiner le bandeau sans changer les textes et vérifier les trois formats.
 - [x] Remplacer le cercle du crédit d’impôt par une facture illustrée en deux moitiés et vérifier les trois formats.
 - [x] Ajouter une barre d'appel mobile flottante et vérifier son affichage sur téléphone et ordinateur.
+- [x] Ajouter et vérifier les choix de prestations sur Contact.
+- [x] Ajouter une mention sobre Services à la personne au pied de page.
+- [ ] Afficher la mention RC pro après confirmation de la couverture par le client.
