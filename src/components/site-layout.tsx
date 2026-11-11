@@ -92,7 +92,7 @@ export function SiteFooter() {
     <footer className="relative mt-3 overflow-hidden rounded-t-[3rem] bg-forest text-primary-foreground">
       <div className="footer-veil pointer-events-none absolute inset-0" aria-hidden />
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-8 pt-16 md:pt-20">
+      <div className="relative mx-auto max-w-7xl px-6 pb-20 pt-16 md:pt-20 md:pb-8">
         {/* Enseigne */}
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="min-w-0 md:max-w-3xl">
