@@ -391,7 +391,7 @@ function Index() {
             <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl text-primary">Travaux saisonniers</h3>
             <p className="mt-2 text-sm text-muted-foreground">Scarification, engrais, protection hivernale.</p>
           </div>
-          <div className="rounded-3xl bg-accent p-8 max-sm:p-5 text-accent-foreground md:col-span-2 lg:col-span-1">
+          <div className="rounded-3xl bg-primary p-8 max-sm:p-5 text-primary-foreground md:col-span-2 lg:col-span-1">
             <Leaf className="h-7 w-7" strokeWidth={1.5} />
             <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl">Déchets verts évacués</h3>
             <p className="mt-2 text-sm opacity-80">Vous n'avez rien à gérer, le jardin est laissé propre.</p>
@@ -472,7 +472,7 @@ function Index() {
               </h2>
               <Link
                 to="/contact"
-                className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5 max-sm:w-full max-sm:justify-center"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-semibold text-primary-foreground border border-primary-foreground/20 transition-transform hover:-translate-y-0.5 max-sm:w-full max-sm:justify-center"
               >
                 Obtenir mon devis gratuit{" "}
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
