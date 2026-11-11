@@ -36,7 +36,7 @@ export function SiteHeader() {
             alt="Blondel Jardin"
             width={64}
             height={64}
-            className="h-16 w-16 shrink-0 transition-transform duration-300 group-hover:scale-105"
+            className="h-20 w-20 shrink-0 transition-transform duration-300 group-hover:scale-105"
           />
 
           <span className="hidden h-10 w-px bg-border sm:block" aria-hidden />
