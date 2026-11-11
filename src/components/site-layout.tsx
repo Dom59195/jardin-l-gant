@@ -25,15 +25,20 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <Link to="/" onClick={onLogoClick} className="group flex items-center gap-4" aria-label="Blondel Jardin — revenir en haut de la page">
-
+        <Link
+          to="/"
+          onClick={onLogoClick}
+          className="group flex items-center gap-4"
+          aria-label="Blondel Jardin — revenir en haut de la page"
+        >
           <img
-            src={logo.url}
+            src="/__l5e/assets-v1/ce542c55-df5c-47ca-9911-7c2b80782f99/declinaison_web_logo_BLONDEL_JARDIN.png"
             alt="Blondel Jardin"
             width={64}
             height={64}
             className="h-16 w-16 shrink-0 transition-transform duration-300 group-hover:scale-105"
           />
+
           <span className="hidden h-10 w-px bg-border sm:block" aria-hidden />
           <span className="hidden flex-col leading-tight sm:flex">
             <span className="font-display text-lg text-moss">Jardinier paysagiste</span>
@@ -61,23 +66,14 @@ export function SiteHeader() {
             Demander un devis
           </Link>
         </nav>
-        <button
-          className="text-primary md:hidden"
-          aria-label="Menu"
-          onClick={() => setOpen(!open)}
-        >
+        <button className="text-primary md:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>
           {open ? <X /> : <Menu />}
         </button>
       </div>
       {open && (
         <nav className="flex flex-col gap-4 border-t border-border px-6 py-6 md:hidden">
           {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              onClick={() => setOpen(false)}
-              className="font-display text-2xl text-primary"
-            >
+            <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="font-display text-2xl text-primary">
               {n.label}
             </Link>
           ))}
@@ -93,37 +89,77 @@ export function SiteFooter() {
       <div className="footer-veil pointer-events-none absolute inset-0" aria-hidden />
 
       <div className="relative px-6 pb-12 pt-12 text-center sm:hidden">
-        <Link to="/" className="inline-block font-display text-3xl text-primary-foreground">Blondel Jardin</Link>
+        <Link to="/" className="inline-block font-display text-3xl text-primary-foreground">
+          Blondel Jardin
+        </Link>
         <p className="mt-2 text-xs text-primary-foreground/60">Jardinier paysagiste · Valenciennois</p>
 
         <div className="mt-8 rounded-2xl border border-primary-foreground/25 px-5 py-6">
           <Phone className="mx-auto h-5 w-5 text-primary-foreground/80" aria-hidden />
           <p className="mt-3 font-display text-xl">Parlons de votre jardin</p>
-          <a href="tel:+33783551969" className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full bg-primary-foreground px-5 py-2.5 font-medium text-primary">07 83 55 19 69</a>
-          <p className="mt-4 text-xs leading-relaxed text-primary-foreground/70">38 rue Auguste Caron · 59195 Hérin<br />Lun – Ven · 8h30–12h / 13h–16h30</p>
-          <p className="mt-3 text-xs leading-relaxed text-primary-foreground/60">Hérin et le Valenciennois,<br />dans un rayon de 50 km autour de Valenciennes.</p>
+          <a
+            href="tel:+33783551969"
+            className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full bg-primary-foreground px-5 py-2.5 font-medium text-primary"
+          >
+            07 83 55 19 69
+          </a>
+          <p className="mt-4 text-xs leading-relaxed text-primary-foreground/70">
+            38 rue Auguste Caron · 59195 Hérin
+            <br />
+            Lun – Ven · 8h30–12h / 13h–16h30
+          </p>
+          <p className="mt-3 text-xs leading-relaxed text-primary-foreground/60">
+            Hérin et le Valenciennois,
+            <br />
+            dans un rayon de 50 km autour de Valenciennes.
+          </p>
         </div>
 
         <div className="mt-7 grid grid-cols-2 gap-3">
-          <a href="https://www.instagram.com/blondel_jardin/" target="_blank" rel="noreferrer" aria-label="Instagram Blondel Jardin" className="flex min-h-11 min-w-0 flex-col items-center justify-center gap-2 text-primary-foreground/80">
+          <a
+            href="https://www.instagram.com/blondel_jardin/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram Blondel Jardin"
+            className="flex min-h-11 min-w-0 flex-col items-center justify-center gap-2 text-primary-foreground/80"
+          >
             <Instagram className="h-5 w-5 shrink-0" />
             <span className="text-xs">blondel_jardin</span>
           </a>
-          <a href="https://www.tiktok.com/@blondel.jardin" target="_blank" rel="noreferrer" aria-label="TikTok Blondel Jardin" className="flex min-h-11 min-w-0 flex-col items-center justify-center gap-2 text-primary-foreground/80">
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 shrink-0" aria-hidden><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+          <a
+            href="https://www.tiktok.com/@blondel.jardin"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="TikTok Blondel Jardin"
+            className="flex min-h-11 min-w-0 flex-col items-center justify-center gap-2 text-primary-foreground/80"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 shrink-0" aria-hidden>
+              <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+            </svg>
             <span className="text-xs">blondel.jardin</span>
           </a>
         </div>
 
-        <nav aria-label="Navigation de bas de page" className="mt-5 flex justify-center gap-6 text-xs text-primary-foreground/75">
-          {nav.map((item) => <Link key={item.to} to={item.to} className="inline-flex min-h-11 items-center">{item.label}</Link>)}
+        <nav
+          aria-label="Navigation de bas de page"
+          className="mt-5 flex justify-center gap-6 text-xs text-primary-foreground/75"
+        >
+          {nav.map((item) => (
+            <Link key={item.to} to={item.to} className="inline-flex min-h-11 items-center">
+              {item.label}
+            </Link>
+          ))}
         </nav>
         <div className="mt-4 space-y-2 text-xs leading-relaxed text-primary-foreground/60">
           <p>Devis gratuit · 50 % de crédit d'impôt</p>
           <p>Services à la personne</p>
           <p>Assurance responsabilité civile professionnelle</p>
         </div>
-        <p className="mt-6 text-[11px] text-primary-foreground/45">© {new Date().getFullYear()} Blondel Jardin<br />SIREN 987 914 991</p>
+        <p className="mt-6 text-[11px] text-primary-foreground/45">
+          © {new Date().getFullYear()} Blondel Jardin
+          <br />
+          SIREN 987 914 991
+        </p>
       </div>
 
       <div className="relative mx-auto hidden max-w-7xl px-6 pb-20 pt-16 sm:block md:pt-20 md:pb-8">
@@ -132,7 +168,8 @@ export function SiteFooter() {
           <div className="min-w-0 md:max-w-3xl">
             <p className="eyebrow text-primary-foreground/45">Jardinier paysagiste · Valenciennois</p>
             <p className="mt-3 font-display text-4xl leading-tight md:text-5xl">
-              Blondel Jardin <span className="mt-2 block font-sans text-lg font-normal text-primary-foreground/60">{"\n"}</span>
+              Blondel Jardin{" "}
+              <span className="mt-2 block font-sans text-lg font-normal text-primary-foreground/60">{"\n"}</span>
             </p>
           </div>
           <a
@@ -169,18 +206,34 @@ export function SiteFooter() {
           <div>
             <p className="eyebrow mb-4 text-primary-foreground/40">Réseaux sociaux</p>
             <div className="flex flex-col gap-3">
-              <a href="https://www.instagram.com/blondel_jardin/" target="_blank" rel="noreferrer" aria-label="Instagram Blondel Jardin" className="inline-flex w-fit items-center gap-2.5 text-primary-foreground/75 transition-colors hover:text-primary-foreground">
+              <a
+                href="https://www.instagram.com/blondel_jardin/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram Blondel Jardin"
+                className="inline-flex w-fit items-center gap-2.5 text-primary-foreground/75 transition-colors hover:text-primary-foreground"
+              >
                 <Instagram className="h-4.5 w-4.5" /> blondel_jardin
               </a>
-              <a href="https://www.tiktok.com/@blondel.jardin" target="_blank" rel="noreferrer" aria-label="TikTok Blondel Jardin" className="inline-flex w-fit items-center gap-2.5 text-primary-foreground/75 transition-colors hover:text-primary-foreground">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="h-4.5 w-4.5" aria-hidden><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+              <a
+                href="https://www.tiktok.com/@blondel.jardin"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="TikTok Blondel Jardin"
+                className="inline-flex w-fit items-center gap-2.5 text-primary-foreground/75 transition-colors hover:text-primary-foreground"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-4.5 w-4.5" aria-hidden>
+                  <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                </svg>
                 blondel.jardin
               </a>
             </div>
           </div>
           <div>
             <p className="eyebrow mb-4 text-primary-foreground/40">Zone d'intervention</p>
-            <p className="text-primary-foreground/75">Hérin et le Valenciennois, dans un rayon de 50 km autour de Valenciennes.</p>
+            <p className="text-primary-foreground/75">
+              Hérin et le Valenciennois, dans un rayon de 50 km autour de Valenciennes.
+            </p>
           </div>
         </div>
 
