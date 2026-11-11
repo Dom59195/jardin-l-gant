@@ -156,6 +156,7 @@ export function SiteFooter() {
           <div className="mt-4 flex flex-col gap-3 md:mt-0 md:items-end">
             <span>Devis gratuit · 50 % de crédit d'impôt</span>
             <span>Services à la personne</span>
+            <span>Assurance responsabilité civile professionnelle</span>
           </div>
         </div>
       </div>
