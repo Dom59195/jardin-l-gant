@@ -32,7 +32,7 @@ export function SiteHeader() {
           aria-label="Blondel Jardin — revenir en haut de la page"
         >
           <img
-            src="/__l5e/assets-v1/ce542c55-df5c-47ca-9911-7c2b80782f99/declinaison_web_logo_BLONDEL_JARDIN.png"
+            src="/__l5e/assets-v1/fe4b2099-18f7-47a0-b22c-bc8987798ddf/icone-herbes-detouree.png"
             alt="Blondel Jardin"
             width={64}
             height={64}
