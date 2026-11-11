@@ -28,7 +28,7 @@ export function CallBar() {
     const obs = footer
       ? new IntersectionObserver(
           ([entry]) => {
-            footerVisible = entry.isIntersecting;
+            footerVisible = !!entry?.isIntersecting;
             sync();
           },
           { threshold: 0.06 },
@@ -50,7 +50,7 @@ export function CallBar() {
       href="tel:+33783551969"
       aria-hidden={!visible}
       tabIndex={visible ? 0 : -1}
-      className={`call-bar fixed bottom-4 right-4 z-50 flex items-center gap-2.5 rounded-full bg-primary px-5 py-3.5 text-primary-foreground shadow-[0_14px_34px_-14px_color-mix(in_oklab,var(--forest)_70%,transparent)] transition-[opacity,transform] duration-300 ease-out md:hidden ${
+      className={`call-bar fixed bottom-4 left-4 z-50 flex items-center gap-2.5 rounded-full bg-primary px-4.5 py-3 text-primary-foreground shadow-[0_14px_34px_-14px_color-mix(in_oklab,var(--forest)_70%,transparent)] transition-[opacity,transform] duration-300 ease-out md:hidden ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
       }`}
     >
