@@ -298,7 +298,7 @@ function Index() {
               service à la personne
             </p>
           </div>
-          <div className="absolute top-6 right-6 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-accent-foreground">
+          <div className="absolute top-6 right-6 rounded-full bg-moss px-4 py-2 text-xs font-semibold text-primary-foreground">
             Devis gratuit
           </div>
         </div>
