@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Phone } from "lucide-react";
+import { MessageSquare, Phone } from "lucide-react";
 
 /**
- * Barre d'appel affichée uniquement sur téléphone : elle apparaît dès que le
- * visiteur a quitté le haut de page et s'efface quand le pied de page est
- * visible, puisqu'il contient déjà le numéro en gros.
+ * Barre d'actions affichée uniquement sur téléphone : elle apparaît dès que le
+ * visiteur a quitté le haut de page et s'efface quand le pied de page est visible.
  */
 export function CallBar() {
   const [visible, setVisible] = useState(false);
@@ -46,16 +45,28 @@ export function CallBar() {
   }, []);
 
   return (
-    <a
-      href="tel:+33783551969"
+    <div
       aria-hidden={!visible}
-      tabIndex={visible ? 0 : -1}
-      className={`call-bar fixed bottom-4 left-4 z-50 flex items-center gap-2.5 rounded-full bg-primary px-4.5 py-3 text-primary-foreground shadow-[0_14px_34px_-14px_color-mix(in_oklab,var(--forest)_70%,transparent)] transition-[opacity,transform] duration-300 ease-out md:hidden ${
+      className={`call-bar fixed bottom-4 left-4 right-4 z-50 flex items-center justify-center gap-3 transition-[opacity,transform] duration-300 ease-out md:hidden ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
       }`}
     >
-      <Phone className="h-4.5 w-4.5" aria-hidden />
-      <span className="text-sm font-semibold tracking-wide">Appeler</span>
-    </a>
+      <a
+        href="tel:+33783551969"
+        tabIndex={visible ? 0 : -1}
+        className="flex flex-1 items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
+      >
+        <Phone className="h-4 w-4" aria-hidden />
+        Appeler
+      </a>
+      <a
+        href="sms:+33783551969?body=Bonjour%20Blondel%20Jardin%2C%20voici%20des%20photos%20de%20mon%20jardin%20pour%20un%20devis%20%3A"
+        tabIndex={visible ? 0 : -1}
+        className="flex flex-1 items-center justify-center gap-2 rounded-full bg-moss py-3.5 text-sm font-semibold text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
+      >
+        <MessageSquare className="h-4 w-4" aria-hidden />
+        SMS / Photos
+      </a>
+    </div>
   );
 }
