@@ -155,6 +155,7 @@ export function SiteFooter() {
           <span>© {new Date().getFullYear()} Blondel Jardin — SIREN 987 914 991</span>
           <div className="mt-4 flex flex-col gap-3 md:mt-0 md:items-end">
             <span>Devis gratuit · 50 % de crédit d'impôt</span>
+            <span>Services à la personne</span>
           </div>
         </div>
       </div>
