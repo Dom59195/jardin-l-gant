@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState, type FormEvent } from "react";
 import { z } from "zod";
-import { Phone, MapPin, Clock, ArrowUpRight, Sparkles } from "lucide-react";
+import { Phone, MapPin, Clock, ArrowUpRight, Sparkles, MessageSquare } from "lucide-react";
+
 import { suggererPrestation, type Suggestion } from "@/lib/prestation.functions";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -10,7 +11,10 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact & devis — Blondel Jardin" },
-      { name: "description", content: "Contactez votre jardinier paysagiste pour un devis gratuit et sans engagement." },
+      {
+        name: "description",
+        content: "Contactez votre jardinier paysagiste pour un devis gratuit et sans engagement.",
+      },
       { property: "og:title", content: "Contact & devis — Blondel Jardin" },
       { property: "og:description", content: "Demandez votre devis gratuit pour votre jardin." },
       { property: "og:type", content: "website" },
@@ -99,14 +103,33 @@ function Contact() {
               </span>
               <ArrowUpRight className="h-5 w-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
+            <a
+              href="sms:+33783551969?body=Bonjour%20Blondel%20Jardin%2C%20voici%20des%20photos%20de%20mon%20jardin%20pour%20un%20devis%20%3A"
+              className="group flex items-center justify-between rounded-2xl border border-primary-foreground/20 bg-moss/20 px-6 py-4 text-primary-foreground transition hover:bg-moss/30"
+            >
+              <span className="flex items-center gap-3">
+                <MessageSquare className="h-5 w-5 text-moss" />
+                <span className="text-sm font-semibold">Envoyer mes photos par SMS</span>
+              </span>
+              <ArrowUpRight className="h-4 w-4 text-primary-foreground/70 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="flex items-start gap-3 rounded-2xl border border-primary-foreground/15 p-4 text-sm">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary-foreground/70" />
-                <span>Lun – Ven<br /><span className="text-primary-foreground/60">8h30–12h · 13h–16h30</span></span>
+                <span>
+                  Lun – Ven
+                  <br />
+                  <span className="text-primary-foreground/60">8h30–12h · 13h–16h30</span>
+                </span>
               </div>
               <div className="flex items-start gap-3 rounded-2xl border border-primary-foreground/15 p-4 text-sm">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary-foreground/70" />
-                <span>Hérin (59)<br /><span className="text-primary-foreground/60">+50 km autour de Valenciennes</span></span>
+                <span>
+                  Hérin (59)
+                  <br />
+                  <span className="text-primary-foreground/60">+50 km autour de Valenciennes</span>
+                </span>
               </div>
             </div>
           </div>
@@ -117,7 +140,9 @@ function Contact() {
           {sent ? (
             <div className="flex h-full flex-col items-center justify-center py-20 text-center">
               <p className="font-display text-6xl italic text-primary">Merci&nbsp;!</p>
-              <p className="mt-4 text-muted-foreground">Votre demande a bien été reçue. Blondel Jardin revient vers vous très vite.</p>
+              <p className="mt-4 text-muted-foreground">
+                Votre demande a bien été reçue. Blondel Jardin revient vers vous très vite.
+              </p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="flex h-full flex-col gap-8" noValidate>
@@ -126,29 +151,41 @@ function Contact() {
                 <h2 className="mt-2 font-display text-4xl text-primary">Quelques mots suffisent.</h2>
               </div>
               <div className="grid gap-x-8 gap-y-6 md:grid-cols-2">
-                {([
-                  ["nom", "Nom", "text", "md:col-span-2"],
-                  ["email", "Email", "email", ""],
-                  ["telephone", "Téléphone (facultatif)", "tel", ""],
-                ] as const).map(([n, l, t, c]) => (
+                {(
+                  [
+                    ["nom", "Nom", "text", "md:col-span-2"],
+                    ["email", "Email", "email", ""],
+                    ["telephone", "Téléphone (facultatif)", "tel", ""],
+                  ] as const
+                ).map(([n, l, t, c]) => (
                   <div key={n} className={`relative ${c}`}>
                     <input id={n} name={n} type={t} placeholder={l} className={field} />
-                    <label htmlFor={n} className={floating}>{l}</label>
+                    <label htmlFor={n} className={floating}>
+                      {l}
+                    </label>
                     {errors[n] && <p className="mt-1 text-sm text-destructive">{errors[n]}</p>}
                   </div>
                 ))}
               </div>
               <fieldset>
-                <legend className="mb-4 text-sm font-medium text-primary">Votre besoin <span className="font-normal text-muted-foreground">(facultatif)</span></legend>
+                <legend className="mb-4 text-sm font-medium text-primary">
+                  Votre besoin <span className="font-normal text-muted-foreground">(facultatif)</span>
+                </legend>
                 <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
                   {["Tonte", "Taille de haies", "Désherbage", "Entretien annuel"].map((prestation, index) => (
-                    <label key={prestation} htmlFor={`besoin-${index}`} className="flex cursor-pointer items-center gap-3 text-sm text-foreground">
+                    <label
+                      key={prestation}
+                      htmlFor={`besoin-${index}`}
+                      className="flex cursor-pointer items-center gap-3 text-sm text-foreground"
+                    >
                       <Checkbox
                         id={`besoin-${index}`}
                         checked={prestations.includes(prestation)}
-                        onCheckedChange={(checked) => setPrestations((current) => checked === true
-                          ? [...current, prestation]
-                          : current.filter((item) => item !== prestation))}
+                        onCheckedChange={(checked) =>
+                          setPrestations((current) =>
+                            checked === true ? [...current, prestation] : current.filter((item) => item !== prestation),
+                          )
+                        }
                       />
                       {prestation}
                     </label>
@@ -164,9 +201,15 @@ function Contact() {
                   placeholder="Votre projet"
                   className={`${field} resize-none`}
                   value={message}
-                  onChange={(e) => { setMessage(e.target.value); setSugg(null); setConfirme(null); }}
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    setSugg(null);
+                    setConfirme(null);
+                  }}
                 />
-                <label htmlFor="message" className={floating}>Votre projet (surface, état, envies…)</label>
+                <label htmlFor="message" className={floating}>
+                  Votre projet (surface, état, envies…)
+                </label>
                 {errors["message"] && <p className="mt-1 text-sm text-destructive">{errors["message"]}</p>}
               </div>
 
@@ -191,8 +234,20 @@ function Contact() {
                       <span className="text-sm font-medium text-primary">✓ Confirmée</span>
                     ) : (
                       <>
-                        <button type="button" onClick={() => setConfirme(sugg.prestation)} className="rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90">Confirmer</button>
-                        <button type="button" onClick={() => setSugg(null)} className="text-sm text-muted-foreground hover:text-primary">Ignorer</button>
+                        <button
+                          type="button"
+                          onClick={() => setConfirme(sugg.prestation)}
+                          className="rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90"
+                        >
+                          Confirmer
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSugg(null)}
+                          className="text-sm text-muted-foreground hover:text-primary"
+                        >
+                          Ignorer
+                        </button>
                       </>
                     )}
                   </div>
