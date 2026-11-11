@@ -50,12 +50,12 @@ export function CallBar() {
       href="tel:+33783551969"
       aria-hidden={!visible}
       tabIndex={visible ? 0 : -1}
-      className={`call-bar fixed inset-x-4 bottom-4 z-50 flex items-center justify-center gap-3 rounded-full bg-primary px-5 py-3.5 text-primary-foreground shadow-[0_14px_34px_-14px_color-mix(in_oklab,var(--forest)_70%,transparent)] transition-[opacity,transform] duration-300 ease-out md:hidden ${
+      className={`call-bar fixed bottom-4 right-4 z-50 flex items-center gap-2.5 rounded-full bg-primary px-5 py-3.5 text-primary-foreground shadow-[0_14px_34px_-14px_color-mix(in_oklab,var(--forest)_70%,transparent)] transition-[opacity,transform] duration-300 ease-out md:hidden ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
       }`}
     >
       <Phone className="h-4.5 w-4.5" aria-hidden />
-      <span className="text-sm font-semibold tracking-wide">Appeler · 07 83 55 19 69</span>
+      <span className="text-sm font-semibold tracking-wide">Appeler</span>
     </a>
   );
 }
