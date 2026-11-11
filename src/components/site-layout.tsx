@@ -81,10 +81,15 @@ export function SiteFooter() {
       <div className="footer-veil pointer-events-none absolute inset-0" aria-hidden />
 
       <div className="relative px-6 pb-12 pt-12 text-center sm:hidden">
-        <Link to="/" className="inline-block font-display text-3xl text-primary-foreground">
-          Blondel Jardin
+        <Link to="/" className="inline-flex justify-center" aria-label="Blondel Jardin — Accueil">
+          <img
+            src="/__l5e/assets-v1/ce542c55-df5c-47ca-9911-7c2b80782f99/declinaison_web_logo_BLONDEL_JARDIN.png"
+            alt="Blondel Jardin"
+            width={64}
+            height={64}
+            className="h-16 w-16 brightness-0 invert opacity-90 transition-transform duration-300 hover:scale-105"
+          />
         </Link>
-        <p className="mt-2 text-xs text-primary-foreground/60">Jardinier paysagiste · Valenciennois</p>
 
         <div className="mt-8 rounded-2xl border border-primary-foreground/25 px-5 py-6">
           <Phone className="mx-auto h-5 w-5 text-primary-foreground/80" aria-hidden />
