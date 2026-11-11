@@ -384,7 +384,8 @@ function Index() {
             />
             <div className="hero-overlay absolute inset-0" />
             <div className="relative flex h-full flex-col justify-end p-8 text-primary-foreground">
-              <Scissors className="h-7 w-7 text-accent" strokeWidth={1.5} />
+              <Scissors className="h-7 w-7 text-moss" strokeWidth={1.5} />
+
               <h3 className="mt-3 font-display text-3xl">Taille de haies & arbustes</h3>
             </div>
           </div>
