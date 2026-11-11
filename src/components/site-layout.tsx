@@ -83,11 +83,11 @@ export function SiteFooter() {
       <div className="relative px-6 pb-12 pt-12 text-center sm:hidden">
         <Link to="/" className="inline-flex justify-center" aria-label="Blondel Jardin — Accueil">
           <img
-            src="/__l5e/assets-v1/ce542c55-df5c-47ca-9911-7c2b80782f99/declinaison_web_logo_BLONDEL_JARDIN.png"
+            src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
             alt="Blondel Jardin"
-            width={64}
-            height={64}
-            className="h-16 w-16 brightness-0 invert opacity-90 transition-transform duration-300 hover:scale-105"
+            width={96}
+            height={96}
+            className="h-24 w-24 brightness-0 invert opacity-90 transition-transform duration-300 hover:scale-105"
           />
         </Link>
 
