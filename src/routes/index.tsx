@@ -233,8 +233,9 @@ function Index() {
       <section className="mx-auto grid max-w-7xl gap-10 px-6 pt-12 pb-16 max-sm:gap-8 max-sm:pt-8 max-sm:pb-12 md:grid-cols-12 md:gap-8 md:pt-20">
         <div className="flex flex-col justify-center md:col-span-6 animate-fade-up">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground">
-            <span className="h-2 w-2 rounded-full bg-accent" /> Jardinier paysagiste · Hérin (59)
+            <span className="h-2 w-2 rounded-full bg-moss" /> Jardinier paysagiste · Hérin (59)
           </span>
+
           <h1 className="mt-6 font-display text-5xl max-sm:mt-5 max-sm:text-[2.75rem] text-primary md:text-5xl lg:text-[4rem]">
             Votre jardin,
             <br />
