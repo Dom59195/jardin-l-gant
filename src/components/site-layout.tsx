@@ -38,14 +38,6 @@ export function SiteHeader() {
             height={64}
             className="h-20 w-20 shrink-0 transition-transform duration-300 group-hover:scale-105"
           />
-
-          <span className="hidden h-10 w-px bg-border sm:block" aria-hidden />
-          <span className="hidden flex-col leading-tight sm:flex">
-            <span className="font-display text-lg text-moss">Jardinier paysagiste</span>
-            <span className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-              Hérin · Valenciennois
-            </span>
-          </span>
         </Link>
         <nav className="hidden items-center gap-6 md:flex lg:gap-10">
           {nav.map((n) => (
