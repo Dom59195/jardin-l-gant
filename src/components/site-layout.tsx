@@ -147,11 +147,7 @@ export function SiteFooter() {
             </Link>
           ))}
         </nav>
-        <div className="mt-4 space-y-2 text-xs leading-relaxed text-primary-foreground/60">
-          <p>Devis gratuit · 50 % de crédit d'impôt</p>
-          <p>Services à la personne</p>
-          <p>Assurance responsabilité civile professionnelle</p>
-        </div>
+
         <p className="mt-6 text-[11px] text-primary-foreground/45">
           © {new Date().getFullYear()} Blondel Jardin
           <br />
@@ -237,11 +233,6 @@ export function SiteFooter() {
         {/* Mentions */}
         <div className="mt-12 flex flex-col gap-1.5 border-t border-primary-foreground/10 pt-6 text-xs text-primary-foreground/45 md:flex-row md:items-center md:justify-between">
           <span>© {new Date().getFullYear()} Blondel Jardin — SIREN 987 914 991</span>
-          <div className="mt-4 flex flex-col gap-3 md:mt-0 md:items-end">
-            <span>Devis gratuit · 50 % de crédit d'impôt</span>
-            <span>Services à la personne</span>
-            <span>Assurance responsabilité civile professionnelle</span>
-          </div>
         </div>
       </div>
     </footer>
