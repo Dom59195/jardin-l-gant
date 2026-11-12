@@ -153,19 +153,10 @@ export function LightboxProjets({ projet, onClose }: Props) {
 
           {/* Colonne droite : Détails du projet */}
           <div className="flex min-w-0 flex-col pb-2">
-            {/* Logo officiel carré et intitulé PROJET */}
-            <div className="flex flex-col items-center text-center">
-              <img
-                src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
-                alt="Blondel Jardin"
-                className="h-24 w-24 object-contain brightness-0 invert opacity-95 pointer-events-none select-none sm:h-28 sm:w-28"
-              />
-
-              <div className="mt-3 flex w-full items-center justify-center gap-3 text-sage">
-                <span className="h-px w-12 bg-sage/40" />
-                <span className="text-[11px] font-medium tracking-widest uppercase">PROJET</span>
-                <span className="h-px w-12 bg-sage/40" />
-              </div>
+            {/* Surtitre PROJET */}
+            <div className="flex items-center gap-3 text-sage">
+              <span className="text-xs font-semibold tracking-widest uppercase">PROJET</span>
+              <span className="h-px w-16 bg-sage/40" />
             </div>
 
             {/* Titre et localisation */}
@@ -243,11 +234,19 @@ export function LightboxProjets({ projet, onClose }: Props) {
               </div>
             )}
 
-            {/* Bouton Devis */}
-            <div className="mt-6 pt-2">
+            {/* Bas de fiche : Signature Logo à gauche + Bouton Devis à droite */}
+            <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-primary-foreground/10 pt-5 sm:flex-row">
+              <div className="flex items-center gap-3 select-none pointer-events-none">
+                <img
+                  src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
+                  alt="Blondel Jardin"
+                  className="h-16 w-16 object-contain brightness-0 invert opacity-95 sm:h-20 sm:w-20"
+                />
+              </div>
+
               <Button
                 asChild
-                className="h-12 w-full rounded-full bg-background font-medium text-foreground transition-colors duration-300 ease-out hover:bg-moss hover:text-white"
+                className="h-12 w-full rounded-full bg-background px-8 font-medium text-foreground transition-colors duration-300 ease-out hover:bg-moss hover:text-white sm:w-auto"
               >
                 <Link to="/contact" onClick={onClose}>
                   Demander un devis <ArrowUpRight className="ml-2 h-4 w-4" />
