@@ -72,10 +72,9 @@ function Projets() {
 
       {ouvert !== null && (
         <LightboxProjets
-          projets={projets}
-          index={ouvert}
+          key={ouvert}
+          projet={projets[ouvert]}
           onClose={() => setOuvert(null)}
-          onIndexChange={setOuvert}
         />
       )}
     </section>
