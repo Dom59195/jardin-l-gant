@@ -182,6 +182,11 @@ h3.font-display {
 @keyframes fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @utility animate-fade-up { animation: fade-up 0.9s ease-out both; }
 
+@keyframes lb-fade { from { opacity: 0; } to { opacity: 1; } }
+@utility animate-lb-fade { animation: lb-fade 0.25s ease-out both; }
+@keyframes lb-zoom { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: none; } }
+@utility animate-lb-zoom { animation: lb-zoom 0.35s ease-out both; }
+
 @utility grain-card {
   background: linear-gradient(160deg, color-mix(in oklab, var(--forest) 92%, var(--moss)), var(--forest));
 }
@@ -193,6 +198,7 @@ h3.font-display {
 }
 @media (prefers-reduced-motion: reduce) {
   .call-bar { transition: none; }
+  .animate-lb-fade, .animate-lb-zoom { animation: none; }
 }
 .credit-immediate {
   background: linear-gradient(100deg, color-mix(in oklab, var(--sage) 35%, var(--background)), color-mix(in oklab, var(--sage) 60%, var(--background)));

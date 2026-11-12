@@ -10,4 +10,5 @@
 - [x] Ajouter et vérifier les choix de prestations sur Contact.
 - [x] Ajouter une mention sobre Services à la personne au pied de page.
 - [x] Afficher la mention RC pro après confirmation de la couverture par le client.
-- [ ] Reprendre la disposition centrée du bas de page fourni uniquement sur téléphone et vérifier les autres formats.
+- [x] Reprendre la disposition centrée du bas de page fourni uniquement sur téléphone et vérifier les autres formats.
+- [x] Rendre les projets cliquables avec la photo en grand, au clavier et au doigt, et vérifier téléphone et ordinateur.
