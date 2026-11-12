@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Leaf, MapPin, X } from "lucide-react";
+import { ArrowUpRight, Calendar, ChevronLeft, ChevronRight, Leaf, MapPin, Maximize2, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/logo-blondel-jardin-detoure.png.asset.json";
 
 export type ProjetLightbox = {
   img: string;
@@ -12,6 +11,10 @@ export type ProjetLightbox = {
   lieu: string;
   type: string;
   description?: string;
+  duree?: string;
+  surface?: string;
+  etapes?: { jour: string; texte: string }[];
+  resultat?: string;
 };
 
 type Props = {
@@ -70,11 +73,11 @@ export function LightboxProjets({ projet, onClose }: Props) {
       role="dialog"
       aria-modal="true"
       aria-label={`Photo en grand : ${projet.titre}`}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 lg:p-10"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-5 lg:p-8"
     >
       <div aria-hidden onClick={onClose} className="absolute inset-0 bg-primary/90 backdrop-blur-sm animate-lb-fade" />
 
-      <div className="relative max-h-[94dvh] w-full max-w-[1440px] overflow-y-auto rounded-3xl border border-primary-foreground/20 bg-primary p-4 text-primary-foreground animate-lb-zoom sm:p-6 lg:p-7">
+      <div className="relative max-h-[94dvh] w-full max-w-[1440px] overflow-y-auto rounded-3xl border border-primary-foreground/20 bg-primary p-4 text-primary-foreground animate-lb-zoom sm:p-6 lg:p-8">
         <Button
           ref={closeRef}
           variant="ghost"
@@ -82,18 +85,19 @@ export function LightboxProjets({ projet, onClose }: Props) {
           type="button"
           onClick={onClose}
           aria-label="Fermer"
-          className="absolute right-3 top-3 z-20 rounded-full bg-primary/90 text-primary-foreground hover:bg-primary-foreground/10"
+          className="absolute right-3 top-3 z-20 rounded-full bg-primary/90 text-primary-foreground hover:bg-primary-foreground/10 sm:right-5 sm:top-5"
         >
           <X className="h-5 w-5" />
         </Button>
 
-        <div className="grid gap-7 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:gap-10">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-10">
+          {/* Colonne gauche : Galerie photos */}
           <div className="min-w-0">
             <figure className="relative overflow-hidden rounded-2xl bg-forest">
               <img
                 src={photos[index]}
                 alt={projet.titre}
-                className="aspect-[4/3] max-h-[66dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
+                className="aspect-[4/3] max-h-[62dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
               />
 
               {total > 1 && (
@@ -104,7 +108,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
                     type="button"
                     onClick={() => setIndex((index - 1 + total) % total)}
                     aria-label="Photo précédente"
-                    className="absolute left-3 top-1/2 z-10 h-11 w-11 -translate-y-1/2 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground hover:bg-primary"
+                    className="absolute left-3 top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground hover:bg-primary"
                   >
                     <ChevronLeft className="h-5 w-5" />
                   </Button>
@@ -115,7 +119,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
                     type="button"
                     onClick={() => setIndex((index + 1) % total)}
                     aria-label="Photo suivante"
-                    className="absolute right-3 top-1/2 z-10 h-11 w-11 -translate-y-1/2 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground hover:bg-primary"
+                    className="absolute right-3 top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground hover:bg-primary"
                   >
                     <ChevronRight className="h-5 w-5" />
                   </Button>
@@ -128,7 +132,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
             </figure>
 
             {total > 1 && (
-              <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3" aria-label="Photos du projet">
+              <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3" aria-label="Photos du projet">
                 {photos.map((photo, i) => (
                   <Button
                     key={`${photo}-${i}`}
@@ -147,44 +151,108 @@ export function LightboxProjets({ projet, onClose }: Props) {
             )}
           </div>
 
-          <div className="flex min-w-0 flex-col pb-2 lg:pt-6">
-            <div className="mb-4 flex items-center gap-4 text-sage">
-              <span className="text-xs font-medium uppercase">Projet</span>
-              <span className="h-px w-16 bg-sage/50" />
+          {/* Colonne droite : Détails du projet */}
+          <div className="flex min-w-0 flex-col pb-2">
+            {/* Logo et intitulé centré en haut */}
+            <div className="flex flex-col items-center text-center">
+              <img
+                src="/__l5e/assets-v1/5263f03d-9518-4839-a300-4394f06e318d/icone-herbes-carre-arrondi-detouree.png"
+                alt=""
+                className="h-12 w-12 object-contain brightness-0 invert opacity-90"
+              />
+              <p className="mt-2 text-xs font-semibold tracking-widest text-primary-foreground uppercase">
+                BLONDEL JARDIN
+              </p>
+              <div className="mt-3 flex w-full items-center justify-center gap-3 text-sage">
+                <span className="h-px w-12 bg-sage/40" />
+                <span className="text-[11px] font-medium tracking-widest uppercase">PROJET</span>
+                <span className="h-px w-12 bg-sage/40" />
+              </div>
             </div>
-            <h2 className="font-display text-3xl text-primary-foreground sm:text-4xl">{projet.titre}</h2>
-            <p className="mt-5 flex items-start gap-2 text-sm text-primary-foreground/80">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-              <span>
-                {projet.lieu} · {projet.type}
-              </span>
+
+            {/* Titre et localisation */}
+            <h2 className="mt-4 font-display text-2xl text-primary-foreground sm:text-3xl lg:text-4xl">
+              {projet.titre}
+            </h2>
+
+            <p className="mt-2 flex items-center gap-2 text-sm text-primary-foreground/80">
+              <MapPin className="h-4 w-4 shrink-0 text-gold" />
+              <span>{projet.lieu}</span>
             </p>
+
             {projet.description && (
-              <p className="mt-5 text-base leading-relaxed text-primary-foreground/80">{projet.description}</p>
+              <p className="mt-3 text-sm leading-relaxed text-primary-foreground/80 sm:text-base">
+                {projet.description}
+              </p>
             )}
-            <div className="my-7 flex items-start gap-4 border-y border-primary-foreground/15 py-6">
-              <Leaf className="h-6 w-6 shrink-0 text-sage" />
-              <div>
-                <p className="text-xs text-primary-foreground/65">Prestation</p>
-                <p className="mt-1 text-lg font-medium">{projet.type}</p>
+
+            {/* Bandeau 3 spécifications */}
+            <div className="mt-5 grid grid-cols-3 divide-x divide-primary-foreground/15 rounded-xl border border-primary-foreground/15 bg-primary-foreground/5 py-3 text-center sm:px-3 sm:text-left">
+              <div className="flex items-center gap-2.5 px-2">
+                <Leaf className="hidden h-5 w-5 shrink-0 text-moss sm:block" />
+                <div>
+                  <p className="text-[11px] text-primary-foreground/60 uppercase">Prestation</p>
+                  <p className="text-xs font-medium leading-tight sm:text-sm">{projet.type}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5 px-2">
+                <Calendar className="hidden h-5 w-5 shrink-0 text-moss sm:block" />
+                <div>
+                  <p className="text-[11px] text-primary-foreground/60 uppercase">Durée</p>
+                  <p className="text-xs font-medium leading-tight sm:text-sm">{projet.duree || "3 jours"}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5 px-2">
+                <Maximize2 className="hidden h-5 w-5 shrink-0 text-moss sm:block" />
+                <div>
+                  <p className="text-[11px] text-primary-foreground/60 uppercase">Surface</p>
+                  <p className="text-xs font-medium leading-tight sm:text-sm">{projet.surface || "85 m²"}</p>
+                </div>
               </div>
             </div>
-            <div className="mt-auto pt-4">
-              <div className="flex justify-center sm:justify-start">
-                <img
-                  src={logo.url}
-                  alt="Blondel Jardin"
-                  width={72}
-                  height={72}
-                  className="h-16 w-16 object-contain brightness-0 invert opacity-95 transition-transform duration-300 hover:scale-105 sm:h-18 sm:w-18"
-                />
+
+            {/* Déroulement du projet (frise) */}
+            {projet.etapes && projet.etapes.length > 0 && (
+              <div className="mt-5">
+                <h3 className="text-sm font-semibold text-primary-foreground">Déroulement du projet</h3>
+                <div className="mt-3 space-y-3">
+                  {projet.etapes.map((etape, i) => (
+                    <div key={i} className="relative flex items-start gap-3">
+                      {i < projet.etapes!.length - 1 && (
+                        <div className="absolute bottom-[-12px] left-[7px] top-4 w-0.5 bg-moss/50" />
+                      )}
+                      <span className="relative z-10 mt-1 h-3.5 w-3.5 shrink-0 rounded-full border-2 border-primary bg-moss" />
+                      <div className="flex flex-col gap-0.5 text-xs sm:flex-row sm:items-baseline sm:gap-3 sm:text-sm">
+                        <span className="font-semibold whitespace-nowrap text-moss">{etape.jour}</span>
+                        <span className="text-primary-foreground/80">{etape.texte}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
+            )}
+
+            {/* Encadré Résultat */}
+            {projet.resultat && (
+              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 p-4">
+                <Leaf className="mt-0.5 h-5 w-5 shrink-0 text-moss" />
+                <div>
+                  <p className="text-sm font-semibold text-primary-foreground">Résultat</p>
+                  <p className="mt-1 text-xs leading-relaxed text-primary-foreground/80 sm:text-sm">
+                    {projet.resultat}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Bouton Devis */}
+            <div className="mt-6 pt-2">
               <Button
                 asChild
-                className="mt-5 h-12 w-full rounded-full bg-background text-foreground hover:bg-secondary"
+                className="h-12 w-full rounded-full bg-background font-medium text-foreground hover:bg-secondary"
               >
                 <Link to="/contact" onClick={onClose}>
-                  Demander un devis <ArrowUpRight />
+                  Demander un devis <ArrowUpRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
