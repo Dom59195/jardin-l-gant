@@ -1,7 +1,12 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import type { ComponentProps } from "react";
 
 import { LightboxProjets, type ProjetLightbox } from "./lightbox-projets";
+
+vi.mock("@tanstack/react-router", () => ({
+  Link: ({ to, ...props }: ComponentProps<"a"> & { to: string }) => <a href={to} {...props} />,
+}));
 
 const projets: ProjetLightbox[] = [
   { img: "a.jpg", titre: "Aménagement de massifs", lieu: "Hérin", type: "Plantation & graminées" },
@@ -9,6 +14,12 @@ const projets: ProjetLightbox[] = [
 ];
 
 describe("LightboxProjets", () => {
+  it("sélectionne un projet depuis les vignettes", () => {
+    const onIndexChange = vi.fn();
+    render(<LightboxProjets projets={projets} index={0} onClose={() => {}} onIndexChange={onIndexChange} />);
+    fireEvent.click(screen.getByRole("button", { name: "Voir le projet : Taille de haies" }));
+    expect(onIndexChange).toHaveBeenCalledWith(1);
+  });
   it("ouvre la photo du projet demandé", () => {
     render(<LightboxProjets projets={projets} index={1} onClose={() => {}} onIndexChange={() => {}} />);
 
