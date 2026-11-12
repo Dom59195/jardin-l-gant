@@ -223,14 +223,12 @@ export function LightboxProjets({ projet, onClose }: Props) {
 
             {/* Encadré Résultat */}
             {projet.resultat && (
-              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 p-4">
-                <Leaf className="mt-0.5 h-5 w-5 shrink-0 text-moss" />
-                <div>
-                  <p className="text-sm font-semibold text-primary-foreground">Résultat</p>
-                  <p className="mt-1 text-xs leading-relaxed text-primary-foreground/80 sm:text-sm">
-                    {projet.resultat}
-                  </p>
-                </div>
+              <div className="flex items-center select-none pointer-events-none">
+                <img
+                  src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
+                  alt="Blondel Jardin"
+                  className="h-12 w-12 shrink-0 object-contain brightness-0 invert opacity-95"
+                />
               </div>
             )}
 
