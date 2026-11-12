@@ -73,7 +73,7 @@ function AdminPage() {
 
   async function chargerProjets() {
     setChargement(true);
-    const { data } = await supabase.from("projets").select("*").order("ordre", { ascending: true });
+    const { data } = await (supabase as any).from("projets").select("*").order("ordre", { ascending: true });
     if (data) setProjets(data as unknown as ProjetDB[]);
     setChargement(false);
   }
@@ -136,7 +136,7 @@ function AdminPage() {
       ordre: projets.length,
     };
 
-    const { error } = await supabase.from("projets").insert([nouveau]);
+    const { error } = await (supabase as any).from("projets").insert([nouveau]);
     if (!error) {
       setSuccessMsg("Projet publié avec succès sur le site !");
       setTimeout(() => setSuccessMsg(null), 4000);
@@ -156,7 +156,7 @@ function AdminPage() {
 
   async function handleSupprimerProjet(id: string) {
     if (!confirm("Voulez-vous vraiment supprimer ce projet ?")) return;
-    await supabase.from("projets").delete().eq("id", id);
+    await (supabase as any).from("projets").delete().eq("id", id);
     chargerProjets();
   }
 
@@ -328,11 +328,7 @@ function AdminPage() {
             </p>
           </div>
 
-          <Button
-            type="submit"
-            disabled={submitting || uploading}
-            className="rounded-full bg-primary px-8 text-white"
-          >
+          <Button type="submit" disabled={submitting || uploading} className="rounded-full bg-primary px-8 text-white">
             {submitting ? "Publication…" : "Publier ce projet sur le site"}
           </Button>
         </form>
@@ -371,7 +367,7 @@ function AdminPage() {
             ))}
           </div>
         )}
-      </div >
+      </div>
     </section>
   );
 }
