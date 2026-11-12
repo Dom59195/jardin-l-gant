@@ -77,7 +77,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
     >
       <div aria-hidden onClick={onClose} className="absolute inset-0 bg-primary/90 backdrop-blur-sm animate-lb-fade" />
 
-      <div className="relative max-h-[94dvh] w-full max-w-[1440px] overflow-y-auto rounded-3xl border border-primary-foreground/20 bg-primary p-4 text-primary-foreground animate-lb-zoom sm:p-6 lg:p-8">
+      <div className="relative max-h-[94dvh] w-full max-w-[1560px] overflow-y-auto rounded-3xl border border-primary-foreground/20 bg-primary p-4 text-primary-foreground animate-lb-zoom sm:p-6 lg:p-10">
         <Button
           ref={closeRef}
           variant="ghost"
@@ -90,7 +90,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
           <X className="h-5 w-5" />
         </Button>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-10">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12">
           {/* Colonne gauche : Galerie photos */}
           <div className="min-w-0">
             <figure className="relative overflow-hidden rounded-2xl bg-forest">
@@ -153,16 +153,13 @@ export function LightboxProjets({ projet, onClose }: Props) {
 
           {/* Colonne droite : Détails du projet */}
           <div className="flex min-w-0 flex-col pb-2">
-            {/* Logo et intitulé centré en haut */}
+            {/* Logo officiel carré et intitulé PROJET */}
             <div className="flex flex-col items-center text-center">
               <img
-                src="/__l5e/assets-v1/5263f03d-9518-4839-a300-4394f06e318d/icone-herbes-carre-arrondi-detouree.png"
-                alt=""
-                className="h-12 w-12 object-contain brightness-0 invert opacity-90"
+                src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
+                alt="Blondel Jardin"
+                className="h-24 w-24 object-contain brightness-0 invert opacity-95 transition-transform hover:scale-105 sm:h-28 sm:w-28"
               />
-              <p className="mt-2 text-xs font-semibold tracking-widest text-primary-foreground uppercase">
-                BLONDEL JARDIN
-              </p>
               <div className="mt-3 flex w-full items-center justify-center gap-3 text-sage">
                 <span className="h-px w-12 bg-sage/40" />
                 <span className="text-[11px] font-medium tracking-widest uppercase">PROJET</span>
