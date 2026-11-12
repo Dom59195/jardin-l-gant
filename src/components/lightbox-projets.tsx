@@ -158,8 +158,9 @@ export function LightboxProjets({ projet, onClose }: Props) {
               <img
                 src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
                 alt="Blondel Jardin"
-                className="h-24 w-24 object-contain brightness-0 invert opacity-95 transition-transform hover:scale-105 sm:h-28 sm:w-28"
+                className="h-24 w-24 object-contain brightness-0 invert opacity-95 pointer-events-none select-none sm:h-28 sm:w-28"
               />
+
               <div className="mt-3 flex w-full items-center justify-center gap-3 text-sage">
                 <span className="h-px w-12 bg-sage/40" />
                 <span className="text-[11px] font-medium tracking-widest uppercase">PROJET</span>
@@ -246,7 +247,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
             <div className="mt-6 pt-2">
               <Button
                 asChild
-                className="h-12 w-full rounded-full bg-background font-medium text-foreground hover:bg-secondary"
+                className="h-12 w-full rounded-full bg-background font-medium text-foreground transition-colors duration-300 ease-out hover:bg-moss hover:text-white"
               >
                 <Link to="/contact" onClick={onClose}>
                   Demander un devis <ArrowUpRight className="ml-2 h-4 w-4" />
