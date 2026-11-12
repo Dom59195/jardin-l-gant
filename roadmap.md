@@ -12,3 +12,4 @@
 - [x] Afficher la mention RC pro après confirmation de la couverture par le client.
 - [x] Reprendre la disposition centrée du bas de page fourni uniquement sur téléphone et vérifier les autres formats.
 - [x] Rendre les projets cliquables avec la photo en grand, au clavier et au doigt, et vérifier téléphone et ordinateur.
+- [ ] Limiter chaque galerie aux photos du projet sélectionné et ajouter des images de brouillon remplaçables.
