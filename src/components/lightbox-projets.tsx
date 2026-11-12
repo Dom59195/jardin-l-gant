@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Leaf, MapPin, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo-blondel-jardin-detoure.png.asset.json";
 
 export type ProjetLightbox = {
   img: string;
@@ -169,7 +170,15 @@ export function LightboxProjets({ projet, onClose }: Props) {
               </div>
             </div>
             <div className="mt-auto pt-4">
-              <p className="font-display text-xl">Blondel Jardin</p>
+              <div className="flex justify-center sm:justify-start">
+                <img
+                  src={logo.url}
+                  alt="Blondel Jardin"
+                  width={72}
+                  height={72}
+                  className="h-16 w-16 object-contain brightness-0 invert opacity-95 transition-transform duration-300 hover:scale-105 sm:h-18 sm:w-18"
+                />
+              </div>
               <Button
                 asChild
                 className="mt-5 h-12 w-full rounded-full bg-background text-foreground hover:bg-secondary"
