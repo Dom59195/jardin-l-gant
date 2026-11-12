@@ -46,9 +46,9 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
         onIndexChange((index - 1 + total) % total);
       } else if (e.key === "Tab") {
         const boutons = dialogRef.current?.querySelectorAll<HTMLElement>("button");
-        if (!boutons?.length) return;
-        const premier = boutons[0];
-        const dernier = boutons[boutons.length - 1];
+        const premier = boutons?.[0];
+        const dernier = boutons?.[boutons.length - 1];
+        if (!premier || !dernier) return;
         if (e.shiftKey && document.activeElement === premier) {
           e.preventDefault();
           dernier.focus();
@@ -79,7 +79,7 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
         type="button"
         onClick={onClose}
         aria-label="Fermer"
-        className="absolute right-4 top-4 rounded-full border border-primary-foreground/25 p-2.5 text-primary-foreground transition-colors hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:right-6 sm:top-6"
+        className="absolute right-4 top-4 z-10 rounded-full border border-primary-foreground/25 p-2.5 text-primary-foreground transition-colors hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:right-6 sm:top-6"
       >
         <X className="h-5 w-5" />
       </button>
@@ -89,7 +89,7 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
           type="button"
           onClick={() => onIndexChange((index - 1 + total) % total)}
           aria-label="Projet précédent"
-          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-primary-foreground/25 p-2 text-primary-foreground transition-colors hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:left-6"
+          className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-primary-foreground/25 p-2 text-primary-foreground transition-colors hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:left-6"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
@@ -100,7 +100,7 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
           type="button"
           onClick={() => onIndexChange((index + 1) % total)}
           aria-label="Projet suivant"
-          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-primary-foreground/25 p-2 text-primary-foreground transition-colors hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:right-6"
+          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-primary-foreground/25 p-2 text-primary-foreground transition-colors hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:right-6"
         >
           <ChevronRight className="h-5 w-5" />
         </button>
