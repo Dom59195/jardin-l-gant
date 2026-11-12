@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Leaf, MapPin, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
@@ -6,27 +6,28 @@ import { Button } from "@/components/ui/button";
 
 export type ProjetLightbox = {
   img: string;
+  photos: string[];
+  description?: string;
   titre: string;
   lieu: string;
   type: string;
 };
 
 type Props = {
-  projets: ProjetLightbox[];
-  index: number;
+  projet: ProjetLightbox;
   onClose: () => void;
-  onIndexChange: (next: number) => void;
 };
 
 /**
  * Fenêtre affichant la photo d'un projet en grand. Elle se ferme avec la croix,
  * Échap ou un clic hors de la photo, et se parcourt avec les flèches.
  */
-export function LightboxProjets({ projets, index, onClose, onIndexChange }: Props) {
+export function LightboxProjets({ projet, onClose }: Props) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const total = projets.length;
-  const projet = projets[index];
+  const [index, setIndex] = useState(0);
+  const photos = projet.photos.length ? projet.photos : [projet.img];
+  const total = photos.length;
 
   // La page ne doit plus défiler pendant que la fenêtre est ouverte.
   useEffect(() => {
@@ -43,9 +44,9 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
       if (e.key === "Escape") {
         onClose();
       } else if (e.key === "ArrowRight") {
-        onIndexChange((index + 1) % total);
+        setIndex((index + 1) % total);
       } else if (e.key === "ArrowLeft") {
-        onIndexChange((index - 1 + total) % total);
+        setIndex((index - 1 + total) % total);
       } else if (e.key === "Tab") {
         const boutons = dialogRef.current?.querySelectorAll<HTMLElement>("button, a[href]");
         const premier = boutons?.[0];
@@ -62,7 +63,7 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [index, total, onClose, onIndexChange]);
+  }, [index, total, onClose]);
 
   if (!projet) return null;
 
@@ -93,7 +94,7 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
         <div className="min-w-0">
           <figure className="relative overflow-hidden rounded-2xl bg-forest">
             <img
-              src={projet.img}
+              src={photos[index]}
               alt={projet.titre}
               className="aspect-[4/3] max-h-[66dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
             />
@@ -102,8 +103,8 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
           variant="ghost"
           size="icon"
           type="button"
-          onClick={() => onIndexChange((index - 1 + total) % total)}
-          aria-label="Projet précédent"
+          onClick={() => setIndex((index - 1 + total) % total)}
+          aria-label="Photo précédente"
           className="absolute left-3 top-1/2 z-10 h-11 w-11 -translate-y-1/2 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground hover:bg-primary"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -115,8 +116,8 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
           variant="ghost"
           size="icon"
           type="button"
-          onClick={() => onIndexChange((index + 1) % total)}
-          aria-label="Projet suivant"
+          onClick={() => setIndex((index + 1) % total)}
+          aria-label="Photo suivante"
           className="absolute right-3 top-1/2 z-10 h-11 w-11 -translate-y-1/2 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground hover:bg-primary"
         >
           <ChevronRight className="h-5 w-5" />
@@ -127,17 +128,17 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
             {index + 1} / {total}
           </figcaption>
           </figure>
-          <div className="mt-4 grid grid-cols-4 gap-2 sm:gap-3" aria-label="Projets">
-            {projets.map((item, i) => (
+          <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3" aria-label="Photos du projet">
+            {photos.map((photo, i) => (
               <Button
-                key={item.titre}
+                key={`${photo}-${i}`}
                 variant="ghost"
-                onClick={() => onIndexChange(i)}
-                aria-label={`Voir le projet : ${item.titre}`}
+                onClick={() => setIndex(i)}
+                aria-label={`Voir la photo ${i + 1} de ${projet.titre}`}
                 aria-pressed={i === index}
                 className={`h-auto min-w-0 overflow-hidden rounded-xl border-2 p-0 hover:bg-transparent ${i === index ? "border-gold" : "border-transparent opacity-65 hover:opacity-100"}`}
               >
-                <img src={item.img} alt="" className="aspect-[4/3] w-full object-cover" />
+                <img src={photo} alt="" className="aspect-[4/3] w-full object-cover" />
               </Button>
             ))}
           </div>
@@ -152,6 +153,7 @@ export function LightboxProjets({ projets, index, onClose, onIndexChange }: Prop
             <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
             <span>{projet.lieu} · {projet.type}</span>
           </p>
+          {projet.description && <p className="mt-5 text-base leading-relaxed text-primary-foreground/80">{projet.description}</p>}
           <div className="my-7 flex items-start gap-4 border-y border-primary-foreground/15 py-6">
             <Leaf className="h-6 w-6 shrink-0 text-sage" />
             <div>
