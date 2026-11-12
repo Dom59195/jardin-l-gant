@@ -31,9 +31,10 @@ function Projets() {
   const declencheur = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    supabase
+    (supabase as any)
       .from("projets")
       .select("*")
+
       .order("ordre", { ascending: true })
       .then(({ data }) => {
         if (data && data.length > 0) {
@@ -91,7 +92,7 @@ function Projets() {
         ))}
       </div>
 
-      {ouvert !== null && (
+      {ouvert !== null && listeProjets[ouvert] && (
         <LightboxProjets key={ouvert} projet={listeProjets[ouvert]} onClose={() => setOuvert(null)} />
       )}
     </section>
