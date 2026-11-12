@@ -99,6 +99,14 @@ export function LightboxProjets({ projet, onClose }: Props) {
                 alt={projet.titre}
                 className="aspect-[4/3] max-h-[62dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
               />
+              {/* Logo carré complet incrusté en haut à gauche de la photo */}
+              <div className="absolute left-4 top-4 z-10 select-none pointer-events-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)] sm:left-6 sm:top-6">
+                <img
+                  src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
+                  alt="Blondel Jardin"
+                  className="h-16 w-16 object-contain brightness-0 invert opacity-95 sm:h-20 sm:w-20"
+                />
+              </div>
 
               {total > 1 && (
                 <>
@@ -234,25 +242,11 @@ export function LightboxProjets({ projet, onClose }: Props) {
               </div>
             )}
 
-            {/* Bas de fiche : Logo collé au Bouton Devis avec la barre comme sur votre photo */}
-            <div className="mt-8 flex flex-col items-center justify-end gap-5 border-t border-primary-foreground/10 pt-5 sm:flex-row">
-              <div className="flex items-center gap-3 select-none pointer-events-none">
-                <img
-                  src="/__l5e/assets-v1/5263f03d-9518-4839-a300-4394f06e318d/icone-herbes-carre-arrondi-detouree.png"
-                  alt="Blondel Jardin"
-                  className="h-10 w-10 shrink-0 rounded-full border border-primary-foreground/40 p-1.5 object-contain brightness-0 invert opacity-95"
-                />
-                <div className="text-left font-serif uppercase leading-tight tracking-widest text-primary-foreground">
-                  <div className="text-[11px] font-semibold tracking-[0.2em]">BLONDEL</div>
-                  <div className="text-[11px] font-semibold tracking-[0.2em] text-primary-foreground/90">JARDIN</div>
-                </div>
-              </div>
-
-              <div className="hidden h-8 w-px bg-primary-foreground/20 sm:block" />
-
+            {/* Bas de fiche : Bouton Devis seul */}
+            <div className="mt-8 border-t border-primary-foreground/10 pt-5">
               <Button
                 asChild
-                className="h-12 w-full rounded-full bg-background px-7 font-medium text-foreground transition-colors duration-300 ease-out hover:bg-moss hover:text-white sm:w-auto"
+                className="h-12 w-full rounded-full bg-background px-8 font-medium text-foreground transition-colors duration-300 ease-out hover:bg-moss hover:text-white"
               >
                 <Link to="/contact" onClick={onClose}>
                   Demander un devis <ArrowUpRight className="ml-2 h-4 w-4" />
