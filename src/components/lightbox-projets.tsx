@@ -99,12 +99,12 @@ export function LightboxProjets({ projet, onClose }: Props) {
                 alt={projet.titre}
                 className="aspect-[4/3] max-h-[62dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
               />
-              {/* Logo carré incrusté avec nacrage vert foncé en arrière-plan */}
-              <div className="absolute left-4 top-4 z-10 select-none pointer-events-none flex items-center justify-center rounded-2xl bg-forest/80 p-2.5 backdrop-blur-md border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.4)] sm:left-6 sm:top-6 sm:p-3">
+              {/* Logo carré avec fondu vert foncé doux (halo sans contours) */}
+              <div className="absolute left-2 top-2 z-10 select-none pointer-events-none flex items-center justify-center rounded-full p-4 [background:radial-gradient(circle,rgba(11,29,20,0.85)_0%,rgba(11,29,20,0.5)_45%,transparent_75%)] sm:left-4 sm:top-4 sm:p-6">
                 <img
                   src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
                   alt="Blondel Jardin"
-                  className="h-14 w-14 object-contain brightness-0 invert opacity-95 sm:h-18 sm:w-18"
+                  className="h-14 w-14 object-contain brightness-0 invert opacity-95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:h-18 sm:w-18"
                 />
               </div>
 
