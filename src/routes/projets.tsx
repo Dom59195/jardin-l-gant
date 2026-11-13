@@ -36,8 +36,8 @@ function Projets() {
       .select("*")
 
       .order("ordre", { ascending: true })
-      .then(({ data }) => {
-        if (data && data.length > 0) {
+      .then(({ data }: { data: unknown }) => {
+        if (Array.isArray(data) && data.length > 0) {
           setListeProjets(data as unknown as Projet[]);
         }
       });
