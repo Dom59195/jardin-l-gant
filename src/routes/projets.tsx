@@ -51,7 +51,9 @@ function Projets() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
       <p className="eyebrow text-moss">Portfolio</p>
-      <h1 className="mt-3 font-display text-5xl text-primary md:text-6xl">Nos projets</h1>
+      <h1 className="mt-3 font-display text-5xl text-primary md:text-6xl">
+        Nos <em className="text-moss">projets</em>
+      </h1>
       <p className="mt-4 max-w-xl text-muted-foreground">
         Un aperçu des prestations réalisées. Cliquez sur un projet pour voir la photo en grand.
       </p>
