@@ -299,9 +299,12 @@ function Index() {
               service à la personne
             </p>
           </div>
-          <div className="absolute top-6 right-6 rounded-full bg-moss px-4 py-2 text-xs font-semibold text-primary-foreground">
+          <Link
+            to="/contact"
+            className="absolute top-6 right-6 rounded-full bg-moss px-4 py-2 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary"
+          >
             Devis gratuit
-          </div>
+          </Link>
         </div>
       </section>
 
