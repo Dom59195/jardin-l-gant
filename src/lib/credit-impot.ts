@@ -6,5 +6,5 @@ export function exempleCreditImmediate(facture: number) {
     throw new RangeError("La facture doit être un montant positif ou nul.");
   }
   const credit = Math.round(facture * TAUX_CREDIT_IMPOT * 100) / 100;
-  return { facture, credit, aPayer: facture - credit };
+  return { facture, credit, aPayer: Math.round((facture - credit) * 100) / 100 };
 }
