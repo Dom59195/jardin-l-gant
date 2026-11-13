@@ -8,7 +8,15 @@ import { Trash2, Plus, Upload, LogOut, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
-    meta: [{ title: "Administration — Blondel Jardin" }, { name: "robots", content: "noindex, nofollow" }],
+    meta: [
+      { title: "Administration — Blondel Jardin" },
+      { name: "description", content: "Espace de gestion des réalisations de Blondel Jardin." },
+      { property: "og:title", content: "Administration — Blondel Jardin" },
+      { property: "og:description", content: "Espace de gestion des réalisations de Blondel Jardin." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
   }),
   component: AdminPage,
 });
