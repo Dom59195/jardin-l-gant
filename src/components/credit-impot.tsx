@@ -1,13 +1,21 @@
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowUpRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { exempleCreditImmediate } from "@/lib/credit-impot";
 import { LogosServicesPersonne } from "@/components/logos-services-personne";
 
-const exemple = exempleCreditImmediate(100);
-const euros = (montant: number) => `${montant} €`;
+const euros = (montant: number) => new Intl.NumberFormat("fr-FR", {
+  style: "currency", currency: "EUR", maximumFractionDigits: 2,
+  minimumFractionDigits: Number.isInteger(montant) ? 0 : 2,
+}).format(montant);
 
 export function CreditImpot() {
+  const [montant, setMontant] = useState("100");
+  const valeur = Number(montant);
+  const valide = montant.trim() !== "" && Number.isFinite(valeur) && valeur >= 0;
+  const exemple = valide ? exempleCreditImmediate(valeur) : null;
   return (
     <section aria-labelledby="credit-impot-titre" className="credit-section text-primary">
       <div className="mx-auto grid max-w-[1400px] gap-8 px-5 py-10 sm:gap-10 sm:px-6 sm:py-12 md:grid-cols-[1.2fr_1fr] md:items-start md:gap-12 md:py-14 lg:gap-20 lg:py-16">
@@ -60,15 +68,29 @@ export function CreditImpot() {
               <span className="shrink-0 text-[11px] text-primary whitespace-nowrap lg:text-sm">Taille arbuste</span>
             </figcaption>
 
-            <div className="mt-4 space-y-2" aria-hidden="true">
-              <span className="block h-2.5 w-full rounded-full bg-primary/10" />
-              <span className="block h-2.5 w-4/5 rounded-full bg-primary/7" />
-              <span className="block h-2.5 w-2/3 rounded-full bg-primary/5" />
+            <div className="mt-5">
+              <label htmlFor="montant-facture" className="text-sm font-medium text-primary">Montant de votre facture</label>
+              <div className="relative mt-2">
+                <Input
+                  id="montant-facture"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.01"
+                  value={montant}
+                  onChange={(event) => setMontant(event.target.value)}
+                  aria-invalid={!valide && montant !== ""}
+                  aria-describedby={!valide && montant !== "" ? "montant-erreur" : undefined}
+                  className="h-12 rounded-xl border-primary/20 bg-background/60 pr-10 font-display text-xl text-primary shadow-none md:text-xl"
+                />
+                <span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-primary">€</span>
+              </div>
+              {!valide && montant !== "" && <p id="montant-erreur" className="mt-2 text-xs text-destructive">Indiquez un montant positif ou nul.</p>}
             </div>
 
-            <div className="mt-4 grid grid-cols-2 overflow-hidden rounded-2xl border border-primary/10 sm:mt-5 sm:rounded-3xl">
+            <div aria-live="polite" aria-atomic="true" className="mt-4 grid grid-cols-2 overflow-hidden rounded-2xl border border-primary/10 sm:mt-5 sm:rounded-3xl">
               <div className="credit-payment px-3 py-3 text-primary-foreground sm:px-4 sm:py-4 lg:px-5">
-                <p className="font-display text-2xl font-semibold leading-none sm:text-3xl">{euros(exemple.aPayer)}</p>
+                <p className="min-h-8 break-words font-display text-2xl font-semibold leading-tight sm:text-3xl">{exemple ? euros(exemple.aPayer) : "— €"}</p>
                 <p className="mt-1.5 text-xs leading-snug sm:mt-2 sm:text-sm">
                   à votre charge
                   <br />
@@ -76,7 +98,7 @@ export function CreditImpot() {
                 </p>
               </div>
               <div className="bg-secondary/50 px-3 py-3 text-primary sm:px-4 sm:py-4 lg:px-5">
-                <p className="font-display text-2xl font-semibold leading-none sm:text-3xl">{euros(exemple.credit)}</p>
+                <p className="min-h-8 break-words font-display text-2xl font-semibold leading-tight sm:text-3xl">{exemple ? euros(exemple.credit) : "— €"}</p>
                 <p className="mt-1.5 text-xs leading-snug sm:mt-2 sm:text-sm">
                   pris en charge
                   <br />
@@ -86,7 +108,8 @@ export function CreditImpot() {
             </div>
 
             <div className="mt-3 border-t border-primary/10 pt-3 sm:mt-4 sm:pt-4">
-              <span className="text-sm text-primary sm:text-base">{euros(exemple.facture)} facturés</span>
+              <span className="text-sm text-primary sm:text-base">{exemple ? `${euros(exemple.facture)} facturés` : "— € facturés"}</span>
+              <p className="mt-1 text-xs text-muted-foreground">Simulation indicative, sous conditions d’éligibilité.</p>
             </div>
           </figure>
         </div>
