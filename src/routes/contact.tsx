@@ -1,293 +1,400 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState, type FormEvent } from "react";
-import { z } from "zod";
-import { Phone, MapPin, Clock, ArrowUpRight, Sparkles, MessageSquare } from "lucide-react";
-
-import { suggererPrestation, type Suggestion } from "@/lib/prestation.functions";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+import { useState, type FormEvent, type ChangeEvent } from "react";
+import {
+  Phone,
+  MapPin,
+  Zap,
+  FileText,
+  Leaf,
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  ImagePlus,
+  X,
+  CheckCircle2,
+} from "lucide-react";
 import { envoyerDevis } from "@/lib/devis.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact & devis — Blondel Jardin" },
+      { title: "Demandez votre devis gratuit — Blondel Jardin" },
       {
         name: "description",
-        content: "Contactez votre jardinier paysagiste pour un devis gratuit et sans engagement.",
+        content: "Demandez votre devis d'entretien ou d'aménagement de jardin en 3 étapes simples.",
       },
-      { property: "og:title", content: "Contact & devis — Blondel Jardin" },
-      { property: "og:description", content: "Demandez votre devis gratuit pour votre jardin." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Contact,
+  component: ContactDevisTunnel,
 });
 
-const schema = z.object({
-  nom: z.string().trim().min(1, "Indiquez votre nom").max(100),
-  email: z.string().trim().email("Email invalide").max(255),
-  telephone: z.string().trim().max(30),
-  message: z.string().trim().min(1, "Écrivez un message").max(1000),
-});
+const PRESTATIONS = [
+  { id: "Tonte", label: "Tonte", icon: "🌱" },
+  { id: "Taille de haies", label: "Taille de haies", icon: "🌳" },
+  { id: "Entretien annuel", label: "Entretien annuel", icon: "🍃" },
+  { id: "Aménagement", label: "Aménagement", icon: "⛏️" },
+  { id: "Plantation", label: "Plantation", icon: "🌿" },
+  { id: "Autre", label: "Autre", icon: "💬" },
+];
 
-const field =
-  "peer w-full border-0 border-b border-input bg-transparent px-0 pb-3 pt-6 text-lg text-foreground outline-none transition placeholder:text-transparent focus:border-primary";
-const floating =
-  "pointer-events-none absolute left-0 top-6 text-muted-foreground transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-[0.2em] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.2em]";
+function ContactDevisTunnel() {
+  const [etape, setEtape] = useState<1 | 2 | 3>(1);
+  const [prestations, setPrestations] = useState<string[]>(["Tonte"]);
+  const [photos, setPhotos] = useState<{ nom: string; url: string }[]>([]);
 
-function Contact() {
-  const [sent, setSent] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  // Étape 2 : Coordonnées
+  const [nom, setNom] = useState("");
+  const [telephone, setTelephone] = useState("");
+  const [email, setEmail] = useState("");
+  const [ville, setVille] = useState("");
   const [message, setMessage] = useState("");
-  const [prestations, setPrestations] = useState<string[]>([]);
-  const [sugg, setSugg] = useState<Suggestion | null>(null);
-  const [confirme, setConfirme] = useState<string | null>(null);
-  const [chargement, setChargement] = useState(false);
-  const suggererFn = useServerFn(suggererPrestation);
-  const envoyerFn = useServerFn(envoyerDevis);
-  const [envoi, setEnvoi] = useState(false);
-  const [erreurEnvoi, setErreurEnvoi] = useState("");
-  const [demandeId, setDemandeId] = useState<string | null>(null);
+  const [erreurTel, setErreurTel] = useState("");
 
-  async function suggerer() {
-    setChargement(true);
-    setConfirme(null);
-    try {
-      setSugg(await suggererFn({ data: { description: message } }));
-    } catch {
-      setSugg({ erreur: "Impossible de proposer une prestation pour le moment." });
-    } finally {
-      setChargement(false);
-    }
+  const [envoi, setEnvoi] = useState(false);
+  const [erreurServeur, setErreurServeur] = useState("");
+  const envoyerFn = useServerFn(envoyerDevis);
+
+  function togglePrestation(id: string) {
+    setPrestations((prev) => (prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]));
   }
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (envoi) return;
-    const form = new FormData(e.currentTarget);
-    const r = schema.safeParse(Object.fromEntries(new FormData(e.currentTarget)));
-    if (!r.success) {
-      const errs: Record<string, string> = {};
-      r.error.issues.forEach((i) => (errs[String(i.path[0])] = i.message));
-      setErrors(errs);
+  function handlePhotoUpload(e: ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files) return;
+    const array = Array.from(files).slice(0, 3 - photos.length);
+    const nouvelles = array.map((f) => ({
+      nom: f.name,
+      url: URL.createObjectURL(f),
+    }));
+    setPhotos((prev) => [...prev, ...nouvelles]);
+  }
+
+  function removePhoto(index: number) {
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function passerEtape2() {
+    if (prestations.length === 0) {
+      alert("Veuillez sélectionner au moins une prestation.");
       return;
     }
-    setErrors({});
-    setErreurEnvoi("");
+    setEtape(2);
+    window.scrollTo({ top: 350, behavior: "smooth" });
+  }
+
+  async function validerDevis(e: FormEvent) {
+    e.preventDefault();
+    if (!telephone.trim() || telephone.trim().length < 10) {
+      setErreurTel("Veuillez indiquer un numéro de téléphone valide.");
+      return;
+    }
+    setErreurTel("");
+    setErreurServeur("");
     setEnvoi(true);
-    const id = demandeId ?? crypto.randomUUID();
-    setDemandeId(id);
+
+    const messageComplet = [
+      ville ? `Commune / secteur : ${ville}` : "",
+      message ? `Détails : ${message}` : "",
+      photos.length > 0 ? `(${photos.length} photo(s) préparée(s) par le client)` : "",
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+
     try {
-      await envoyerFn({ data: { ...r.data, id, prestations, prestationConfirmee: confirme ?? "", website: String(form.get("website") ?? "") } });
-      setSent(true);
-    } catch (error) {
-      setErreurEnvoi(error instanceof Error ? error.message : "Impossible d’enregistrer votre demande.");
-    } finally { setEnvoi(false); }
+      await envoyerFn({
+        data: {
+          id: crypto.randomUUID(),
+          nom: nom.trim() || "Client",
+          email: email.trim() || "non-renseigne@client.fr",
+          telephone: telephone.trim(),
+          message: messageComplet || "Demande de devis via formulaire",
+          prestations,
+          prestationConfirmee: "",
+          website: "",
+        },
+      });
+      setEtape(3);
+      window.scrollTo({ top: 200, behavior: "smooth" });
+    } catch (err) {
+      setErreurServeur(err instanceof Error ? err.message : "Erreur lors de l'envoi.");
+    } finally {
+      setEnvoi(false);
+    }
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-16">
-      <div className="grid overflow-hidden rounded-[2.5rem] border border-border bg-background lg:grid-cols-[0.9fr_1.1fr]">
-        {/* Panneau gauche */}
-        <div className="relative flex flex-col justify-between gap-12 overflow-hidden bg-primary p-8 text-primary-foreground md:p-14">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/5 blur-3xl"
-          />
-          <div className="relative">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 px-4 py-1.5 text-xs font-medium">
-              <span className="h-2 w-2 rounded-full bg-primary-foreground" /> Devis gratuit · sans engagement
-            </span>
-            <h1 className="mt-8 font-display text-4xl md:text-5xl lg:text-6xl">
-              Parlons de votre <em className="text-primary-foreground">jardin</em>.
-            </h1>
-            <p className="mt-6 max-w-sm text-primary-foreground/70">
-              Racontez-nous votre projet, Blondel Jardin vous recontacte rapidement.
-            </p>
-          </div>
-
-          <div className="relative space-y-3">
-            <a
-              href="tel:+33783551969"
-              className="group flex items-center justify-between rounded-2xl bg-primary-foreground px-6 py-5 text-primary transition hover:opacity-90"
-            >
-              <span className="flex items-center gap-4">
-                <Phone className="h-5 w-5" />
-                <span className="whitespace-nowrap font-display text-xl sm:text-2xl">07 83 55 19 69</span>
-              </span>
-              <ArrowUpRight className="h-5 w-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-            <a
-              href="sms:+33783551969?body=Bonjour%20Blondel%20Jardin%2C%20voici%20des%20photos%20de%20mon%20jardin%20pour%20un%20devis%20%3A"
-              className="group flex items-center justify-between rounded-2xl border border-primary-foreground/20 bg-moss/20 px-6 py-4 text-primary-foreground transition hover:bg-moss/30"
-            >
-              <span className="flex items-center gap-3">
-                <MessageSquare className="h-5 w-5 text-moss" />
-                <span className="text-sm font-semibold">Envoyer mes photos par SMS</span>
-              </span>
-              <ArrowUpRight className="h-4 w-4 text-primary-foreground/70 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="flex items-start gap-3 rounded-2xl border border-primary-foreground/15 p-4 text-sm">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary-foreground/70" />
-                <span>
-                  Lun – Ven
-                  <br />
-                  <span className="text-primary-foreground/60">8h30–12h · 13h–16h30</span>
-                </span>
-              </div>
-              <div className="flex items-start gap-3 rounded-2xl border border-primary-foreground/15 p-4 text-sm">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary-foreground/70" />
-                <span>
-                  Hérin (59)
-                  <br />
-                  <span className="text-primary-foreground/60">+50 km autour de Valenciennes</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Formulaire */}
-        <div className="p-8 md:p-14">
-          {sent ? (
-            <div className="flex h-full flex-col items-center justify-center py-20 text-center">
-              <p className="font-display text-6xl italic text-primary">Merci&nbsp;!</p>
-              <p className="mt-4 text-muted-foreground">
-                Votre demande a bien été reçue. Blondel Jardin revient vers vous très vite.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={onSubmit} className="flex h-full flex-col gap-8" noValidate>
-              <div className="hidden" aria-hidden="true"><input name="website" tabIndex={-1} autoComplete="off" /></div>
-              <div>
-                <p className="eyebrow text-primary">Votre demande</p>
-                <h2 className="mt-2 font-display text-4xl text-primary">Quelques mots suffisent.</h2>
-              </div>
-              <div className="grid gap-x-8 gap-y-6 md:grid-cols-2">
-                {(
-                  [
-                    ["nom", "Nom", "text", "md:col-span-2"],
-                    ["email", "Email", "email", ""],
-                    ["telephone", "Téléphone (facultatif)", "tel", ""],
-                  ] as const
-                ).map(([n, l, t, c]) => (
-                  <div key={n} className={`relative ${c}`}>
-                    <input id={n} name={n} type={t} placeholder={l} className={field} />
-                    <label htmlFor={n} className={floating}>
-                      {l}
-                    </label>
-                    {errors[n] && <p className="mt-1 text-sm text-destructive">{errors[n]}</p>}
-                  </div>
-                ))}
-              </div>
-              <fieldset>
-                <legend className="mb-4 text-sm font-medium text-primary">
-                  Votre besoin <span className="font-normal text-muted-foreground">(facultatif)</span>
-                </legend>
-                <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
-                  {["Tonte", "Taille de haies", "Désherbage", "Entretien annuel"].map((prestation, index) => (
-                    <label
-                      key={prestation}
-                      htmlFor={`besoin-${index}`}
-                      className="flex cursor-pointer items-center gap-3 text-sm text-foreground"
-                    >
-                      <Checkbox
-                        id={`besoin-${index}`}
-                        checked={prestations.includes(prestation)}
-                        onCheckedChange={(checked) =>
-                          setPrestations((current) =>
-                            checked === true ? [...current, prestation] : current.filter((item) => item !== prestation),
-                          )
-                        }
-                      />
-                      {prestation}
-                    </label>
-                  ))}
-                </div>
-                <input type="hidden" name="prestations" value={prestations.join(", ")} />
-              </fieldset>
-              <div className="relative">
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={3}
-                  placeholder="Votre projet"
-                  className={`${field} resize-none`}
-                  value={message}
-                  onChange={(e) => {
-                    setMessage(e.target.value);
-                    setSugg(null);
-                    setConfirme(null);
-                  }}
-                />
-                <label htmlFor="message" className={floating}>
-                  Votre projet (surface, état, envies…)
-                </label>
-                {errors["message"] && <p className="mt-1 text-sm text-destructive">{errors["message"]}</p>}
-              </div>
-
-              <div>
-                <button
-                  type="button"
-                  onClick={suggerer}
-                  disabled={chargement || message.trim().length < 10}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-primary transition hover:text-primary disabled:opacity-40"
-                >
-                  <Sparkles className="h-4 w-4" />
-                  {chargement ? "Analyse…" : "Suggérer la prestation adaptée"}
-                </button>
-                {sugg && "erreur" in sugg && <p className="mt-2 text-sm text-destructive">{sugg.erreur}</p>}
-                {sugg && "prestation" in sugg && (
-                  <div className="mt-3 flex flex-wrap items-center gap-3 rounded-2xl bg-background px-5 py-4">
-                    <div className="mr-auto">
-                      <p className="font-display text-2xl text-primary">{sugg.prestation}</p>
-                      <p className="text-sm text-muted-foreground">{sugg.raison}</p>
-                    </div>
-                    {confirme ? (
-                      <span className="text-sm font-medium text-primary">✓ Confirmée</span>
-                    ) : (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => setConfirme(sugg.prestation)}
-                          className="rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90"
-                        >
-                          Confirmer
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setSugg(null)}
-                          className="text-sm text-muted-foreground hover:text-primary"
-                        >
-                          Ignorer
-                        </button>
-                      </>
-                    )}
-                  </div>
-                )}
-                <input type="hidden" name="prestation" value={confirme ?? ""} />
-              </div>
-
-              {erreurEnvoi && <p role="alert" className="text-sm text-destructive">{erreurEnvoi}</p>}
-              <Button
-                type="submit"
-                disabled={envoi}
-                className="group mt-auto inline-flex items-center justify-between rounded-full bg-primary py-2 pl-8 pr-2 font-medium text-primary-foreground transition hover:opacity-95"
-              >
-                {envoi ? "Enregistrement…" : "Envoyer ma demande"}
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground transition group-hover:rotate-45">
-                  <ArrowUpRight className="h-5 w-5" />
-                </span>
-              </Button>
-            </form>
-          )}
+    <div className="min-h-screen bg-[#F7F5F0] pb-16 text-foreground">
+      {/* 1. HERO PHOTO */}
+      <div className="relative overflow-hidden bg-primary px-4 py-16 text-center text-primary-foreground sm:py-20 md:py-24">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1600&q=80')",
+          }}
+        />
+        <div className="relative mx-auto max-w-3xl">
+          <h1 className="font-display text-3xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+            Demandez votre devis
+          </h1>
+          <p className="mt-4 text-base text-primary-foreground/90 sm:text-lg">
+            Un projet d'entretien ou d'aménagement ? Décrivez-nous votre besoin, nous vous répondons rapidement.
+          </p>
         </div>
       </div>
-    </section>
+
+      <div className="mx-auto -mt-8 max-w-2xl px-4 sm:px-6">
+        {/* 2. STEPPER */}
+        <div className="mb-8 flex items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm font-medium">
+          <div className="flex items-center gap-2">
+            <span
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition ${etape === 1 ? "bg-primary text-primary-foreground" : "bg-primary/20 text-primary"}`}
+            >
+              1
+            </span>
+            <span className={etape === 1 ? "font-bold text-foreground" : "text-muted-foreground hidden sm:inline"}>
+              Mon besoin
+            </span>
+          </div>
+          <span className="h-0.5 w-6 sm:w-12 bg-border" />
+          <div className="flex items-center gap-2">
+            <span
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition ${etape === 2 ? "bg-primary text-primary-foreground" : "bg-primary/20 text-primary"}`}
+            >
+              2
+            </span>
+            <span className={etape === 2 ? "font-bold text-foreground" : "text-muted-foreground hidden sm:inline"}>
+              Mes coordonnées
+            </span>
+          </div>
+          <span className="h-0.5 w-6 sm:w-12 bg-border" />
+          <div className="flex items-center gap-2">
+            <span
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition ${etape === 3 ? "bg-primary text-primary-foreground" : "bg-primary/20 text-primary"}`}
+            >
+              3
+            </span>
+            <span className={etape === 3 ? "font-bold text-foreground" : "text-muted-foreground hidden sm:inline"}>
+              Confirmation
+            </span>
+          </div>
+        </div>
+
+        {/* 3. CARD PRINCIPALE */}
+        <div className="rounded-3xl border border-border/60 bg-white p-6 shadow-sm sm:p-10">
+          {etape === 1 && (
+            <div>
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl text-foreground">Quel est votre besoin ?</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Sélectionnez la ou les prestations souhaitées.</p>
+
+              {/* Grille PC & Liste Mobile */}
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {PRESTATIONS.map((p) => {
+                  const actif = prestations.includes(p.id);
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => togglePrestation(p.id)}
+                      className={`relative flex items-center justify-between sm:flex-col sm:justify-center gap-3 rounded-2xl border p-4 text-left transition ${
+                        actif
+                          ? "border-primary bg-[#EBF1E8] text-primary font-semibold shadow-sm"
+                          : "border-border/80 bg-background text-foreground hover:border-primary/50"
+                      }`}
+                    >
+                      <span className="text-2xl sm:text-3xl">{p.icon}</span>
+                      <span className="text-sm font-medium">{p.label}</span>
+                      <div
+                        className={`flex h-5 w-5 items-center justify-center rounded-md border ${actif ? "bg-primary text-white border-primary" : "border-muted-foreground/30 bg-white"}`}
+                      >
+                        {actif && <Check className="h-3.5 w-3.5" />}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Ajout de photos dès l'étape 1 */}
+              <div className="mt-8 rounded-2xl border border-dashed border-border bg-[#FBFBF9] p-4 text-center">
+                <label className="flex cursor-pointer flex-col items-center justify-center gap-2">
+                  <ImagePlus className="h-6 w-6 text-muted-foreground" />
+                  <span className="text-sm font-medium text-foreground">Ajouter des photos du jardin (facultatif)</span>
+                  <span className="text-xs text-muted-foreground">
+                    Jusqu'à 3 photos pour mieux estimer votre besoin
+                  </span>
+                  <input type="file" accept="image/*" multiple onChange={handlePhotoUpload} className="hidden" />
+                </label>
+                {photos.length > 0 && (
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    {photos.map((ph, idx) => (
+                      <div key={idx} className="relative h-16 w-16 overflow-hidden rounded-xl border">
+                        <img src={ph.url} alt="Aperçu" className="h-full w-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removePhoto(idx)}
+                          className="absolute right-1 top-1 rounded-full bg-black/60 p-0.5 text-white"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={passerEtape2}
+                className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-4 text-base font-semibold text-primary-foreground shadow-sm transition hover:opacity-95"
+              >
+                Continuer <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+
+          {etape === 2 && (
+            <form onSubmit={validerDevis}>
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl text-foreground">Vos coordonnées</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Où et comment pouvons-nous vous joindre ?</p>
+
+              <div className="mt-6 space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Téléphone <span className="text-red-500">* (obligatoire)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="06 12 34 56 78"
+                    value={telephone}
+                    onChange={(e) => setTelephone(e.target.value)}
+                    className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-base outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                  />
+                  {erreurTel && <p className="mt-1 text-xs text-red-500">{erreurTel}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Nom & Prénom
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="M. ou Mme..."
+                    value={nom}
+                    onChange={(e) => setNom(e.target.value)}
+                    className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-base outline-none focus:border-primary"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      Ville ou code postal
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Ex: Hérin, Valenciennes..."
+                      value={ville}
+                      onChange={(e) => setVille(e.target.value)}
+                      className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-base outline-none focus:border-primary"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      E-mail (facultatif)
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="votre@email.fr"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-base outline-none focus:border-primary"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Précisions sur votre terrain
+                  </label>
+                  <textarea
+                    rows={3}
+                    placeholder="Longueur de haie approximative, surface, accès..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-base outline-none focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              {erreurServeur && <p className="mt-4 text-sm text-red-500">{erreurServeur}</p>}
+
+              <div className="mt-8 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEtape(1)}
+                  className="flex items-center justify-center gap-2 rounded-full border border-border px-6 py-4 text-sm font-semibold transition hover:bg-muted"
+                >
+                  <ArrowLeft className="h-4 w-4" /> Retour
+                </button>
+                <button
+                  type="submit"
+                  disabled={envoi}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-full bg-primary py-4 text-base font-semibold text-primary-foreground shadow-sm transition hover:opacity-95 disabled:opacity-50"
+                >
+                  {envoi ? "Envoi en cours..." : "Envoyer ma demande"}
+                </button>
+              </div>
+            </form>
+          )}
+
+          {etape === 3 && (
+            <div className="py-8 text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EBF1E8] text-primary">
+                <CheckCircle2 className="h-8 w-8" />
+              </div>
+              <h2 className="mt-4 text-2xl font-bold text-foreground">Demande bien reçue !</h2>
+              <p className="mt-2 text-muted-foreground">
+                Merci. Blondel Jardin étudie votre demande et vous rappelle au{" "}
+                <strong className="text-foreground">{telephone}</strong> sous 24 h.
+              </p>
+              <div className="mt-6 rounded-2xl bg-[#F7F5F0] p-4 text-left text-sm">
+                <p className="font-semibold text-foreground">Prestations demandées :</p>
+                <p className="mt-1 text-muted-foreground">{prestations.join(", ")}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 4. BADGES DE RÉASSURANCE */}
+        <div className="mt-8 grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
+          <div className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground">
+            <Zap className="h-4 w-4 text-primary" /> Réponse sous 24 h
+          </div>
+          <div className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground">
+            <FileText className="h-4 w-4 text-primary" /> Devis gratuit
+          </div>
+          <div className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground">
+            <Leaf className="h-4 w-4 text-primary" /> Sans engagement
+          </div>
+        </div>
+
+        {/* 5. BANDEAU COORDONNÉES */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl bg-primary px-6 py-5 text-primary-foreground shadow-md">
+          <a href="tel:+33783551969" className="flex items-center gap-3 font-semibold hover:opacity-90">
+            <Phone className="h-5 w-5" /> 07 83 55 19 69
+          </a>
+          <span className="hidden sm:inline text-primary-foreground/30">|</span>
+          <div className="flex items-center gap-3 text-sm text-primary-foreground/90">
+            <MapPin className="h-5 w-5 shrink-0" />
+            <div>
+              <p className="font-medium">Hérin (59)</p>
+              <p className="text-xs text-primary-foreground/75">+50 km autour de Valenciennes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
