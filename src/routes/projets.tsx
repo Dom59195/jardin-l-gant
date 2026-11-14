@@ -1,11 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { z } from "zod";
 import { useEffect, useRef, useState } from "react";
 import { Maximize2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { projets as projetsParDefaut, type Projet } from "@/lib/projets";
 import { LightboxProjets } from "@/components/lightbox-projets";
+import { Button } from "@/components/ui/button";
+import { categorieTaille, filtrerProjets } from "@/lib/projets-categories";
 
 export const Route = createFileRoute("/projets")({
+  validateSearch: z.object({ categorie: z.literal(categorieTaille).optional().catch(undefined) }),
   head: () => ({
     meta: [
       { title: "Nos projets — Blondel Jardin" },
@@ -26,9 +30,15 @@ export const Route = createFileRoute("/projets")({
 });
 
 function Projets() {
+  const { categorie } = Route.useSearch();
   const [listeProjets, setListeProjets] = useState<Projet[]>(projetsParDefaut);
   const [ouvert, setOuvert] = useState<number | null>(null);
   const declencheur = useRef<HTMLButtonElement | null>(null);
+  const projetsAffiches = filtrerProjets(listeProjets, categorie);
+
+  useEffect(() => {
+    setOuvert(null);
+  }, [categorie]);
 
   useEffect(() => {
     (supabase as any)
@@ -58,8 +68,17 @@ function Projets() {
         Un aperçu des prestations réalisées. Cliquez sur un projet pour voir la photo en grand.
       </p>
 
-      <div className="mt-16 grid gap-10 md:grid-cols-2">
-        {listeProjets.map((p, i) => (
+      <nav aria-label="Catégories de projets" className="mt-8 flex flex-wrap gap-3">
+        <Button asChild variant={categorie ? "outline" : "default"} className="rounded-full">
+          <Link to="/projets" search={{}} aria-current={!categorie ? "page" : undefined}>Tous les projets</Link>
+        </Button>
+        <Button asChild variant={categorie ? "default" : "outline"} className="h-auto min-h-9 whitespace-normal rounded-full text-left">
+          <Link to="/projets" search={{ categorie: categorieTaille }} aria-current={categorie ? "page" : undefined}>Taille de haies & arbustes</Link>
+        </Button>
+      </nav>
+
+      <div className="mt-12 grid gap-10 md:grid-cols-2">
+        {projetsAffiches.map((p, i) => (
           <article key={p.titre}>
             <button
               type="button"
@@ -94,8 +113,12 @@ function Projets() {
         ))}
       </div>
 
-      {ouvert !== null && listeProjets[ouvert] && (
-        <LightboxProjets key={ouvert} projet={listeProjets[ouvert]} onClose={() => setOuvert(null)} />
+      {projetsAffiches.length === 0 && (
+        <p className="mt-8 text-muted-foreground">Aucun projet dans cette catégorie pour le moment.</p>
+      )}
+
+      {ouvert !== null && projetsAffiches[ouvert] && (
+        <LightboxProjets key={ouvert} projet={projetsAffiches[ouvert]} onClose={() => setOuvert(null)} />
       )}
     </section>
   );
