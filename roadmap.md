@@ -15,5 +15,6 @@
 - [x] Limiter chaque galerie aux photos du projet sélectionné et ajouter des images de brouillon remplaçables.
 - [x] Ajouter un montant modifiable à la facture du crédit d’impôt et vérifier le calcul sur téléphone et ordinateur.
 - [x] Relier la carte Taille de haies & arbustes à une catégorie filtrée de Projets et vérifier la navigation.
-- [ ] Enregistrer les demandes de devis et les afficher uniquement au propriétaire dans l’admin.
+- [x] Enregistrer les demandes de devis et ajouter leur consultation réservée au propriétaire dans l’admin.
+- [ ] Vérifier la consultation des devis avec le compte propriétaire connecté (session externe indisponible ici).
 - [ ] Envoyer les devis à l’adresse demandée (attend un domaine d’envoi vérifié).
