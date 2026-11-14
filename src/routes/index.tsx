@@ -378,12 +378,17 @@ function Index() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 lg:col-span-2">
+          <Link
+            to="/projets"
+            search={{ categorie: "taille-haies-arbustes" }}
+            aria-label="Voir les projets de taille de haies et arbustes"
+            className="group relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 lg:col-span-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
             <img
               src={p2}
               alt="Taille de haies"
               loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
             />
             <div className="hero-overlay absolute inset-0" />
             <div className="relative flex h-full flex-col justify-end p-8 text-primary-foreground">
@@ -391,7 +396,7 @@ function Index() {
 
               <h3 className="mt-3 font-display text-3xl">Taille de haies & arbustes</h3>
             </div>
-          </div>
+          </Link>
           <div className="rounded-3xl bg-secondary p-8 max-sm:p-5">
             <Trees className="h-7 w-7 text-moss" strokeWidth={1.5} />
             <h3 className="mt-6 max-sm:mt-4 font-display text-2xl max-sm:text-xl text-primary">Travaux saisonniers</h3>
