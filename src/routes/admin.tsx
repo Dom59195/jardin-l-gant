@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Trash2, Plus, Upload, LogOut, CheckCircle2 } from "lucide-react";
+import { AdminDevis } from "@/components/admin-devis";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -225,6 +226,7 @@ function AdminPage() {
       )}
 
       {/* Formulaire d'ajout */}
+      <AdminDevis />
       <div className="mt-10 rounded-3xl border border-border bg-background p-6 md:p-8">
         <h2 className="font-display text-2xl text-primary">Ajouter un nouveau chantier</h2>
         <form onSubmit={handleCreerProjet} className="mt-6 space-y-6">

@@ -6,6 +6,8 @@ import { Phone, MapPin, Clock, ArrowUpRight, Sparkles, MessageSquare } from "luc
 
 import { suggererPrestation, type Suggestion } from "@/lib/prestation.functions";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { envoyerDevis } from "@/lib/devis.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -45,6 +47,10 @@ function Contact() {
   const [confirme, setConfirme] = useState<string | null>(null);
   const [chargement, setChargement] = useState(false);
   const suggererFn = useServerFn(suggererPrestation);
+  const envoyerFn = useServerFn(envoyerDevis);
+  const [envoi, setEnvoi] = useState(false);
+  const [erreurEnvoi, setErreurEnvoi] = useState("");
+  const [demandeId, setDemandeId] = useState<string | null>(null);
 
   async function suggerer() {
     setChargement(true);
@@ -58,8 +64,10 @@ function Contact() {
     }
   }
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (envoi) return;
+    const form = new FormData(e.currentTarget);
     const r = schema.safeParse(Object.fromEntries(new FormData(e.currentTarget)));
     if (!r.success) {
       const errs: Record<string, string> = {};
@@ -68,7 +76,16 @@ function Contact() {
       return;
     }
     setErrors({});
-    setSent(true);
+    setErreurEnvoi("");
+    setEnvoi(true);
+    const id = demandeId ?? crypto.randomUUID();
+    setDemandeId(id);
+    try {
+      await envoyerFn({ data: { ...r.data, id, prestations, prestationConfirmee: confirme ?? "", website: String(form.get("website") ?? "") } });
+      setSent(true);
+    } catch (error) {
+      setErreurEnvoi(error instanceof Error ? error.message : "Impossible d’enregistrer votre demande.");
+    } finally { setEnvoi(false); }
   }
 
   return (
@@ -146,6 +163,7 @@ function Contact() {
             </div>
           ) : (
             <form onSubmit={onSubmit} className="flex h-full flex-col gap-8" noValidate>
+              <div className="hidden" aria-hidden="true"><input name="website" tabIndex={-1} autoComplete="off" /></div>
               <div>
                 <p className="eyebrow text-primary">Votre demande</p>
                 <h2 className="mt-2 font-display text-4xl text-primary">Quelques mots suffisent.</h2>
@@ -255,15 +273,17 @@ function Contact() {
                 <input type="hidden" name="prestation" value={confirme ?? ""} />
               </div>
 
-              <button
+              {erreurEnvoi && <p role="alert" className="text-sm text-destructive">{erreurEnvoi}</p>}
+              <Button
                 type="submit"
+                disabled={envoi}
                 className="group mt-auto inline-flex items-center justify-between rounded-full bg-primary py-2 pl-8 pr-2 font-medium text-primary-foreground transition hover:opacity-95"
               >
-                Envoyer ma demande
+                {envoi ? "Enregistrement…" : "Envoyer ma demande"}
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground transition group-hover:rotate-45">
                   <ArrowUpRight className="h-5 w-5" />
                 </span>
-              </button>
+              </Button>
             </form>
           )}
         </div>
