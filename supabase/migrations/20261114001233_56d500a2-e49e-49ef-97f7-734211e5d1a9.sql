@@ -1,0 +1,27 @@
+CREATE TYPE public.app_role AS ENUM ('admin');
+CREATE TABLE public.user_roles (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL, role public.app_role NOT NULL, UNIQUE(user_id,role));
+GRANT SELECT ON public.user_roles TO authenticated;
+GRANT ALL ON public.user_roles TO service_role;
+ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Read own roles" ON public.user_roles FOR SELECT TO authenticated USING(user_id=auth.uid());
+CREATE FUNCTION public.has_role(_user_id uuid, _role public.app_role) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public AS $$ SELECT EXISTS(SELECT 1 FROM public.user_roles WHERE user_id=_user_id AND role=_role) $$;
+REVOKE ALL ON FUNCTION public.has_role(uuid,public.app_role) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.has_role(uuid,public.app_role) TO authenticated,service_role;
+CREATE TABLE public.contact_submissions (id uuid PRIMARY KEY, created_at timestamptz NOT NULL DEFAULT now(), nom text NOT NULL, email text NOT NULL, telephone text NOT NULL DEFAULT '', message text NOT NULL, prestations text[] NOT NULL DEFAULT '{}', prestation_confirmee text NOT NULL DEFAULT '');
+GRANT SELECT ON public.contact_submissions TO authenticated;
+GRANT ALL ON public.contact_submissions TO service_role;
+ALTER TABLE public.contact_submissions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Owner reads quotes" ON public.contact_submissions FOR SELECT TO authenticated USING(public.has_role(auth.uid(),'admin'));
+CREATE INDEX contact_submissions_recent ON public.contact_submissions(email,created_at DESC);
+CREATE FUNCTION public.assign_quote_owner() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=public AS $$ BEGIN IF lower(NEW.email)='cblondel26@gmail.com' AND NEW.email_confirmed_at IS NOT NULL THEN INSERT INTO public.user_roles(user_id,role) VALUES(NEW.id,'admin') ON CONFLICT DO NOTHING; END IF; RETURN NEW; END $$;
+REVOKE ALL ON FUNCTION public.assign_quote_owner() FROM PUBLIC,anon,authenticated;
+CREATE TRIGGER assign_quote_owner AFTER INSERT OR UPDATE OF email_confirmed_at ON auth.users FOR EACH ROW EXECUTE FUNCTION public.assign_quote_owner();
+INSERT INTO public.user_roles(user_id,role) SELECT id,'admin'::public.app_role FROM auth.users WHERE lower(email)='cblondel26@gmail.com' AND email_confirmed_at IS NOT NULL ON CONFLICT DO NOTHING;
+CREATE FUNCTION public.submit_quote(_id uuid,_nom text,_email text,_telephone text,_message text,_prestations text[],_prestation_confirmee text) RETURNS uuid LANGUAGE plpgsql SET search_path=public AS $$ BEGIN
+PERFORM pg_advisory_xact_lock(hashtextextended(lower(_email),0));
+IF EXISTS(SELECT 1 FROM public.contact_submissions WHERE id=_id) THEN RETURN _id; END IF;
+IF (SELECT count(*) FROM public.contact_submissions WHERE email=lower(_email) AND created_at>now()-interval '15 minutes') >= 3 THEN RAISE EXCEPTION 'Trop de demandes. Veuillez réessayer plus tard.'; END IF;
+INSERT INTO public.contact_submissions(id,nom,email,telephone,message,prestations,prestation_confirmee) VALUES(_id,_nom,lower(_email),_telephone,_message,_prestations,_prestation_confirmee);
+RETURN _id; END $$;
+REVOKE ALL ON FUNCTION public.submit_quote(uuid,text,text,text,text,text[],text) FROM PUBLIC,anon,authenticated;
+GRANT EXECUTE ON FUNCTION public.submit_quote(uuid,text,text,text,text,text[],text) TO service_role;
