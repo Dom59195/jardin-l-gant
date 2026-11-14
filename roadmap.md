@@ -14,3 +14,4 @@
 - [x] Rendre les projets cliquables avec la photo en grand, au clavier et au doigt, et vérifier téléphone et ordinateur.
 - [x] Limiter chaque galerie aux photos du projet sélectionné et ajouter des images de brouillon remplaçables.
 - [x] Ajouter un montant modifiable à la facture du crédit d’impôt et vérifier le calcul sur téléphone et ordinateur.
+- [ ] Relier la carte Taille de haies & arbustes à une catégorie filtrée de Projets et vérifier la navigation.
