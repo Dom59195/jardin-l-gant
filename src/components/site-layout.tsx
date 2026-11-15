@@ -51,12 +51,14 @@ export function SiteHeader() {
               {n.label}
             </Link>
           ))}
-          <Link
-            to="/contact"
-            className="whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 max-md:px-4"
-          >
-            Demander un devis
-          </Link>
+          {pathname !== "/contact" && (
+            <Link
+              to="/contact"
+              className="whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 max-md:px-4"
+            >
+              Demander un devis
+            </Link>
+          )}
         </nav>
         <button className="text-primary md:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>
           {open ? <X /> : <Menu />}
@@ -65,7 +67,12 @@ export function SiteHeader() {
       {open && (
         <nav className="flex flex-col gap-4 border-t border-border px-6 py-6 md:hidden">
           {nav.map((n) => (
-            <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="font-display text-2xl text-primary">
+            <Link
+              key={n.to}
+              to={n.to}
+              onClick={() => setOpen(false)}
+              className="font-display text-2xl text-primary"
+            >
               {n.label}
             </Link>
           ))}
@@ -159,10 +166,14 @@ export function SiteFooter() {
         {/* Enseigne */}
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="min-w-0 md:max-w-3xl">
-            <p className="eyebrow text-primary-foreground/45">Jardinier paysagiste · Valenciennois</p>
+            <p className="eyebrow text-primary-foreground/45">
+              Jardinier paysagiste · Valenciennois
+            </p>
             <p className="mt-3 font-display text-4xl leading-tight md:text-5xl">
               Blondel Jardin{" "}
-              <span className="mt-2 block font-sans text-lg font-normal text-primary-foreground/60">{"\n"}</span>
+              <span className="mt-2 block font-sans text-lg font-normal text-primary-foreground/60">
+                {"\n"}
+              </span>
             </p>
           </div>
           <a
