@@ -292,24 +292,17 @@ function ContactDevisTunnel() {
               strokeWidth="1.2"
             />
           </svg>
-          <div className="relative flex h-full min-h-[29rem] flex-col sm:min-h-[32rem]">
-            <img
-              src={brandLogo.url}
-              alt="Blondel Jardin"
-              width={150}
-              height={82}
-              className="h-auto w-28 object-contain sm:w-32"
-            />
-            <div className="mt-16 max-w-sm sm:mt-20 lg:mt-24">
-              <p className="text-xs font-semibold tracking-[0.22em] text-[#B6C99B] uppercase">
+          <div className="relative flex h-full min-h-[29rem] flex-col justify-center sm:min-h-[32rem]">
+            <div className="max-w-md">
+              <p className="text-xs font-semibold tracking-[0.22em] text-[#B6C99B] uppercase sm:text-sm">
                 Blondel Jardin
               </p>
-              <h1 className="mt-4 max-w-[22rem] font-display text-[2rem] leading-[1.08] sm:text-[2.65rem]">
+              <h1 className="mt-5 max-w-[24rem] font-display text-[2.4rem] leading-[1.05] sm:text-[3rem] lg:text-[3.35rem]">
                 Votre jardin,
                 <br />
                 <span className="whitespace-nowrap">notre savoir-faire.</span>
               </h1>
-              <p className="mt-6 max-w-[18rem] text-sm leading-6 text-[#F3ECD9]/75">
+              <p className="mt-7 max-w-[24rem] text-base leading-7 text-[#F3ECD9]/80 sm:text-lg sm:leading-8">
                 Nous entretenons et aménageons vos espaces extérieurs avec soin, passion et
                 savoir-faire.
               </p>
