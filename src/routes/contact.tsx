@@ -26,6 +26,10 @@ export const Route = createFileRoute("/contact")({
         name: "description",
         content: "Décrivez votre projet de jardin et recevez un devis personnalisé.",
       },
+      { property: "og:title", content: "Demandez votre devis gratuit — Blondel Jardin" },
+      { property: "og:description", content: "Décrivez votre projet de jardin et recevez un devis personnalisé." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ContactDevisTunnel,
@@ -251,7 +255,7 @@ function ContactDevisTunnel() {
   return (
     <div className="bg-[#F3ECD9] px-3 pb-2 pt-5 text-[#0B2B1C] sm:px-6 sm:pb-5 sm:pt-10">
       <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-[#D8D5CA] bg-[#FFFDF8] lg:grid lg:min-h-[700px] lg:grid-cols-[0.88fr_1.12fr]">
-        <aside className="relative overflow-hidden bg-[#0B2B1C] px-6 py-8 text-[#F3ECD9] sm:px-10 sm:py-10 lg:px-12 lg:py-12">
+        <aside className="relative min-w-0 overflow-hidden bg-forest px-6 py-10 text-primary-foreground sm:px-10 sm:py-12 lg:px-10 lg:py-14">
           <svg
             aria-hidden="true"
             viewBox="0 0 360 560"
@@ -291,31 +295,20 @@ function ContactDevisTunnel() {
               strokeWidth="1.2"
             />
           </svg>
-          <div className="relative flex h-full min-h-[24rem] flex-col justify-center sm:min-h-[30rem]">
-            <div className="max-w-md">
-              <p className="text-xs font-semibold tracking-[0.22em] text-[#B6C99B] uppercase sm:text-sm">
+          <div className="relative flex h-full flex-col justify-center">
+            <div className="w-full min-w-0">
+              <p className="text-xs font-semibold text-sage uppercase sm:text-sm">
                 Blondel Jardin
               </p>
-              <h1 className="mt-6 max-w-[26rem] font-display text-[2.6rem] leading-[1.05] sm:text-[3.2rem] lg:text-[3.7rem]">
+              <h1 className="mt-5 font-display text-4xl sm:text-5xl lg:text-[2.75rem]">
                 Votre jardin,
                 <br />
-                <span className="whitespace-nowrap">notre savoir-faire.</span>
+                notre savoir-faire.
               </h1>
-              <p className="mt-8 max-w-[26rem] text-base leading-7 text-[#F3ECD9]/80 sm:text-lg sm:leading-8">
+              <p className="mt-6 max-w-[26rem] text-base leading-7 text-primary-foreground/80 sm:text-lg sm:leading-8">
                 Nous entretenons et aménageons vos espaces extérieurs avec soin, passion et
                 savoir-faire.
               </p>
-            </div>
-            <div className="mt-10 border-t border-[#F3ECD9]/15 pt-5 text-sm leading-6 text-[#F3ECD9]/70 sm:text-base sm:leading-7">
-              <a
-                href="tel:+33783551969"
-                className="font-semibold text-[#F3ECD9] transition-colors hover:text-[#B6C99B]"
-              >
-                07 83 55 19 69
-              </a>
-              <p className="mt-1">Lundi à vendredi · 8h30–12h / 13h–16h30</p>
-              <p className="mt-1">38 rue Auguste Caron, 59195 Hérin</p>
-              <p className="mt-1">Valenciennois · intervention dans un rayon de 50 km</p>
             </div>
           </div>
         </aside>
