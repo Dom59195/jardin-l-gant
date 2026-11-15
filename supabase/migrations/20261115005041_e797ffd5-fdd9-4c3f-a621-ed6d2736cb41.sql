@@ -1,0 +1,4 @@
+ALTER POLICY "Gestion admin des projets" ON public.projets TO authenticated USING (public.has_role((SELECT auth.uid()), 'admin'::public.app_role)) WITH CHECK (public.has_role((SELECT auth.uid()), 'admin'::public.app_role));
+ALTER POLICY "Upload photos admin" ON storage.objects TO authenticated WITH CHECK (bucket_id = 'projets' AND public.has_role((SELECT auth.uid()), 'admin'::public.app_role) AND owner_id = (SELECT auth.uid()::text));
+ALTER POLICY "Suppression photos admin" ON storage.objects TO authenticated USING (bucket_id = 'projets' AND public.has_role((SELECT auth.uid()), 'admin'::public.app_role) AND owner_id = (SELECT auth.uid()::text));
+ALTER POLICY "Photos publiques" ON storage.objects TO authenticated USING (bucket_id = 'projets' AND public.has_role((SELECT auth.uid()), 'admin'::public.app_role) AND owner_id = (SELECT auth.uid()::text));
