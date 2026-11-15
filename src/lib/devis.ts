@@ -3,7 +3,12 @@ import { z } from "zod";
 export const devisSchema = z.object({
   id: z.string().uuid(),
   nom: z.string().trim().max(100).default("Client"),
-  email: z.string().trim().max(255).default(""),
+  email: z
+    .string()
+    .trim()
+    .max(255)
+    .default("")
+    .refine((v) => v === "" || /^\S+@\S+\.\S+$/.test(v), "Indiquez une adresse e-mail valide"),
   telephone: z.string().trim().min(10, "Indiquez un numéro de téléphone valide").max(30),
   message: z.string().trim().max(1000).default(""),
   prestations: z.array(z.string()).max(10),
