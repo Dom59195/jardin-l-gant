@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { nettoyerAvis } from "@/lib/avis-texte";
 
 export type Avis = { nom: string; photo?: string | undefined; note: number; texte: string; date: string };
 export type AvisData = { note: number; total: number; avis: Avis[]; lien: string; laisserAvis: string };
@@ -10,14 +11,6 @@ const LAISSER = "https://search.google.com/local/writereview?placeid=ChIJa1tn6lO
 const STARS: Record<string, number> = { ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE: 5 };
 
 let cache: { at: number; data: AvisData } | null = null;
-
-function nettoyer(t: string) {
-  return t
-    .split("\n\n(Translated by Google)")[0]!
-    .replace(/Cl[ée]ment Blondel est un jeune homme qui vient de créer sa société\.?/gi, "Blondel Jardin est une jeune entreprise.")
-    .replace(/(Monsieur |M\. )?Cl[ée]ment Blondel|Monsieur Blondel/gi, "Blondel Jardin")
-    .trim();
-}
 
 export const getAvisGoogle = createServerFn({ method: "GET" }).handler(async (): Promise<AvisData | null> => {
   if (cache && Date.now() - cache.at < 60 * 60 * 1000) return cache.data;
@@ -49,7 +42,7 @@ export const getAvisGoogle = createServerFn({ method: "GET" }).handler(async ():
           nom: r.reviewer?.displayName ?? "Client Google",
           photo: r.reviewer?.profilePhotoUrl,
           note: STARS[r.starRating ?? "FIVE"] ?? 5,
-          texte: nettoyer(r.comment!),
+          texte: nettoyerAvis(r.comment!),
           date: r.createTime
             ? new Date(r.createTime).toLocaleDateString("fr-FR", { month: "long", year: "numeric" })
             : "",

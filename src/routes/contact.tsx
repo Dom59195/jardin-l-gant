@@ -77,6 +77,13 @@ const VEGETAUX = [
 ];
 type InformationProjet =
   "pelouse" | "haies" | "plantation" | "amenagement" | "entretien" | "entretienLongueur";
+type Erreurs = {
+  prestations?: string;
+  nom?: string;
+  telephone?: string;
+  email?: string;
+  message?: string;
+};
 
 function Field({
   label,
@@ -113,7 +120,7 @@ function ContactDevisTunnel() {
     entretienLongueur: "",
   });
   const [message, setMessage] = useState("");
-  const [erreurs, setErreurs] = useState<Record<string, string>>({});
+  const [erreurs, setErreurs] = useState<Erreurs>({});
   const [erreurServeur, setErreurServeur] = useState("");
   const [envoi, setEnvoi] = useState(false);
   const envoyerFn = useServerFn(envoyerDevis);
@@ -177,7 +184,8 @@ function ContactDevisTunnel() {
     event.target.value = "";
   }
   function removePhoto(index: number) {
-    URL.revokeObjectURL(photos[index].url);
+    const photo = photos[index];
+    if (photo) URL.revokeObjectURL(photo.url);
     setPhotos((prev) => prev.filter((_, itemIndex) => itemIndex !== index));
   }
   function versEtapeDeux() {
@@ -190,7 +198,7 @@ function ContactDevisTunnel() {
   }
   function versRecapitulatif(event: FormEvent) {
     event.preventDefault();
-    const next: Record<string, string> = {};
+    const next: Erreurs = {};
     if (!nom.trim()) next.nom = "Indiquez votre nom et prénom.";
     if (telephone.trim().length < 10) next.telephone = "Indiquez un numéro de téléphone valide.";
     if (email.trim() && !/^\S+@\S+\.\S+$/.test(email.trim()))
