@@ -2,7 +2,7 @@ import { MapPin, ExternalLink } from "lucide-react";
 
 export function SecteurMap({ compact = false }: { compact?: boolean } = {}) {
   const adresseQuery = encodeURIComponent("Blondel Jardin, 38 Rue Auguste Caron, 59195 Hérin");
-  const embedUrl = `https://maps.google.com/maps?q=50.3570433,3.4535917&z=14&output=embed`;
+  const embedUrl = `https://maps.google.com/maps?q=50.360294,3.450394&z=15&output=embed`;
 
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${adresseQuery}`;
 
