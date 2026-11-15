@@ -10,6 +10,7 @@ const apres = apresAsset.url;
 export function AvantApres() {
   const [pos, setPos] = useState(50);
   const zone = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
   const deplacer = (clientX: number) => {
     const r = zone.current?.getBoundingClientRect();
@@ -24,13 +25,21 @@ export function AvantApres() {
       </h2>
       <div
         ref={zone}
-        className="relative mx-auto mt-10 aspect-[3/4] max-w-2xl w-full cursor-ew-resize touch-none select-none overflow-hidden rounded-3xl max-sm:mt-6"
+        className="relative mx-auto mt-10 w-full max-w-2xl select-none overflow-hidden rounded-3xl max-sm:mt-6 aspect-[4/3] sm:aspect-[3/4] touch-pan-y"
         onPointerDown={(e) => {
-          e.currentTarget.setPointerCapture(e.pointerId);
+          isDragging.current = true;
           deplacer(e.clientX);
         }}
-        onPointerMove={(e) => e.currentTarget.hasPointerCapture(e.pointerId) && deplacer(e.clientX)}
+        onPointerMove={(e) => {
+          if (isDragging.current && e.buttons === 1) {
+            deplacer(e.clientX);
+          }
+        }}
+        onPointerUp={() => {
+          isDragging.current = false;
+        }}
       >
+        {/* Vue Après */}
         <div className="absolute inset-0" style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
           <img
             src={apres}
@@ -43,6 +52,8 @@ export function AvantApres() {
             Après
           </span>
         </div>
+
+        {/* Vue Avant */}
         <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
           <img
             src={avant}
@@ -55,11 +66,14 @@ export function AvantApres() {
             Avant
           </span>
         </div>
-        <div className="absolute inset-y-0 w-0.5 bg-background" style={{ left: `${pos}%` }}>
+
+        {/* Séparateur et curseur */}
+        <div className="absolute inset-y-0 w-0.5 bg-background pointer-events-none" style={{ left: `${pos}%` }}>
           <div className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-background text-primary shadow-lg">
             <ChevronsLeftRight className="h-5 w-5" />
           </div>
         </div>
+
         <input
           type="range"
           min={0}
