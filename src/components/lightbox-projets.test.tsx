@@ -21,7 +21,9 @@ describe("LightboxProjets", () => {
   it("ouvre la photo du projet et affiche ses informations", () => {
     render(<LightboxProjets projet={projetTest} onClose={() => {}} />);
     expect(screen.getByRole("dialog", { name: "Photo en grand : Taille de haies" })).toBeInTheDocument();
-    expect(screen.getByText("Valenciennois · Taille de précision")).toBeInTheDocument();
+    expect(screen.getByText("Valenciennois")).toBeInTheDocument();
+    expect(screen.getByText("Taille de précision")).toBeInTheDocument();
+    expect(screen.getByText("Entretien soigné.")).toBeInTheDocument();
     expect(screen.getByText("1 / 3")).toBeInTheDocument();
   });
 
