@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { nettoyerAvis } from "@/lib/avis-texte";
 
 export type Avis = { nom: string; photo?: string | undefined; note: number; texte: string; date: string };
 export type AvisData = { note: number; total: number; avis: Avis[]; lien: string; laisserAvis: string };
