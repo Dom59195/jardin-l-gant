@@ -291,17 +291,17 @@ function ContactDevisTunnel() {
               strokeWidth="1.2"
             />
           </svg>
-          <div className="relative flex h-full min-h-[29rem] flex-col justify-between sm:min-h-[32rem]">
+          <div className="relative flex h-full min-h-[24rem] flex-col justify-center sm:min-h-[30rem]">
             <div className="max-w-md">
               <p className="text-xs font-semibold tracking-[0.22em] text-[#B6C99B] uppercase sm:text-sm">
                 Blondel Jardin
               </p>
-              <h1 className="mt-5 max-w-[24rem] font-display text-[2.5rem] leading-[1.05] sm:text-[3.1rem] lg:text-[3.5rem]">
+              <h1 className="mt-6 max-w-[26rem] font-display text-[2.6rem] leading-[1.05] sm:text-[3.2rem] lg:text-[3.7rem]">
                 Votre jardin,
                 <br />
                 <span className="whitespace-nowrap">notre savoir-faire.</span>
               </h1>
-              <p className="mt-7 max-w-[24rem] text-base leading-7 text-[#F3ECD9]/80 sm:text-lg sm:leading-8">
+              <p className="mt-8 max-w-[26rem] text-base leading-7 text-[#F3ECD9]/80 sm:text-lg sm:leading-8">
                 Nous entretenons et aménageons vos espaces extérieurs avec soin, passion et
                 savoir-faire.
               </p>
@@ -315,6 +315,7 @@ function ContactDevisTunnel() {
               </a>
               <p className="mt-1">Lundi à vendredi · 8h30–12h / 13h–16h30</p>
               <p className="mt-1">38 rue Auguste Caron, 59195 Hérin</p>
+              <p className="mt-1">Valenciennois · intervention dans un rayon de 50 km</p>
             </div>
           </div>
         </aside>
