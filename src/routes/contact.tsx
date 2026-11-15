@@ -291,12 +291,12 @@ function ContactDevisTunnel() {
               strokeWidth="1.2"
             />
           </svg>
-          <div className="relative flex h-full min-h-[29rem] flex-col justify-center sm:min-h-[32rem]">
+          <div className="relative flex h-full min-h-[29rem] flex-col justify-between sm:min-h-[32rem]">
             <div className="max-w-md">
               <p className="text-xs font-semibold tracking-[0.22em] text-[#B6C99B] uppercase sm:text-sm">
                 Blondel Jardin
               </p>
-              <h1 className="mt-5 max-w-[24rem] font-display text-[2.4rem] leading-[1.05] sm:text-[3rem] lg:text-[3.35rem]">
+              <h1 className="mt-5 max-w-[24rem] font-display text-[2.5rem] leading-[1.05] sm:text-[3.1rem] lg:text-[3.5rem]">
                 Votre jardin,
                 <br />
                 <span className="whitespace-nowrap">notre savoir-faire.</span>
@@ -305,6 +305,16 @@ function ContactDevisTunnel() {
                 Nous entretenons et aménageons vos espaces extérieurs avec soin, passion et
                 savoir-faire.
               </p>
+            </div>
+            <div className="mt-10 border-t border-[#F3ECD9]/15 pt-5 text-sm leading-6 text-[#F3ECD9]/70 sm:text-base sm:leading-7">
+              <a
+                href="tel:+33783551969"
+                className="font-semibold text-[#F3ECD9] transition-colors hover:text-[#B6C99B]"
+              >
+                07 83 55 19 69
+              </a>
+              <p className="mt-1">Lundi à vendredi · 8h30–12h / 13h–16h30</p>
+              <p className="mt-1">38 rue Auguste Caron, 59195 Hérin</p>
             </div>
           </div>
         </aside>
