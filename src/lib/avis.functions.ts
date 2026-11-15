@@ -12,25 +12,6 @@ const STARS: Record<string, number> = { ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE:
 
 let cache: { at: number; data: AvisData } | null = null;
 
-function nettoyer(t: string) {
-  let texte = t;
-
-  // Récupère uniquement le texte d'origine en français
-  if (/\((?:Original|Avis d['’]origine)\)/i.test(texte)) {
-    const parts = texte.split(/\((?:Original|Avis d['’]origine)\)/i);
-    if (parts[1]?.trim()) {
-      texte = parts[1];
-    }
-  }
-
-  return texte
-    .split(/\n\n\((?:Translated by Google|Traduit par Google)\)/i)[0]!
-    .replace(/\((?:Translated by Google|Traduit par Google)\)\s*/gi, "")
-    .replace(/Cl[ée]ment Blondel est un jeune homme qui vient de créer sa société\.?/gi, "Blondel Jardin est une jeune entreprise.")
-    .replace(/(Monsieur |M\. )?Cl[ée]ment Blondel|Monsieur Blondel/gi, "Blondel Jardin")
-    .trim();
-}
-
 export const getAvisGoogle = createServerFn({ method: "GET" }).handler(async (): Promise<AvisData | null> => {
   if (cache && Date.now() - cache.at < 60 * 60 * 1000) return cache.data;
   const lovable = process.env["LOVABLE_API_KEY"];
@@ -61,7 +42,7 @@ export const getAvisGoogle = createServerFn({ method: "GET" }).handler(async ():
           nom: r.reviewer?.displayName ?? "Client Google",
           photo: r.reviewer?.profilePhotoUrl,
           note: STARS[r.starRating ?? "FIVE"] ?? 5,
-          texte: nettoyer(r.comment!),
+          texte: nettoyerAvis(r.comment!),
           date: r.createTime
             ? new Date(r.createTime).toLocaleDateString("fr-FR", { month: "long", year: "numeric" })
             : "",
