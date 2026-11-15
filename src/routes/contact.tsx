@@ -16,7 +16,6 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import brandLogo from "@/assets/logo-blondel-jardin-detoure.png.asset.json";
 import { envoyerDevis } from "@/lib/devis.functions";
 
 export const Route = createFileRoute("/contact")({
