@@ -10,18 +10,21 @@ import { categorieTaille, filtrerProjets } from "@/lib/projets-categories";
 
 export const Route = createFileRoute("/projets")({
   staticData: { sitemap: true },
-  validateSearch: z.object({ categorie: z.literal(categorieTaille).optional().catch(undefined) }),
+  validateSearch: z.object({ categorie: z.string().optional().catch(undefined) }),
+
   head: () => ({
     meta: [
       { title: "Nos projets — Blondel Jardin" },
       {
         name: "description",
-        content: "Découvrez les prestations de Blondel Jardin à Hérin et dans le Valenciennois : taille de haies, tonte et entretien de massifs.",
+        content:
+          "Découvrez les prestations de Blondel Jardin à Hérin et dans le Valenciennois : taille de haies, tonte et entretien de massifs.",
       },
       { property: "og:title", content: "Nos projets — Blondel Jardin" },
       {
         property: "og:description",
-        content: "Taille de haies, tonte et entretien de massifs à Hérin et dans le Valenciennois : découvrez les projets de Blondel Jardin.",
+        content:
+          "Taille de haies, tonte et entretien de massifs à Hérin et dans le Valenciennois : découvrez les projets de Blondel Jardin.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -66,16 +69,24 @@ function Projets() {
         Nos <em className="text-moss">projets</em>
       </h1>
       <p className="mt-4 max-w-xl text-muted-foreground">
-        Taille de haies et d’arbustes, tonte de pelouse, plantation et entretien de massifs :
-        les prestations de Blondel Jardin à Hérin et dans le Valenciennois.
+        Taille de haies et d’arbustes, tonte de pelouse, plantation et entretien de massifs : les prestations de Blondel
+        Jardin à Hérin et dans le Valenciennois.
       </p>
 
       <nav aria-label="Catégories de projets" className="mt-8 flex flex-wrap gap-3">
         <Button asChild variant={categorie ? "outline" : "default"} className="rounded-full">
-          <Link to="/projets" search={{}} aria-current={!categorie ? "page" : undefined}>Tous les projets</Link>
+          <Link to="/projets" search={{}} aria-current={!categorie ? "page" : undefined}>
+            Tous les projets
+          </Link>
         </Button>
-        <Button asChild variant={categorie ? "default" : "outline"} className="h-auto min-h-9 whitespace-normal rounded-full text-left">
-          <Link to="/projets" search={{ categorie: categorieTaille }} aria-current={categorie ? "page" : undefined}>Taille de haies & arbustes</Link>
+        <Button
+          asChild
+          variant={categorie ? "default" : "outline"}
+          className="h-auto min-h-9 whitespace-normal rounded-full text-left"
+        >
+          <Link to="/projets" search={{ categorie: categorieTaille }} aria-current={categorie ? "page" : undefined}>
+            Taille de haies & arbustes
+          </Link>
         </Button>
       </nav>
 
