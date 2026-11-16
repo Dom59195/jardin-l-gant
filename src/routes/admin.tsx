@@ -8,6 +8,7 @@ import { Trash2, Plus, Upload, LogOut, CheckCircle2 } from "lucide-react";
 import { AdminDevis } from "@/components/admin-devis";
 
 export const Route = createFileRoute("/admin")({
+  staticData: { sitemap: "exclude-subtree" },
   head: () => ({
     meta: [
       { title: "Administration — Blondel Jardin" },

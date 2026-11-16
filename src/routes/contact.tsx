@@ -19,6 +19,7 @@ import {
 import { envoyerDevis } from "@/lib/devis.functions";
 
 export const Route = createFileRoute("/contact")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Demandez votre devis gratuit — Blondel Jardin" },

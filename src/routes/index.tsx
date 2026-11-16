@@ -41,6 +41,7 @@ const avisQuery = queryOptions({
 });
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Blondel Jardin — Jardinier paysagiste à Hérin (Nord)" },
@@ -52,6 +53,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Blondel Jardin — Jardinier paysagiste à Hérin" },
       { property: "og:description", content: "Entretien et aménagement de jardins à Hérin et alentours." },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://images.unsplash.com/photo-1741308234369-8bdfb0520bdf?w=1200&h=630&fit=crop&auto=format&q=80" },
+      { name: "twitter:image", content: "https://images.unsplash.com/photo-1741308234369-8bdfb0520bdf?w=1200&h=630&fit=crop&auto=format&q=80" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
