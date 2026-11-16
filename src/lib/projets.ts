@@ -30,7 +30,7 @@ export const projets: Projet[] = [
     photos: [p1, p1Detail2.url, p1Detail3.url],
     titre: "Aménagement de massifs",
     lieu: "Hérin (59)",
-    type: "Plantation & graminées",
+    type: "Aménagement",
     description:
       "Création et mise en valeur de massifs, plantation de vivaces et graminées, et intégration harmonieuse autour d'une terrasse bois pour un rendu moderne et naturel.",
     duree: "3 jours",
@@ -48,7 +48,7 @@ export const projets: Projet[] = [
     photos: [p2, p2Detail2.url, p2Detail3.url],
     titre: "Taille de haies & arbustes",
     lieu: "Valenciennois (59)",
-    type: "Taille de précision",
+    type: "Taille de haie",
     description:
       "Taille raisonnée et remise en forme de haies mixtes pour préserver l'intimité et la santé des végétaux.",
     duree: "2 jours",
@@ -64,7 +64,7 @@ export const projets: Projet[] = [
     photos: [p3, p3Detail2.url, p3Detail3.url],
     titre: "Entretien de massifs fleuris",
     lieu: "Valenciennes (59)",
-    type: "Entretien saisonnier",
+    type: "Entretien",
     description:
       "Désherbage manuel, taille des vivaces fanées et paillage minéral pour valoriser les abords de la maison.",
     duree: "1 jour",
@@ -80,7 +80,7 @@ export const projets: Projet[] = [
     photos: [hero, heroDetail2.url, heroDetail3.url],
     titre: "Tonte & entretien complet",
     lieu: "Hérin (59)",
-    type: "Entretien régulier",
+    type: "Tonte",
     description: "Tonte nette avec finitions au rotofil, désherbage sélectif et entretien global de la pelouse.",
     duree: "1 demi-journée",
     surface: "450 m²",
