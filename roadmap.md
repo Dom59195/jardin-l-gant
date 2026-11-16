@@ -18,4 +18,4 @@
 - [x] Enregistrer les demandes de devis et ajouter leur consultation réservée au propriétaire dans l’admin.
 - [ ] Vérifier la consultation des devis avec le compte propriétaire connecté (session externe indisponible ici).
 - [ ] Envoyer les devis à l’adresse demandée (attend un domaine d’envoi vérifié).
-- [ ] Corriger les deux alertes SEO : contexte des projets et sitemap public, puis vérifier.
+- [x] Corriger les deux alertes SEO : contexte des projets et sitemap public, puis vérifier.
