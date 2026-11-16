@@ -35,14 +35,14 @@ export const Route = createFileRoute("/projets")({
 
 function Projets() {
   const { categorie } = Route.useSearch();
+  const [listeProjets, setListeProjets] = useState<Projet[]>(projetsParDefaut);
+  const [ouvert, setOuvert] = useState<number | null>(null);
+  const declencheur = useRef<HTMLButtonElement | null>(null);
+
   const categoriesDisponibles = Array.from(new Set(listeProjets.map((p) => p.type).filter(Boolean)));
   const projetsAffiches = categorie
     ? listeProjets.filter((p) => p.type.toLowerCase().includes(categorie.toLowerCase()))
     : listeProjets;
-  const [listeProjets, setListeProjets] = useState<Projet[]>(projetsParDefaut);
-  const [ouvert, setOuvert] = useState<number | null>(null);
-  const declencheur = useRef<HTMLButtonElement | null>(null);
-  const projetsAffiches = filtrerProjets(listeProjets, categorie);
 
   useEffect(() => {
     setOuvert(null);
