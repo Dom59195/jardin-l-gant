@@ -262,20 +262,18 @@ function AdminPage() {
               />
               {/* Suggestions rapides cliquables */}
               <div className="flex flex-wrap gap-1.5 pt-1">
-                {["Taille de haies & arbustes", "Tonte & pelouse", "Aménagement de massifs", "Entretien général"].map(
-                  (cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => setType(cat)}
-                      className={`rounded-full px-2.5 py-1 text-xs transition ${
-                        type === cat ? "bg-primary text-white" : "bg-muted text-muted-foreground hover:bg-muted/80"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ),
-                )}
+                {["Taille de haie", "Débroussaillage", "Tonte", "Aménagement", "Entretien"].map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setType(cat)}
+                    className={`rounded-full px-2.5 py-1 text-xs transition ${
+                      type === cat ? "bg-primary text-white" : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
