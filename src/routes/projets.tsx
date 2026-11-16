@@ -35,6 +35,10 @@ export const Route = createFileRoute("/projets")({
 
 function Projets() {
   const { categorie } = Route.useSearch();
+  const categoriesDisponibles = Array.from(new Set(listeProjets.map((p) => p.type).filter(Boolean)));
+  const projetsAffiches = categorie
+    ? listeProjets.filter((p) => p.type.toLowerCase().includes(categorie.toLowerCase()))
+    : listeProjets;
   const [listeProjets, setListeProjets] = useState<Projet[]>(projetsParDefaut);
   const [ouvert, setOuvert] = useState<number | null>(null);
   const declencheur = useRef<HTMLButtonElement | null>(null);
@@ -74,20 +78,18 @@ function Projets() {
       </p>
 
       <nav aria-label="Catégories de projets" className="mt-8 flex flex-wrap gap-3">
-        <Button asChild variant={categorie ? "outline" : "default"} className="rounded-full">
+        <Button asChild variant={!categorie ? "default" : "outline"} className="rounded-full">
           <Link to="/projets" search={{}} aria-current={!categorie ? "page" : undefined}>
             Tous les projets
           </Link>
         </Button>
-        <Button
-          asChild
-          variant={categorie ? "default" : "outline"}
-          className="h-auto min-h-9 whitespace-normal rounded-full text-left"
-        >
-          <Link to="/projets" search={{ categorie: categorieTaille }} aria-current={categorie ? "page" : undefined}>
-            Taille de haies & arbustes
-          </Link>
-        </Button>
+        {categoriesDisponibles.map((cat) => (
+          <Button key={cat} asChild variant={categorie === cat ? "default" : "outline"} className="rounded-full">
+            <Link to="/projets" search={{ categorie: cat }} aria-current={categorie === cat ? "page" : undefined}>
+              {cat}
+            </Link>
+          </Button>
+        ))}
       </nav>
 
       <div className="mt-12 grid gap-10 md:grid-cols-2">
