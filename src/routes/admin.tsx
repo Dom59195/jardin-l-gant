@@ -251,14 +251,32 @@ function AdminPage() {
                 className="mt-1 rounded-xl"
               />
             </div>
-            <div>
-              <label className="text-sm font-medium">Type de prestation</label>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Catégorie du chantier *</label>
               <Input
-                placeholder="ex : Entretien / Taille"
+                placeholder="Tapez une nouvelle catégorie..."
                 value={type}
                 onChange={(e) => setType(e.target.value)}
                 className="mt-1 rounded-xl"
+                required
               />
+              {/* Suggestions rapides cliquables */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {["Taille de haies & arbustes", "Tonte & pelouse", "Aménagement de massifs", "Entretien général"].map(
+                  (cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setType(cat)}
+                      className={`rounded-full px-2.5 py-1 text-xs transition ${
+                        type === cat ? "bg-primary text-white" : "bg-muted text-muted-foreground hover:bg-muted/80"
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ),
+                )}
+              </div>
             </div>
           </div>
 
