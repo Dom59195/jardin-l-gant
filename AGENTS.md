@@ -19,3 +19,4 @@
 - Keep project category selection in validated URL search and filter both supplied and loaded projects through the browser-safe category helper; direct links stay shareable without changing stored project data.
 - Persist quote submissions through a validated server function and an idempotent, rate-limited database operation; owner reads use browser RLS and a separate role table, never public access. Email notifications must wait for a verified sending domain.
 - Keep project reads public, enforce project writes through the protected admin role, and require both that role and matching storage owner_id for photo uploads, deletion and listing; public photo URLs remain usable without exposing the file inventory.
+- Generate the sitemap from explicit route staticData decisions using the versioned helper; exclude private routes and omit lastmod unless backed by page-specific content timestamps to prevent stale inventories and misleading dates.

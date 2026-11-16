@@ -9,18 +9,19 @@ import { Button } from "@/components/ui/button";
 import { categorieTaille, filtrerProjets } from "@/lib/projets-categories";
 
 export const Route = createFileRoute("/projets")({
+  staticData: { sitemap: true },
   validateSearch: z.object({ categorie: z.literal(categorieTaille).optional().catch(undefined) }),
   head: () => ({
     meta: [
       { title: "Nos projets — Blondel Jardin" },
       {
         name: "description",
-        content: "Découvrez nos réalisations : créations de jardins, terrasses, bassins et entretien de parcs.",
+        content: "Découvrez les prestations de Blondel Jardin à Hérin et dans le Valenciennois : taille de haies, tonte et entretien de massifs.",
       },
       { property: "og:title", content: "Nos projets — Blondel Jardin" },
       {
         property: "og:description",
-        content: "Découvrez nos réalisations de jardins et d'aménagements extérieurs.",
+        content: "Taille de haies, tonte et entretien de massifs à Hérin et dans le Valenciennois : découvrez les projets de Blondel Jardin.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -65,7 +66,8 @@ function Projets() {
         Nos <em className="text-moss">projets</em>
       </h1>
       <p className="mt-4 max-w-xl text-muted-foreground">
-        Un aperçu des prestations réalisées. Cliquez sur un projet pour voir la photo en grand.
+        Taille de haies et d’arbustes, tonte de pelouse, plantation et entretien de massifs :
+        les prestations de Blondel Jardin à Hérin et dans le Valenciennois.
       </p>
 
       <nav aria-label="Catégories de projets" className="mt-8 flex flex-wrap gap-3">
@@ -92,7 +94,7 @@ function Projets() {
               <div className="relative overflow-hidden rounded-md">
                 <img
                   src={p.img}
-                  alt={p.titre}
+                  alt={`${p.titre} — ${p.type} à ${p.lieu}`}
                   loading="lazy"
                   className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -108,6 +110,11 @@ function Projets() {
                 <span className="eyebrow text-moss">{p.lieu}</span>
               </div>
               <p className="mt-1 text-sm text-muted-foreground">{p.type}</p>
+              {(p.description?.trim() || p.resultat?.trim()) && (
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {p.description?.trim() || p.resultat?.trim()}
+                </p>
+              )}
             </button>
           </article>
         ))}
