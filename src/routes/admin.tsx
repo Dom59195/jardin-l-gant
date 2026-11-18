@@ -65,6 +65,18 @@ function AdminPage() {
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [mediaActifIndex, setMediaActifIndex] = useState(0);
+
+  function deplacerMedia(index: number, direction: -1 | 1) {
+    const nouvelIndex = index + direction;
+    if (nouvelIndex < 0 || nouvelIndex >= photosUrls.length) return;
+    const nouvelleListe = [...photosUrls];
+    const element = nouvelleListe[index];
+    nouvelleListe[index] = nouvelleListe[nouvelIndex];
+    nouvelleListe[nouvelIndex] = element;
+    setPhotosUrls(nouvelleListe);
+    setMediaActifIndex(nouvelIndex);
+  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -208,7 +220,8 @@ function AdminPage() {
       </section>
     );
   }
-  const mediaCouverture = photosUrls.find((u) => !estVideo(u)) ?? photosUrls[0] ?? "";
+    const mediaActif = photosUrls[mediaActifIndex] ?? photosUrls[0] ?? "";
+
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-16">
@@ -223,46 +236,88 @@ function AdminPage() {
       </div>
 
       {successMsg && (
-        <div className="mt-6 flex items-center gap-3 rounded-2xl bg-moss/10 p-4 text-moss">
-          <CheckCircle2 className="h-5 w-5" />
-          <span className="font-medium">{successMsg}</span>
-        </div>
-      )}
-
-      {/* Formulaire d'ajout avec prévisualisation en direct */}
-      <AdminDevis />
-      <div className="mt-10 rounded-3xl border border-border bg-background p-6 md:p-8">
-        <h2 className="font-display text-2xl text-primary">Nouveau projet en 3 clics</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Photos, titre, catégorie… c'est tout.</p>
-
-        <div className="mt-6 grid items-start gap-8 lg:grid-cols-12">
-          {/* Colonne gauche : Le formulaire */}
-          <form onSubmit={handleCreerProjet} className="space-y-6 lg:col-span-7">
+               <div className="mt-6 grid items-start gap-8 lg:grid-cols-12">
+          {/* Colonne gauche : Le formulaire et la timeline */}
+          <form onSubmit={handleCreerProjet} className="space-y-6 lg:col-span-6">
             <div>
-              <p className="text-sm font-medium">1. Photos et vidéos *</p>
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium">1. Médias du montage ({photosUrls.length}) *</p>
+                <span className="text-xs text-muted-foreground">Utilisez ◀ et ▶ pour ordonner</span>
+              </div>
               <div className="mt-2 flex flex-wrap gap-3">
-                {photosUrls.map((url, i) => (
-                  <div key={url} className="relative h-24 w-24 overflow-hidden rounded-xl border border-border">
-                    {estVideo(url) ? (
-                      <video src={url} muted playsInline className="h-full w-full object-cover" />
-                    ) : (
-                      <img src={url} alt={`Aperçu ${i + 1}`} className="h-full w-full object-cover" />
-                    )}
-                    {url === photosUrls.find((u) => !estVideo(u)) && (
-                      <span className="absolute bottom-1 left-1 rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">
-                        Principale
-                      </span>
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => setPhotosUrls((p) => p.filter((_, idx) => idx !== i))}
-                      className="absolute right-1 top-1 rounded-full bg-primary/80 px-1.5 text-xs text-primary-foreground hover:bg-destructive"
-                      aria-label="Retirer"
+                {photosUrls.map((url, i) => {
+                  const estCetteVideo = estVideo(url);
+                  const estActif = (photosUrls[mediaActifIndex] || photosUrls[0]) === url;
+                  return (
+                    <div
+                      key={url}
+                      onClick={() => setMediaActifIndex(i)}
+                      className={`group relative h-24 w-24 cursor-pointer overflow-hidden rounded-xl border-2 transition ${
+                        estActif ? "border-moss ring-2 ring-moss/30 shadow-md" : "border-border hover:border-primary/50"
+                      }`}
+                      title="Cliquer pour charger dans le lecteur"
                     >
-                      ✕
-                    </button>
-                  </div>
-                ))}
+                      {estCetteVideo ? (
+                        <video src={url} muted playsInline className="h-full w-full object-cover" />
+                      ) : (
+                        <img src={url} alt={`Média ${i + 1}`} className="h-full w-full object-cover" />
+                      )}
+
+                      {/* Badge position */}
+                      <span className="absolute top-1 left-1 rounded bg-black/70 px-1 text-[9px] font-bold text-white">
+                        {i === 0 ? "1 • Couv." : `${i + 1}`}
+                      </span>
+
+                      {/* Bouton retirer */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPhotosUrls((p) => p.filter((_, idx) => idx !== i));
+                          if (mediaActifIndex >= i && mediaActifIndex > 0) {
+                            setMediaActifIndex(mediaActifIndex - 1);
+                          }
+                        }}
+                        className="absolute right-1 top-1 rounded-full bg-black/70 px-1.5 text-xs text-white hover:bg-destructive"
+                        aria-label="Retirer"
+                      >
+                        ✕
+                      </button>
+
+                      {/* Boutons ◀ et ▶ pour ordonner la timeline */}
+                      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/80 px-1 py-0.5 text-white opacity-90 transition group-hover:opacity-100">
+                        <button
+                          type="button"
+                          disabled={i === 0}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deplacerMedia(i, -1);
+                          }}
+                          className="px-1 text-xs hover:text-moss disabled:opacity-20"
+                          title="Déplacer vers la gauche"
+                        >
+                          ◀
+                        </button>
+                        <span className="text-[10px] uppercase font-semibold text-white/80">
+                          {estCetteVideo ? "Vidéo" : "Photo"}
+                        </span>
+                        <button
+                          type="button"
+                          disabled={i === photosUrls.length - 1}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deplacerMedia(i, 1);
+                          }}
+                          className="px-1 text-xs hover:text-moss disabled:opacity-20"
+                          title="Déplacer vers la droite"
+                        >
+                          ▶
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+
                 <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/40 transition hover:bg-muted">
                   <Upload className="h-5 w-5 text-muted-foreground" />
                   <span className="mt-1 text-xs text-muted-foreground">{uploading ? "Envoi…" : "Ajouter"}</span>
@@ -333,57 +388,92 @@ function AdminPage() {
               </div>
             </details>
 
-            <Button
-              type="submit"
-              disabled={submitting || uploading}
-              className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto"
-            >
+            <Button type="submit" disabled={submitting || uploading} className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto">
               {submitting ? "Publication…" : "Publier"}
             </Button>
           </form>
 
-          {/* Colonne droite : Prévisualisation en direct (comme un banc de montage) */}
-          <div className="lg:col-span-5">
-            <div className="sticky top-6 rounded-2xl border border-border bg-muted/30 p-4 sm:p-5">
-              <div className="mb-3 flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Aperçu en direct
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-moss/10 px-2.5 py-0.5 text-[11px] font-medium text-moss">
-                  <span className="h-1.5 w-1.5 rounded-full bg-moss animate-pulse" />
-                  Rendu sur le site
-                </span>
+          {/* Colonne droite : Lecteur / Moniteur de montage */}
+          <div className="lg:col-span-6">
+            <div className="sticky top-6 rounded-3xl border border-border bg-black/95 p-4 text-white shadow-xl sm:p-5">
+              <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-white/80">
+                    Moniteur de lecture
+                  </span>
+                </div>
+                {photosUrls.length > 0 && (
+                  <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-xs text-white/90">
+                    Média {Math.min(mediaActifIndex + 1, photosUrls.length)} / {photosUrls.length}
+                    {estVideo(mediaActif) ? " • Vidéo" : " • Photo"}
+                  </span>
+                )}
               </div>
 
-              {/* Carte fidèle à la page Projets */}
-              <div className="overflow-hidden rounded-2xl border border-border bg-background p-4 shadow-sm">
-                <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-muted">
-                  {photosUrls.length > 0 ? (
-                    estVideo(mediaCouverture) ? (
-                      <video src={mediaCouverture} muted playsInline className="h-full w-full object-cover" />
-                    ) : (
-                      <img src={mediaCouverture} alt="Aperçu couverture" className="h-full w-full object-cover" />
-                    )
+              {/* Écran du lecteur avec contrôles complets */}
+              <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black flex items-center justify-center">
+                {photosUrls.length > 0 && mediaActif ? (
+                  estVideo(mediaActif) ? (
+                    <video
+                      key={mediaActif}
+                      src={mediaActif}
+                      controls
+                      autoPlay
+                      playsInline
+                      className="h-full w-full object-contain"
+                    />
                   ) : (
-                    <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center text-muted-foreground">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted-foreground/10 text-xl">
-                        🌿
-                      </div>
-                      <p className="mt-2 text-xs font-medium">Votre photo de couverture apparaîtra ici</p>
+                    <img
+                      key={mediaActif}
+                      src={mediaActif}
+                      alt="Aperçu moniteur"
+                      className="h-full w-full object-contain"
+                    />
+                  )
+                ) : (
+                  <div className="flex flex-col items-center justify-center p-6 text-center text-white/40">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 text-2xl">
+                      🎬
                     </div>
-                  )}
+                    <p className="mt-3 text-sm font-medium text-white/60">Écran en attente</p>
+                    <p className="mt-1 text-xs text-white/40">Ajoutez des vidéos ou des photos à gauche pour les lire ici</p>
+                  </div>
+                )}
+              </div>
 
-                  {photosUrls.length > 1 && (
-                    <span className="absolute bottom-2 right-2 rounded-full bg-primary/80 px-2.5 py-1 text-xs font-medium text-primary-foreground backdrop-blur-sm">
-                      +{photosUrls.length - 1} média{photosUrls.length > 2 ? "s" : ""}
-                    </span>
-                  )}
+              {/* Barre de zapping précédent / suivant */}
+              {photosUrls.length > 1 && (
+                <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    disabled={mediaActifIndex === 0}
+                    onClick={() => setMediaActifIndex((i) => Math.max(0, i - 1))}
+                    className="text-white hover:bg-white/10 hover:text-white disabled:opacity-30"
+                  >
+                    ◀ Précédent
+                  </Button>
+                  <span className="text-xs text-white/50">
+                    Cliquez sur une vignette pour la charger
+                  </span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    disabled={mediaActifIndex >= photosUrls.length - 1}
+                    onClick={() => setMediaActifIndex((i) => Math.min(photosUrls.length - 1, i + 1))}
+                    className="text-white hover:bg-white/10 hover:text-white disabled:opacity-30"
+                  >
+                    Suivant ▶
+                  </Button>
                 </div>
+              )}
+            </div>
+          </div>
+        </div>
 
-                <div className="mt-4 flex items-baseline justify-between gap-3">
-                  <h3 className="truncate font-display text-2xl text-primary">{titre.trim() || "Titre du projet"}</h3>
-                  <span className="shrink-0 text-xs font-medium text-moss">{lieu.trim() || "Hérin & environs"}</span>
-                </div>
 
                 <p className="mt-1 text-xs text-muted-foreground">{type.trim() || "Catégorie"}</p>
 
