@@ -137,10 +137,10 @@ function AdminPage() {
       lieu,
       type,
       description,
-      duree,
-      surface,
-      resultat,
-      etapes: etapes.filter((et) => et.texte.trim() !== ""),
+      duree: null,
+      surface: null,
+      resultat: null,
+      etapes: [],
       img: photosUrls[0],
       photos: photosUrls,
       ordre: projets.length,
@@ -229,109 +229,23 @@ function AdminPage() {
       {/* Formulaire d'ajout */}
       <AdminDevis />
       <div className="mt-10 rounded-3xl border border-border bg-background p-6 md:p-8">
-        <h2 className="font-display text-2xl text-primary">Ajouter un nouveau chantier</h2>
+        <h2 className="font-display text-2xl text-primary">Nouveau projet en 3 clics</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Photos, titre, catégorie… c'est tout.</p>
         <form onSubmit={handleCreerProjet} className="mt-6 space-y-6">
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <label className="text-sm font-medium">Titre du chantier *</label>
-              <Input
-                placeholder="ex : Taille de haies"
-                value={titre}
-                onChange={(e) => setTitre(e.target.value)}
-                className="mt-1 rounded-xl"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium">Lieu</label>
-              <Input
-                placeholder="ex : Hérin (59)"
-                value={lieu}
-                onChange={(e) => setLieu(e.target.value)}
-                className="mt-1 rounded-xl"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Catégorie du chantier *</label>
-              <Input
-                placeholder="Tapez une nouvelle catégorie..."
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                className="mt-1 rounded-xl"
-                required
-              />
-              {/* Suggestions rapides cliquables */}
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {["Taille de haie", "Débroussaillage", "Tonte", "Aménagement", "Entretien"].map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setType(cat)}
-                    className={`rounded-full px-2.5 py-1 text-xs transition ${
-                      type === cat ? "bg-primary text-white" : "bg-muted text-muted-foreground hover:bg-muted/80"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="text-sm font-medium">Durée (facultatif)</label>
-              <Input
-                placeholder="ex : 1 journée"
-                value={duree}
-                onChange={(e) => setDuree(e.target.value)}
-                className="mt-1 rounded-xl"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium">Surface ou longueur (facultatif)</label>
-              <Input
-                placeholder="ex : 80 ml ou 250 m²"
-                value={surface}
-                onChange={(e) => setSurface(e.target.value)}
-                className="mt-1 rounded-xl"
-              />
-            </div>
-          </div>
-
           <div>
-            <label className="text-sm font-medium">Description</label>
-            <Textarea
-              placeholder="Expliquez ce qui a été réalisé..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="mt-1 rounded-xl"
-              rows={3}
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium">Résultat final</label>
-            <Textarea
-              placeholder="Le rendu pour le client..."
-              value={resultat}
-              onChange={(e) => setResultat(e.target.value)}
-              className="mt-1 rounded-xl"
-              rows={2}
-            />
-          </div>
-
-          {/* Photos */}
-          <div>
-            <label className="text-sm font-medium">Photos du chantier *</label>
+            <p className="text-sm font-medium">1. Photos *</p>
             <div className="mt-2 flex flex-wrap gap-3">
               {photosUrls.map((url, i) => (
                 <div key={url} className="relative h-24 w-24 overflow-hidden rounded-xl border border-border">
-                  <img src={url} alt={`Aperçu ${i}`} className="h-full w-full object-cover" />
+                  <img src={url} alt={`Aperçu ${i + 1}`} className="h-full w-full object-cover" />
+                  {i === 0 && (
+                    <span className="absolute bottom-1 left-1 rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">Principale</span>
+                  )}
                   <button
                     type="button"
                     onClick={() => setPhotosUrls((p) => p.filter((_, idx) => idx !== i))}
-                    className="absolute right-1 top-1 rounded-full bg-black/70 p-1 text-white hover:bg-destructive"
+                    className="absolute right-1 top-1 rounded-full bg-primary/80 px-1.5 text-xs text-primary-foreground hover:bg-destructive"
+                    aria-label="Retirer la photo"
                   >
                     ✕
                   </button>
@@ -340,23 +254,66 @@ function AdminPage() {
               <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/40 transition hover:bg-muted">
                 <Upload className="h-5 w-5 text-muted-foreground" />
                 <span className="mt-1 text-xs text-muted-foreground">{uploading ? "Envoi…" : "Ajouter"}</span>
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleUploadPhoto}
-                  className="hidden"
-                  disabled={uploading}
-                />
+                <input type="file" multiple accept="image/*" onChange={handleUploadPhoto} className="hidden" disabled={uploading} />
               </label>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
-              La 1ère photo servira d'image principale sur la page Projets.
-            </p>
           </div>
 
-          <Button type="submit" disabled={submitting || uploading} className="rounded-full bg-primary px-8 text-white">
-            {submitting ? "Publication…" : "Publier ce projet sur le site"}
+          <div>
+            <label className="text-sm font-medium">2. Titre *</label>
+            <Input
+              placeholder="ex : Taille de haies"
+              value={titre}
+              onChange={(e) => setTitre(e.target.value)}
+              className="mt-1 rounded-xl"
+              required
+            />
+          </div>
+
+          <div>
+            <p className="text-sm font-medium">3. Catégorie</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {["Taille de haie", "Débroussaillage", "Tonte", "Aménagement", "Entretien"].map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setType(cat)}
+                  className={`rounded-full px-4 py-2 text-sm transition ${
+                    type === cat ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <details className="rounded-2xl bg-muted/40 p-4">
+            <summary className="cursor-pointer text-sm font-medium">Plus de détails (facultatif)</summary>
+            <div className="mt-4 space-y-4">
+              <div>
+                <label className="text-sm font-medium">Lieu</label>
+                <Input value={lieu} onChange={(e) => setLieu(e.target.value)} className="mt-1 rounded-xl" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Autre catégorie</label>
+                <Input value={type} onChange={(e) => setType(e.target.value)} className="mt-1 rounded-xl" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Description</label>
+                <Textarea
+                  placeholder="Quelques mots sur le chantier…"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="mt-1 rounded-xl"
+                  rows={3}
+                />
+              </div>
+            </div>
+          </details>
+
+          <Button type="submit" disabled={submitting || uploading} className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto">
+            {submitting ? "Publication…" : "Publier"}
           </Button>
         </form>
       </div>
