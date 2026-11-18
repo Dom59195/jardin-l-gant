@@ -208,6 +208,7 @@ function AdminPage() {
       </section>
     );
   }
+  const mediaCouverture = photosUrls.find((u) => !estVideo(u)) ?? photosUrls[0] ?? "";
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-16">
@@ -358,19 +359,10 @@ function AdminPage() {
               <div className="overflow-hidden rounded-2xl border border-border bg-background p-4 shadow-sm">
                 <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-muted">
                   {photosUrls.length > 0 ? (
-                    estVideo(photosUrls.find((u) => !estVideo(u)) || photosUrls[0]) ? (
-                      <video
-                        src={photosUrls.find((u) => !estVideo(u)) || photosUrls[0]}
-                        muted
-                        playsInline
-                        className="h-full w-full object-cover"
-                      />
+                    estVideo(mediaCouverture) ? (
+                      <video src={mediaCouverture} muted playsInline className="h-full w-full object-cover" />
                     ) : (
-                      <img
-                        src={photosUrls.find((u) => !estVideo(u)) || photosUrls[0]}
-                        alt="Aperçu couverture"
-                        className="h-full w-full object-cover"
-                      />
+                      <img src={mediaCouverture} alt="Aperçu couverture" className="h-full w-full object-cover" />
                     )
                   ) : (
                     <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center text-muted-foreground">
