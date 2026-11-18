@@ -53,8 +53,14 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Blondel Jardin — Jardinier paysagiste à Hérin" },
       { property: "og:description", content: "Entretien et aménagement de jardins à Hérin et alentours." },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://images.unsplash.com/photo-1741308234369-8bdfb0520bdf?w=1200&h=630&fit=crop&auto=format&q=80" },
-      { name: "twitter:image", content: "https://images.unsplash.com/photo-1741308234369-8bdfb0520bdf?w=1200&h=630&fit=crop&auto=format&q=80" },
+      {
+        property: "og:image",
+        content: "https://images.unsplash.com/photo-1741308234369-8bdfb0520bdf?w=1200&h=630&fit=crop&auto=format&q=80",
+      },
+      {
+        name: "twitter:image",
+        content: "https://images.unsplash.com/photo-1741308234369-8bdfb0520bdf?w=1200&h=630&fit=crop&auto=format&q=80",
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
@@ -383,8 +389,9 @@ function Index() {
 
           <Link
             to="/projets"
-            search={{ categorie: "taille-haies-arbustes" }}
-            aria-label="Voir les projets de taille de haies et arbustes"
+            search={{ categorie: "Taille de haie" }}
+            aria-label="Voir les projets de taille de haie"
+
             className="group relative overflow-hidden rounded-3xl max-sm:col-span-2 max-sm:h-56 lg:col-span-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             <img
