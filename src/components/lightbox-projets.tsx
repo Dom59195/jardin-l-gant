@@ -99,7 +99,8 @@ export function LightboxProjets({ projet, onClose }: Props) {
                 <video
                   key={photos[index]}
                   src={photos[index]}
-                  controls
+                  autoPlay
+                  loop
                   muted
                   playsInline
                   className="aspect-[4/3] max-h-[62dvh] w-full bg-forest object-contain sm:aspect-[3/2] lg:aspect-[4/3]"
