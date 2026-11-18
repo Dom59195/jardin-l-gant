@@ -436,6 +436,7 @@ function AdminPage() {
                       key={mediaActif}
                       src={mediaActif}
                       controls
+                      muted
                       autoPlay
                       playsInline
                       className="h-full w-full object-contain"
