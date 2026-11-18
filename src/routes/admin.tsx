@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash2, Plus, Upload, LogOut, CheckCircle2 } from "lucide-react";
+import { Trash2, Plus, Upload, LogOut, CheckCircle2, Pencil, X } from "lucide-react";
+
 import { AdminDevis } from "@/components/admin-devis";
 import { estVideo } from "@/lib/media";
 
