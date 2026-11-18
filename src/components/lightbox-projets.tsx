@@ -100,6 +100,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
                   key={photos[index]}
                   src={photos[index]}
                   controls
+                  muted
                   playsInline
                   className="aspect-[4/3] max-h-[62dvh] w-full bg-forest object-contain sm:aspect-[3/2] lg:aspect-[4/3]"
                 />
@@ -164,7 +165,13 @@ export function LightboxProjets({ projet, onClose }: Props) {
                     }`}
                   >
                     {estVideo(photo) ? (
-                      <video src={photo} muted playsInline preload="metadata" className="pointer-events-none aspect-[4/3] w-full object-cover" />
+                      <video
+                        src={photo}
+                        muted
+                        playsInline
+                        preload="metadata"
+                        className="pointer-events-none aspect-[4/3] w-full object-cover"
+                      />
                     ) : (
                       <img src={photo} alt="" className="aspect-[4/3] w-full object-cover" />
                     )}
