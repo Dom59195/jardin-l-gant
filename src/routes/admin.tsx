@@ -70,10 +70,12 @@ function AdminPage() {
   function deplacerMedia(index: number, direction: -1 | 1) {
     const nouvelIndex = index + direction;
     if (nouvelIndex < 0 || nouvelIndex >= photosUrls.length) return;
+    const a = photosUrls[index];
+    const b = photosUrls[nouvelIndex];
+    if (!a || !b) return;
     const nouvelleListe = [...photosUrls];
-    const element = nouvelleListe[index];
-    nouvelleListe[index] = nouvelleListe[nouvelIndex];
-    nouvelleListe[nouvelIndex] = element;
+    nouvelleListe[index] = b;
+    nouvelleListe[nouvelIndex] = a;
     setPhotosUrls(nouvelleListe);
     setMediaActifIndex(nouvelIndex);
   }
