@@ -288,8 +288,23 @@ function AdminPage() {
       {/* Formulaire d'ajout avec lecteur de montage */}
       <AdminDevis />
       <div className="mt-10 rounded-3xl border border-border bg-background p-6 md:p-8">
-        <h2 className="font-display text-2xl text-primary">Nouveau projet en 3 clics</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Photos, titre, catégorie… c'est tout.</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-display text-2xl text-primary">
+              {projetEnEdition ? `Modifier : ${projetEnEdition.titre}` : "Nouveau projet en 3 clics"}
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {projetEnEdition
+                ? "Modifiez l'ordre des médias, les textes ou les catégories."
+                : "Photos, titre, catégorie… c'est tout."}
+            </p>
+          </div>
+          {projetEnEdition && (
+            <Button type="button" variant="outline" size="sm" onClick={annulerEdition} className="gap-1 rounded-full">
+              <X className="h-4 w-4" /> Annuler
+            </Button>
+          )}
+        </div>
 
         <div className="mt-6 grid items-start gap-8 lg:grid-cols-12">
           {/* Colonne gauche : Le formulaire et la timeline */}
@@ -443,13 +458,20 @@ function AdminPage() {
               </div>
             </details>
 
-            <Button
-              type="submit"
-              disabled={submitting || uploading}
-              className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto"
-            >
-              {submitting ? "Publication…" : "Publier"}
-            </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button
+                type="submit"
+                disabled={submitting || uploading}
+                className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto"
+              >
+                {submitting ? "Enregistrement…" : projetEnEdition ? "Enregistrer les modifications" : "Publier"}
+              </Button>
+              {projetEnEdition && (
+                <Button type="button" variant="outline" onClick={annulerEdition} className="rounded-full">
+                  Annuler la modification
+                </Button>
+              )}
+            </div>
           </form>
 
           {/* Colonne droite : Lecteur / Moniteur de montage */}
