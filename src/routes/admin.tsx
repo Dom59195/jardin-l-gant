@@ -105,6 +105,7 @@ function AdminPage() {
     if (draggedIndex === null || draggedIndex === index) return;
     const nouvelleListe = [...photosUrls];
     const item = nouvelleListe.splice(draggedIndex, 1)[0];
+    if (!item) return;
     nouvelleListe.splice(index, 0, item);
     setPhotosUrls(nouvelleListe);
     setDraggedIndex(index);
