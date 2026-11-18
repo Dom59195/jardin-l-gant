@@ -72,6 +72,7 @@ function AdminPage() {
     setType(p.type || "Entretien");
     setDescription(p.description || "");
     setPhotosUrls(p.photos && p.photos.length > 0 ? p.photos : [p.img]);
+    setPhotoCouverture(p.img || null);
     setMediaActifIndex(0);
     window.scrollTo({ top: 350, behavior: "smooth" });
   }
@@ -83,6 +84,7 @@ function AdminPage() {
     setType("Entretien");
     setDescription("");
     setPhotosUrls([]);
+    setPhotoCouverture(null);
     setMediaActifIndex(0);
   }
 
@@ -90,6 +92,28 @@ function AdminPage() {
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [mediaActifIndex, setMediaActifIndex] = useState(0);
+  // Choix libre de la photo de couverture et glisser-déposer
+  const [photoCouverture, setPhotoCouverture] = useState<string | null>(null);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+
+  function handleDragStart(index: number) {
+    setDraggedIndex(index);
+  }
+
+  function handleDragOver(e: React.DragEvent, index: number) {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    const nouvelleListe = [...photosUrls];
+    const item = nouvelleListe.splice(draggedIndex, 1)[0];
+    nouvelleListe.splice(index, 0, item);
+    setPhotosUrls(nouvelleListe);
+    setDraggedIndex(index);
+    setMediaActifIndex(index);
+  }
+
+  function handleDragEnd() {
+    setDraggedIndex(null);
+  }
 
   function deplacerMedia(index: number, direction: -1 | 1) {
     const nouvelIndex = index + direction;
@@ -164,7 +188,11 @@ function AdminPage() {
 
   async function handleCreerProjet(e: FormEvent) {
     e.preventDefault();
-    const couverture = photosUrls.find((u) => !estVideo(u));
+    const couverture =
+      photoCouverture && photosUrls.includes(photoCouverture) && !estVideo(photoCouverture)
+        ? photoCouverture
+        : photosUrls.find((u) => !estVideo(u));
+
     if (!titre.trim() || !couverture) {
       alert("Veuillez indiquer un titre et ajouter au moins une photo (elle servira de couverture).");
       return;
@@ -318,14 +346,22 @@ function AdminPage() {
                 {photosUrls.map((url, i) => {
                   const estCetteVideo = estVideo(url);
                   const estActif = (photosUrls[mediaActifIndex] || photosUrls[0]) === url;
+                  const estCouverture =
+                    (photoCouverture && photoCouverture === url) ||
+                    (!photoCouverture && photosUrls.find((u) => !estVideo(u)) === url);
+
                   return (
                     <div
                       key={url}
+                      draggable
+                      onDragStart={() => handleDragStart(i)}
+                      onDragOver={(e) => handleDragOver(e, i)}
+                      onDragEnd={handleDragEnd}
                       onClick={() => setMediaActifIndex(i)}
-                      className={`group relative h-24 w-24 cursor-pointer overflow-hidden rounded-xl border-2 transition ${
+                      className={`group relative h-28 w-28 cursor-grab overflow-hidden rounded-xl border-2 transition active:cursor-grabbing ${
                         estActif ? "border-moss ring-2 ring-moss/30 shadow-md" : "border-border hover:border-primary/50"
-                      }`}
-                      title="Cliquer pour charger dans le lecteur"
+                      } ${draggedIndex === i ? "opacity-50 scale-95" : ""}`}
+                      title="Glisser pour déplacer • Cliquer pour afficher"
                     >
                       {estCetteVideo ? (
                         <video src={url} muted playsInline className="h-full w-full object-cover" />
@@ -334,8 +370,8 @@ function AdminPage() {
                       )}
 
                       {/* Badge position */}
-                      <span className="absolute top-1 left-1 rounded bg-black/70 px-1 text-[9px] font-bold text-white">
-                        {i === 0 ? "1 • Couv." : `${i + 1}`}
+                      <span className="absolute top-1 left-1 rounded bg-black/80 px-1.5 py-0.5 text-[10px] font-bold text-white shadow">
+                        #{i + 1}
                       </span>
 
                       {/* Bouton retirer */}
@@ -344,46 +380,36 @@ function AdminPage() {
                         onClick={(e) => {
                           e.stopPropagation();
                           setPhotosUrls((p) => p.filter((_, idx) => idx !== i));
+                          if (photoCouverture === url) setPhotoCouverture(null);
                           if (mediaActifIndex >= i && mediaActifIndex > 0) {
                             setMediaActifIndex(mediaActifIndex - 1);
                           }
                         }}
-                        className="absolute right-1 top-1 rounded-full bg-black/70 px-1.5 text-xs text-white hover:bg-destructive"
+                        className="absolute right-1 top-1 rounded-full bg-black/80 px-1.5 text-xs text-white hover:bg-destructive"
                         aria-label="Retirer"
                       >
                         ✕
                       </button>
 
-                      {/* Boutons ◀ et ▶ pour ordonner la timeline */}
-                      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/80 px-1 py-0.5 text-white opacity-90 transition group-hover:opacity-100">
-                        <button
-                          type="button"
-                          disabled={i === 0}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deplacerMedia(i, -1);
-                          }}
-                          className="px-1 text-xs hover:text-moss disabled:opacity-20"
-                          title="Déplacer vers la gauche"
-                        >
-                          ◀
-                        </button>
-                        <span className="text-[10px] uppercase font-semibold text-white/80">
-                          {estCetteVideo ? "Vidéo" : "Photo"}
-                        </span>
-                        <button
-                          type="button"
-                          disabled={i === photosUrls.length - 1}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deplacerMedia(i, 1);
-                          }}
-                          className="px-1 text-xs hover:text-moss disabled:opacity-20"
-                          title="Déplacer vers la droite"
-                        >
-                          ▶
-                        </button>
-                      </div>
+                      {/* Bouton ou Badge Couverture */}
+                      {!estCetteVideo && (
+                        <div className="absolute inset-x-1 bottom-1">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPhotoCouverture(url);
+                            }}
+                            className={`w-full rounded px-1 py-0.5 text-[10px] font-semibold transition ${
+                              estCouverture
+                                ? "bg-amber-500 text-black shadow"
+                                : "bg-black/75 text-white/90 opacity-75 hover:opacity-100 hover:bg-black"
+                            }`}
+                          >
+                            {estCouverture ? "⭐ Couverture" : "Mettre en couv."}
+                          </button>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
