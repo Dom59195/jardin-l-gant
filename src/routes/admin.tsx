@@ -228,100 +228,182 @@ function AdminPage() {
         </div>
       )}
 
-      {/* Formulaire d'ajout */}
+      {/* Formulaire d'ajout avec prévisualisation en direct */}
       <AdminDevis />
       <div className="mt-10 rounded-3xl border border-border bg-background p-6 md:p-8">
         <h2 className="font-display text-2xl text-primary">Nouveau projet en 3 clics</h2>
         <p className="mt-1 text-sm text-muted-foreground">Photos, titre, catégorie… c'est tout.</p>
-        <form onSubmit={handleCreerProjet} className="mt-6 space-y-6">
-          <div>
-            <p className="text-sm font-medium">1. Photos et vidéos *</p>
-            <div className="mt-2 flex flex-wrap gap-3">
-              {photosUrls.map((url, i) => (
-                <div key={url} className="relative h-24 w-24 overflow-hidden rounded-xl border border-border">
-                  {estVideo(url) ? (
-                    <video src={url} muted playsInline className="h-full w-full object-cover" />
-                  ) : (
-                    <img src={url} alt={`Aperçu ${i + 1}`} className="h-full w-full object-cover" />
-                  )}
-                  {url === photosUrls.find((u) => !estVideo(u)) && (
-                    <span className="absolute bottom-1 left-1 rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">Principale</span>
-                  )}
+
+        <div className="mt-6 grid items-start gap-8 lg:grid-cols-12">
+          {/* Colonne gauche : Le formulaire */}
+          <form onSubmit={handleCreerProjet} className="space-y-6 lg:col-span-7">
+            <div>
+              <p className="text-sm font-medium">1. Photos et vidéos *</p>
+              <div className="mt-2 flex flex-wrap gap-3">
+                {photosUrls.map((url, i) => (
+                  <div key={url} className="relative h-24 w-24 overflow-hidden rounded-xl border border-border">
+                    {estVideo(url) ? (
+                      <video src={url} muted playsInline className="h-full w-full object-cover" />
+                    ) : (
+                      <img src={url} alt={`Aperçu ${i + 1}`} className="h-full w-full object-cover" />
+                    )}
+                    {url === photosUrls.find((u) => !estVideo(u)) && (
+                      <span className="absolute bottom-1 left-1 rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">
+                        Principale
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setPhotosUrls((p) => p.filter((_, idx) => idx !== i))}
+                      className="absolute right-1 top-1 rounded-full bg-primary/80 px-1.5 text-xs text-primary-foreground hover:bg-destructive"
+                      aria-label="Retirer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/40 transition hover:bg-muted">
+                  <Upload className="h-5 w-5 text-muted-foreground" />
+                  <span className="mt-1 text-xs text-muted-foreground">{uploading ? "Envoi…" : "Ajouter"}</span>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*,video/*"
+                    onChange={handleUploadPhoto}
+                    className="hidden"
+                    disabled={uploading}
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium">2. Titre *</label>
+              <Input
+                placeholder="ex : Taille de haies"
+                value={titre}
+                onChange={(e) => setTitre(e.target.value)}
+                className="mt-1 rounded-xl"
+                required
+              />
+            </div>
+
+            <div>
+              <p className="text-sm font-medium">3. Catégorie</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {["Taille de haie", "Débroussaillage", "Tonte", "Aménagement", "Entretien"].map((cat) => (
                   <button
+                    key={cat}
                     type="button"
-                    onClick={() => setPhotosUrls((p) => p.filter((_, idx) => idx !== i))}
-                    className="absolute right-1 top-1 rounded-full bg-primary/80 px-1.5 text-xs text-primary-foreground hover:bg-destructive"
-                    aria-label="Retirer"
+                    onClick={() => setType(cat)}
+                    className={`rounded-full px-4 py-2 text-sm transition ${
+                      type === cat
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
                   >
-                    ✕
+                    {cat}
                   </button>
+                ))}
+              </div>
+            </div>
+
+            <details className="rounded-2xl bg-muted/40 p-4">
+              <summary className="cursor-pointer text-sm font-medium">Plus de détails (facultatif)</summary>
+              <div className="mt-4 space-y-4">
+                <div>
+                  <label className="text-sm font-medium">Lieu</label>
+                  <Input value={lieu} onChange={(e) => setLieu(e.target.value)} className="mt-1 rounded-xl" />
                 </div>
-              ))}
-              <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/40 transition hover:bg-muted">
-                <Upload className="h-5 w-5 text-muted-foreground" />
-                <span className="mt-1 text-xs text-muted-foreground">{uploading ? "Envoi…" : "Ajouter"}</span>
-                <input type="file" multiple accept="image/*,video/*" onChange={handleUploadPhoto} className="hidden" disabled={uploading} />
-              </label>
+                <div>
+                  <label className="text-sm font-medium">Autre catégorie</label>
+                  <Input value={type} onChange={(e) => setType(e.target.value)} className="mt-1 rounded-xl" />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Description</label>
+                  <Textarea
+                    placeholder="Quelques mots sur le chantier…"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="mt-1 rounded-xl"
+                    rows={3}
+                  />
+                </div>
+              </div>
+            </details>
+
+            <Button
+              type="submit"
+              disabled={submitting || uploading}
+              className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto"
+            >
+              {submitting ? "Publication…" : "Publier"}
+            </Button>
+          </form>
+
+          {/* Colonne droite : Prévisualisation en direct (comme un banc de montage) */}
+          <div className="lg:col-span-5">
+            <div className="sticky top-6 rounded-2xl border border-border bg-muted/30 p-4 sm:p-5">
+              <div className="mb-3 flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Aperçu en direct
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-moss/10 px-2.5 py-0.5 text-[11px] font-medium text-moss">
+                  <span className="h-1.5 w-1.5 rounded-full bg-moss animate-pulse" />
+                  Rendu sur le site
+                </span>
+              </div>
+
+              {/* Carte fidèle à la page Projets */}
+              <div className="overflow-hidden rounded-2xl border border-border bg-background p-4 shadow-sm">
+                <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-muted">
+                  {photosUrls.length > 0 ? (
+                    estVideo(photosUrls.find((u) => !estVideo(u)) || photosUrls[0]) ? (
+                      <video
+                        src={photosUrls.find((u) => !estVideo(u)) || photosUrls[0]}
+                        muted
+                        playsInline
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={photosUrls.find((u) => !estVideo(u)) || photosUrls[0]}
+                        alt="Aperçu couverture"
+                        className="h-full w-full object-cover"
+                      />
+                    )
+                  ) : (
+                    <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center text-muted-foreground">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted-foreground/10 text-xl">
+                        🌿
+                      </div>
+                      <p className="mt-2 text-xs font-medium">Votre photo de couverture apparaîtra ici</p>
+                    </div>
+                  )}
+
+                  {photosUrls.length > 1 && (
+                    <span className="absolute bottom-2 right-2 rounded-full bg-primary/80 px-2.5 py-1 text-xs font-medium text-primary-foreground backdrop-blur-sm">
+                      +{photosUrls.length - 1} média{photosUrls.length > 2 ? "s" : ""}
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-4 flex items-baseline justify-between gap-3">
+                  <h3 className="truncate font-display text-2xl text-primary">{titre.trim() || "Titre du projet"}</h3>
+                  <span className="shrink-0 text-xs font-medium text-moss">{lieu.trim() || "Hérin & environs"}</span>
+                </div>
+
+                <p className="mt-1 text-xs text-muted-foreground">{type.trim() || "Catégorie"}</p>
+
+                {description.trim() && (
+                  <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+                    {description.trim()}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-
-          <div>
-            <label className="text-sm font-medium">2. Titre *</label>
-            <Input
-              placeholder="ex : Taille de haies"
-              value={titre}
-              onChange={(e) => setTitre(e.target.value)}
-              className="mt-1 rounded-xl"
-              required
-            />
-          </div>
-
-          <div>
-            <p className="text-sm font-medium">3. Catégorie</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {["Taille de haie", "Débroussaillage", "Tonte", "Aménagement", "Entretien"].map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setType(cat)}
-                  className={`rounded-full px-4 py-2 text-sm transition ${
-                    type === cat ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <details className="rounded-2xl bg-muted/40 p-4">
-            <summary className="cursor-pointer text-sm font-medium">Plus de détails (facultatif)</summary>
-            <div className="mt-4 space-y-4">
-              <div>
-                <label className="text-sm font-medium">Lieu</label>
-                <Input value={lieu} onChange={(e) => setLieu(e.target.value)} className="mt-1 rounded-xl" />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Autre catégorie</label>
-                <Input value={type} onChange={(e) => setType(e.target.value)} className="mt-1 rounded-xl" />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Description</label>
-                <Textarea
-                  placeholder="Quelques mots sur le chantier…"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="mt-1 rounded-xl"
-                  rows={3}
-                />
-              </div>
-            </div>
-          </details>
-
-          <Button type="submit" disabled={submitting || uploading} className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto">
-            {submitting ? "Publication…" : "Publier"}
-          </Button>
-        </form>
+        </div>
       </div>
 
       {/* Liste des chantiers existants */}
