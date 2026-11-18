@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { ArrowUpRight, Calendar, ChevronLeft, ChevronRight, Leaf, MapPin, Maximize2, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { estVideo } from "@/lib/media";
 
 export type ProjetLightbox = {
   img: string;
@@ -94,11 +95,21 @@ export function LightboxProjets({ projet, onClose }: Props) {
           {/* Colonne gauche : Galerie photos */}
           <div className="min-w-0">
             <figure className="relative overflow-hidden rounded-2xl bg-forest">
-              <img
-                src={photos[index]}
-                alt={projet.titre}
-                className="aspect-[4/3] max-h-[62dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
-              />
+              {estVideo(photos[index]) ? (
+                <video
+                  key={photos[index]}
+                  src={photos[index]}
+                  controls
+                  playsInline
+                  className="aspect-[4/3] max-h-[62dvh] w-full bg-forest object-contain sm:aspect-[3/2] lg:aspect-[4/3]"
+                />
+              ) : (
+                <img
+                  src={photos[index]}
+                  alt={projet.titre}
+                  className="aspect-[4/3] max-h-[62dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
+                />
+              )}
               {/* Logo carré avec fondu vert foncé doux (halo sans contours) */}
               <div className="absolute left-2 top-2 z-10 select-none pointer-events-none flex items-center justify-center rounded-full p-4 [background:radial-gradient(circle,rgba(11,29,20,0.85)_0%,rgba(11,29,20,0.5)_45%,transparent_75%)] sm:left-4 sm:top-4 sm:p-6">
                 <img
@@ -152,7 +163,11 @@ export function LightboxProjets({ projet, onClose }: Props) {
                       i === index ? "border-gold" : "border-transparent opacity-65 hover:opacity-100"
                     }`}
                   >
-                    <img src={photo} alt="" className="aspect-[4/3] w-full object-cover" />
+                    {estVideo(photo) ? (
+                      <video src={photo} muted playsInline preload="metadata" className="pointer-events-none aspect-[4/3] w-full object-cover" />
+                    ) : (
+                      <img src={photo} alt="" className="aspect-[4/3] w-full object-cover" />
+                    )}
                   </Button>
                 ))}
               </div>

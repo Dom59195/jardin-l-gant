@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Trash2, Plus, Upload, LogOut, CheckCircle2 } from "lucide-react";
 import { AdminDevis } from "@/components/admin-devis";
+import { estVideo } from "@/lib/media";
 
 export const Route = createFileRoute("/admin")({
   staticData: { sitemap: "exclude-subtree" },
@@ -126,8 +127,9 @@ function AdminPage() {
 
   async function handleCreerProjet(e: FormEvent) {
     e.preventDefault();
-    if (!titre.trim() || photosUrls.length === 0) {
-      alert("Veuillez indiquer un titre et ajouter au moins une photo.");
+    const couverture = photosUrls.find((u) => !estVideo(u));
+    if (!titre.trim() || !couverture) {
+      alert("Veuillez indiquer un titre et ajouter au moins une photo (elle servira de couverture).");
       return;
     }
     setSubmitting(true);
@@ -141,7 +143,7 @@ function AdminPage() {
       surface: null,
       resultat: null,
       etapes: [],
-      img: photosUrls[0],
+      img: couverture,
       photos: photosUrls,
       ordre: projets.length,
     };
@@ -233,19 +235,23 @@ function AdminPage() {
         <p className="mt-1 text-sm text-muted-foreground">Photos, titre, catégorie… c'est tout.</p>
         <form onSubmit={handleCreerProjet} className="mt-6 space-y-6">
           <div>
-            <p className="text-sm font-medium">1. Photos *</p>
+            <p className="text-sm font-medium">1. Photos et vidéos *</p>
             <div className="mt-2 flex flex-wrap gap-3">
               {photosUrls.map((url, i) => (
                 <div key={url} className="relative h-24 w-24 overflow-hidden rounded-xl border border-border">
-                  <img src={url} alt={`Aperçu ${i + 1}`} className="h-full w-full object-cover" />
-                  {i === 0 && (
+                  {estVideo(url) ? (
+                    <video src={url} muted playsInline className="h-full w-full object-cover" />
+                  ) : (
+                    <img src={url} alt={`Aperçu ${i + 1}`} className="h-full w-full object-cover" />
+                  )}
+                  {url === photosUrls.find((u) => !estVideo(u)) && (
                     <span className="absolute bottom-1 left-1 rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">Principale</span>
                   )}
                   <button
                     type="button"
                     onClick={() => setPhotosUrls((p) => p.filter((_, idx) => idx !== i))}
                     className="absolute right-1 top-1 rounded-full bg-primary/80 px-1.5 text-xs text-primary-foreground hover:bg-destructive"
-                    aria-label="Retirer la photo"
+                    aria-label="Retirer"
                   >
                     ✕
                   </button>
@@ -254,7 +260,7 @@ function AdminPage() {
               <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/40 transition hover:bg-muted">
                 <Upload className="h-5 w-5 text-muted-foreground" />
                 <span className="mt-1 text-xs text-muted-foreground">{uploading ? "Envoi…" : "Ajouter"}</span>
-                <input type="file" multiple accept="image/*" onChange={handleUploadPhoto} className="hidden" disabled={uploading} />
+                <input type="file" multiple accept="image/*,video/*" onChange={handleUploadPhoto} className="hidden" disabled={uploading} />
               </label>
             </div>
           </div>
@@ -336,7 +342,7 @@ function AdminPage() {
                 <div className="flex-1 min-w-0">
                   <h3 className="truncate font-semibold text-primary">{p.titre}</h3>
                   <p className="text-xs text-muted-foreground">
-                    {p.lieu} · {p.photos.length} photo(s)
+                    {p.lieu} · {p.photos.length} média(s)
                   </p>
                 </div>
                 <Button
