@@ -122,7 +122,6 @@ function Projets() {
                 <h2 className="font-display text-3xl text-primary">{p.titre}</h2>
                 <span className="eyebrow text-moss">{p.lieu}</span>
               </div>
-              <p className="mt-1 text-sm text-muted-foreground">{p.type}</p>
             </button>
           </article>
         ))}
