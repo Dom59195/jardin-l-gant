@@ -140,9 +140,10 @@ export function LightboxProjets({ projet, onClose }: Props) {
                 <img
                   src={photos[index]}
                   alt={projet.titre}
-                  className="aspect-[4/3] max-h-[62dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
+                  className="aspect-[4/3] max-h-[62dvh] w-full bg-forest object-contain sm:aspect-[3/2] lg:aspect-[4/3]"
                 />
               )}
+
               {/* Logo carré avec fondu */}
               <div className="absolute left-2 top-2 z-10 select-none pointer-events-none flex items-center justify-center rounded-full p-4 [background:radial-gradient(circle,rgba(11,29,20,0.85)_0%,rgba(11,29,20,0.5)_45%,transparent_75%)] sm:left-4 sm:top-4 sm:p-6">
                 <img
