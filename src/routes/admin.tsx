@@ -576,14 +576,26 @@ function AdminPage() {
                     {p.lieu} · {p.photos.length} média(s)
                   </p>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleSupprimerProjet(p.id)}
-                  className="text-destructive hover:bg-destructive/10"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => chargerProjetPourEdition(p)}
+                    className="text-primary hover:bg-primary/10"
+                    title="Modifier ce projet"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleSupprimerProjet(p.id)}
+                    className="text-destructive hover:bg-destructive/10"
+                    title="Supprimer ce projet"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
