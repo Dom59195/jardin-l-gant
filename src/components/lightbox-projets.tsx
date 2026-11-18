@@ -30,6 +30,36 @@ export function LightboxProjets({ projet, onClose }: Props) {
 
   const photos = projet?.photos && projet.photos.length > 0 ? projet.photos : [projet?.img].filter(Boolean);
   const total = photos.length;
+  const figureRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const passerEnPleinEcran = () => {
+    const video = videoRef.current;
+    const figure = figureRef.current;
+
+    // Plein écran vidéo (notamment compatible iPhone Safari)
+    if (estVideo(photos[index] ?? "")) {
+      if (video) {
+        if (typeof (video as any).webkitEnterFullscreen === "function") {
+          (video as any).webkitEnterFullscreen();
+          return;
+        }
+        if (video.requestFullscreen) {
+          video.requestFullscreen().catch(() => {});
+          return;
+        }
+      }
+    }
+
+    // Plein écran image ou conteneur
+    if (figure) {
+      if (figure.requestFullscreen) {
+        figure.requestFullscreen().catch(() => {});
+      } else if ((figure as any).webkitRequestFullscreen) {
+        (figure as any).webkitRequestFullscreen();
+      }
+    }
+  };
 
   useEffect(() => {
     const avant = document.body.style.overflow;
@@ -94,9 +124,10 @@ export function LightboxProjets({ projet, onClose }: Props) {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12">
           {/* Colonne gauche : Galerie photos */}
           <div className="min-w-0">
-            <figure className="relative overflow-hidden rounded-2xl bg-forest">
+            <figure ref={figureRef} className="relative overflow-hidden rounded-2xl bg-forest">
               {estVideo(photos[index] ?? "") ? (
                 <video
+                  ref={videoRef}
                   key={photos[index]}
                   src={photos[index]}
                   autoPlay
@@ -112,7 +143,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
                   className="aspect-[4/3] max-h-[62dvh] w-full object-cover sm:aspect-[3/2] lg:aspect-[4/3]"
                 />
               )}
-              {/* Logo carré avec fondu vert foncé doux (halo sans contours) */}
+              {/* Logo carré avec fondu */}
               <div className="absolute left-2 top-2 z-10 select-none pointer-events-none flex items-center justify-center rounded-full p-4 [background:radial-gradient(circle,rgba(11,29,20,0.85)_0%,rgba(11,29,20,0.5)_45%,transparent_75%)] sm:left-4 sm:top-4 sm:p-6">
                 <img
                   src="/__l5e/assets-v1/fa269db7-45e7-4a2a-a6fa-7259a1be5936/logo-blondel-jardin-detoure.png"
@@ -120,6 +151,18 @@ export function LightboxProjets({ projet, onClose }: Props) {
                   className="h-14 w-14 object-contain brightness-0 invert opacity-95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:h-18 sm:w-18"
                 />
               </div>
+
+              {/* Bouton Plein écran */}
+              <Button
+                variant="ghost"
+                size="icon"
+                type="button"
+                onClick={passerEnPleinEcran}
+                aria-label="Afficher en plein écran"
+                className="absolute right-3 top-3 z-10 h-10 w-10 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground backdrop-blur-sm hover:bg-primary"
+              >
+                <Maximize2 className="h-5 w-5" />
+              </Button>
 
               {total > 1 && (
                 <>
