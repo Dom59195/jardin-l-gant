@@ -3,7 +3,8 @@ import { z } from "zod";
 import { useEffect, useRef, useState } from "react";
 import { Maximize2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { projets as projetsParDefaut, type Projet } from "@/lib/projets";
+import type { Projet } from "@/lib/projets";
+
 import { LightboxProjets } from "@/components/lightbox-projets";
 import { Button } from "@/components/ui/button";
 import { categorieTaille, filtrerProjets } from "@/lib/projets-categories";
@@ -35,7 +36,8 @@ export const Route = createFileRoute("/projets")({
 
 function Projets() {
   const { categorie } = Route.useSearch();
-  const [listeProjets, setListeProjets] = useState<Projet[]>(projetsParDefaut);
+  const [listeProjets, setListeProjets] = useState<Projet[]>([]);
+  const [chargement, setChargement] = useState(true);
   const [ouvert, setOuvert] = useState<number | null>(null);
   const declencheur = useRef<HTMLButtonElement | null>(null);
 
@@ -52,12 +54,14 @@ function Projets() {
     (supabase as any)
       .from("projets")
       .select("*")
-
       .order("ordre", { ascending: true })
       .then(({ data }: { data: unknown }) => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           setListeProjets(data as unknown as Projet[]);
         }
+      })
+      .finally(() => {
+        setChargement(false);
       });
   }, []);
 
@@ -127,7 +131,7 @@ function Projets() {
         ))}
       </div>
 
-      {projetsAffiches.length === 0 && (
+      {!chargement && projetsAffiches.length === 0 && (
         <p className="mt-8 text-muted-foreground">Aucun projet dans cette catégorie pour le moment.</p>
       )}
 
