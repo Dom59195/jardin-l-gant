@@ -63,6 +63,29 @@ function AdminPage() {
   const [resultat, setResultat] = useState("");
   const [etapes, setEtapes] = useState<Etape[]>([{ jour: "Étape 1", texte: "" }]);
   const [photosUrls, setPhotosUrls] = useState<string[]>([]);
+  const [projetEnEdition, setProjetEnEdition] = useState<ProjetDB | null>(null);
+
+  function chargerProjetPourEdition(p: ProjetDB) {
+    setProjetEnEdition(p);
+    setTitre(p.titre);
+    setLieu(p.lieu || "Hérin (59)");
+    setType(p.type || "Entretien");
+    setDescription(p.description || "");
+    setPhotosUrls(p.photos && p.photos.length > 0 ? p.photos : [p.img]);
+    setMediaActifIndex(0);
+    window.scrollTo({ top: 350, behavior: "smooth" });
+  }
+
+  function annulerEdition() {
+    setProjetEnEdition(null);
+    setTitre("");
+    setLieu("Hérin (59)");
+    setType("Entretien");
+    setDescription("");
+    setPhotosUrls([]);
+    setMediaActifIndex(0);
+  }
+
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -118,28 +141,6 @@ function AdminPage() {
     setSession(false);
   }
 
-  async function handleUploadPhoto(e: ChangeEvent<HTMLInputElement>) {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-    setUploading(true);
-
-    const nouvellesUrls: string[] = [];
-    for (const file of Array.from(files)) {
-      const ext = file.name.split(".").pop();
-      const nom = `${Date.now()}-${Math.random().toString(36).substring(2)}.${ext}`;
-      const { data, error } = await supabase.storage.from("projets").upload(nom, file);
-      if (!error && data) {
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("projets").getPublicUrl(data.path);
-        nouvellesUrls.push(publicUrl);
-      }
-    }
-
-    setPhotosUrls((prec) => [...prec, ...nouvellesUrls]);
-    setUploading(false);
-  }
-
   async function handleCreerProjet(e: FormEvent) {
     e.preventDefault();
     const couverture = photosUrls.find((u) => !estVideo(u));
@@ -149,42 +150,56 @@ function AdminPage() {
     }
     setSubmitting(true);
 
-    const nouveau = {
-      titre,
-      lieu,
-      type,
-      description,
-      duree: null,
-      surface: null,
-      resultat: null,
-      etapes: [],
-      img: couverture,
-      photos: photosUrls,
-      ordre: projets.length,
-    };
+    if (projetEnEdition) {
+      // 1. Cas où on MODIFIE un projet existant
+      const { error } = await (supabase as any)
+        .from("projets")
+        .update({
+          titre,
+          lieu,
+          type,
+          description,
+          img: couverture,
+          photos: photosUrls,
+        })
+        .eq("id", projetEnEdition.id);
 
-    const { error } = await (supabase as any).from("projets").insert([nouveau]);
-    if (!error) {
-      setSuccessMsg("Projet publié avec succès sur le site !");
-      setTimeout(() => setSuccessMsg(null), 4000);
-      setTitre("");
-      setDescription("");
-      setDuree("");
-      setSurface("");
-      setResultat("");
-      setEtapes([{ jour: "Étape 1", texte: "" }]);
-      setPhotosUrls([]);
-      chargerProjets();
+      if (!error) {
+        setSuccessMsg("Projet mis à jour avec succès !");
+        setTimeout(() => setSuccessMsg(null), 4000);
+        annulerEdition();
+        chargerProjets();
+      } else {
+        alert("Erreur lors de la modification : " + error.message);
+      }
     } else {
-      alert(`Erreur : ${error.message}`);
-    }
-    setSubmitting(false);
-  }
+      // 2. Cas où on CRÉE un nouveau projet
+      const nouveau = {
+        titre,
+        lieu,
+        type,
+        description,
+        duree: null,
+        surface: null,
+        resultat: null,
+        etapes: [],
+        img: couverture,
+        photos: photosUrls,
+        ordre: projets.length,
+      };
 
-  async function handleSupprimerProjet(id: string) {
-    if (!confirm("Voulez-vous vraiment supprimer ce projet ?")) return;
-    await (supabase as any).from("projets").delete().eq("id", id);
-    chargerProjets();
+      const { error } = await (supabase as any).from("projets").insert([nouveau]);
+      if (!error) {
+        setSuccessMsg("Projet publié avec succès sur le site !");
+        setTimeout(() => setSuccessMsg(null), 4000);
+        annulerEdition();
+        chargerProjets();
+      } else {
+        alert(`Erreur : ${error.message}`);
+      }
+    }
+
+    setSubmitting(false);
   }
 
   if (!session) {
