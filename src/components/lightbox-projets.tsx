@@ -95,7 +95,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
           {/* Colonne gauche : Galerie photos */}
           <div className="min-w-0">
             <figure className="relative overflow-hidden rounded-2xl bg-forest">
-              {estVideo(photos[index]) ? (
+              {estVideo(photos[index] ?? "") ? (
                 <video
                   key={photos[index]}
                   src={photos[index]}
