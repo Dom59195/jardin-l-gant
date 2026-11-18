@@ -135,6 +135,27 @@ function AdminPage() {
     if (error) setAuthError(error.message);
     setLoadingAuth(false);
   }
+  async function handleUploadPhoto(e: ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    setUploading(true);
+
+    const nouvellesUrls: string[] = [];
+    for (const file of Array.from(files)) {
+      const ext = file.name.split(".").pop();
+      const nom = `${Date.now()}-${Math.random().toString(36).substring(2)}.${ext}`;
+      const { data, error } = await supabase.storage.from("projets").upload(nom, file);
+      if (!error && data) {
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("projets").getPublicUrl(data.path);
+        nouvellesUrls.push(publicUrl);
+      }
+    }
+
+    setPhotosUrls((prec) => [...prec, ...nouvellesUrls]);
+    setUploading(false);
+  }
 
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -200,6 +221,11 @@ function AdminPage() {
     }
 
     setSubmitting(false);
+  }
+  async function handleSupprimerProjet(id: string) {
+    if (!confirm("Voulez-vous vraiment supprimer ce projet ?")) return;
+    await (supabase as any).from("projets").delete().eq("id", id);
+    chargerProjets();
   }
 
   if (!session) {
