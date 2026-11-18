@@ -220,8 +220,7 @@ function AdminPage() {
       </section>
     );
   }
-    const mediaActif = photosUrls[mediaActifIndex] ?? photosUrls[0] ?? "";
-
+  const mediaActif = photosUrls[mediaActifIndex] ?? photosUrls[0] ?? "";
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-16">
@@ -236,7 +235,19 @@ function AdminPage() {
       </div>
 
       {successMsg && (
-               <div className="mt-6 grid items-start gap-8 lg:grid-cols-12">
+        <div className="mt-6 flex items-center gap-3 rounded-2xl bg-moss/10 p-4 text-moss">
+          <CheckCircle2 className="h-5 w-5" />
+          <span className="font-medium">{successMsg}</span>
+        </div>
+      )}
+
+      {/* Formulaire d'ajout avec lecteur de montage */}
+      <AdminDevis />
+      <div className="mt-10 rounded-3xl border border-border bg-background p-6 md:p-8">
+        <h2 className="font-display text-2xl text-primary">Nouveau projet en 3 clics</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Photos, titre, catégorie… c'est tout.</p>
+
+        <div className="mt-6 grid items-start gap-8 lg:grid-cols-12">
           {/* Colonne gauche : Le formulaire et la timeline */}
           <form onSubmit={handleCreerProjet} className="space-y-6 lg:col-span-6">
             <div>
@@ -388,7 +399,11 @@ function AdminPage() {
               </div>
             </details>
 
-            <Button type="submit" disabled={submitting || uploading} className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto">
+            <Button
+              type="submit"
+              disabled={submitting || uploading}
+              className="w-full rounded-full bg-primary px-8 text-primary-foreground sm:w-auto"
+            >
               {submitting ? "Publication…" : "Publier"}
             </Button>
           </form>
@@ -411,7 +426,7 @@ function AdminPage() {
                 )}
               </div>
 
-              {/* Écran du lecteur avec contrôles complets */}
+              {/* Écran du lecteur avec contrôles */}
               <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black flex items-center justify-center">
                 {photosUrls.length > 0 && mediaActif ? (
                   estVideo(mediaActif) ? (
@@ -433,16 +448,16 @@ function AdminPage() {
                   )
                 ) : (
                   <div className="flex flex-col items-center justify-center p-6 text-center text-white/40">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 text-2xl">
-                      🎬
-                    </div>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 text-2xl">🎬</div>
                     <p className="mt-3 text-sm font-medium text-white/60">Écran en attente</p>
-                    <p className="mt-1 text-xs text-white/40">Ajoutez des vidéos ou des photos à gauche pour les lire ici</p>
+                    <p className="mt-1 text-xs text-white/40">
+                      Ajoutez des vidéos ou des photos à gauche pour les lire ici
+                    </p>
                   </div>
                 )}
               </div>
 
-              {/* Barre de zapping précédent / suivant */}
+              {/* Barre de zapping */}
               {photosUrls.length > 1 && (
                 <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
                   <Button
@@ -455,9 +470,7 @@ function AdminPage() {
                   >
                     ◀ Précédent
                   </Button>
-                  <span className="text-xs text-white/50">
-                    Cliquez sur une vignette pour la charger
-                  </span>
+                  <span className="text-xs text-white/50">Cliquez sur une vignette pour la charger</span>
                   <Button
                     type="button"
                     variant="ghost"
@@ -470,19 +483,6 @@ function AdminPage() {
                   </Button>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-
-
-                <p className="mt-1 text-xs text-muted-foreground">{type.trim() || "Catégorie"}</p>
-
-                {description.trim() && (
-                  <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
-                    {description.trim()}
-                  </p>
-                )}
-              </div>
             </div>
           </div>
         </div>
