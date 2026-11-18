@@ -123,13 +123,6 @@ function Projets() {
                 <span className="eyebrow text-moss">{p.lieu}</span>
               </div>
               <p className="mt-1 text-sm text-muted-foreground">{p.type}</p>
-                            <div className="mt-5 flex items-baseline justify-between gap-4">
-                <h2 className="font-display text-3xl text-primary">{p.titre}</h2>
-                <span className="eyebrow text-moss">{p.lieu}</span>
-              </div>
-              <p className="mt-1 text-sm text-muted-foreground">{p.type}</p>
-            </button>
-
             </button>
           </article>
         ))}
