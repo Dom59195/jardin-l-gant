@@ -160,7 +160,7 @@ export function LightboxProjets({ projet, onClose }: Props) {
                 type="button"
                 onClick={passerEnPleinEcran}
                 aria-label="Afficher en plein écran"
-                className="absolute right-3 top-3 z-10 h-10 w-10 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground backdrop-blur-sm hover:bg-primary"
+                className="absolute bottom-3 left-3 z-10 h-10 w-10 rounded-full border border-primary-foreground/20 bg-primary/80 text-primary-foreground backdrop-blur-sm hover:bg-primary"
               >
                 <Maximize2 className="h-5 w-5" />
               </Button>
