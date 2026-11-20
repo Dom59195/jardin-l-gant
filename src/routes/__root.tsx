@@ -82,6 +82,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Blondel Jardin" },
       { name: "description", content: "Jardinier paysagiste" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Blondel Jardin" },
+      { name: "application-name", content: "Blondel Jardin" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [

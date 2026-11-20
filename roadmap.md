@@ -19,3 +19,4 @@
 - [ ] Vérifier la consultation des devis avec le compte propriétaire connecté (session externe indisponible ici).
 - [ ] Envoyer les devis à l’adresse demandée (attend un domaine d’envoi vérifié).
 - [x] Corriger les deux alertes SEO : contexte des projets et sitemap public, puis vérifier.
+- [x] Nom de site « Blondel Jardin » pour Google (JSON-LD WebSite, og:site_name, titre accueil).

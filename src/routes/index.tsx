@@ -44,13 +44,15 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Blondel Jardin — Jardinier paysagiste à Hérin (Nord)" },
+      { title: "Blondel Jardin | Jardinier paysagiste à Valenciennes" },
       {
         name: "description",
         content:
           "Entretien et aménagement de jardins à Hérin et dans le Valenciennois. Devis gratuit, 50 % de crédit d'impôt.",
       },
-      { property: "og:title", content: "Blondel Jardin — Jardinier paysagiste à Hérin" },
+      { property: "og:title", content: "Blondel Jardin | Jardinier paysagiste à Valenciennes" },
+      { property: "og:site_name", content: "Blondel Jardin" },
+      { property: "og:url", content: "https://blondeljardin.com/" },
       { property: "og:description", content: "Entretien et aménagement de jardins à Hérin et alentours." },
       { property: "og:type", content: "website" },
       {
@@ -62,6 +64,20 @@ export const Route = createFileRoute("/")({
         content: "https://images.unsplash.com/photo-1741308234369-8bdfb0520bdf?w=1200&h=630&fit=crop&auto=format&q=80",
       },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://blondeljardin.com/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Blondel Jardin",
+          alternateName: ["BlondelJardin", "blondeljardin.com"],
+          url: "https://blondeljardin.com/",
+          inLanguage: "fr-FR",
+        }),
+      },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(avisQuery).catch(() => secours),
