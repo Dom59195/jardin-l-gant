@@ -9,7 +9,7 @@ type Consent = {
   necessary: true;
   analytics: boolean;
   marketing: boolean;
-  savedAt?: string;
+  savedAt: string;
 };
 
 type Fbq = {
