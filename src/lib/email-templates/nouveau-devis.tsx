@@ -34,7 +34,7 @@ const Email = ({ nom, email, telephone, prestations, message }: Props) => (
 
 export const template = {
   component: Email,
-  subject: (d: Record<string, any>) => `Nouvelle demande de devis — ${d.nom || 'client'}`,
+  subject: (d: Record<string, any>) => `Nouvelle demande de devis — ${d['nom'] || 'client'}`,
   displayName: 'Nouvelle demande de devis',
   to: 'cblondel26@gmail.com',
   previewData: { nom: 'Marie Dupont', email: 'marie@example.com', telephone: '06 12 34 56 78', prestations: ['Taille de haies'], message: 'Bonjour, je souhaite faire tailler ma haie.' },
