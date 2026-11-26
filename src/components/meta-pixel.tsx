@@ -70,6 +70,13 @@ function loadMetaPixel() {
   }
 }
 
+export function trackMetaLead() {
+  if (!hasMarketingConsent()) return;
+
+  loadMetaPixel();
+  window.fbq?.("track", "Lead");
+}
+
 export function MetaPixel() {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
