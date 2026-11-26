@@ -16,7 +16,6 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "../components/site-layout";
 import { CallBar } from "../components/call-bar";
 import { CookieConsent } from "../components/cookie-consent";
-import { MetaPixel } from "../components/meta-pixel";
 
 function NotFoundComponent() {
   return (
