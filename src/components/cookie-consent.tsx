@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from "react";
 
+const STORAGE_KEY = "blondel-jardin-cookie-consent-v1";
+
 type Consent = {
   necessary: true;
   analytics: boolean;
@@ -8,166 +10,202 @@ type Consent = {
   savedAt: string;
 };
 
-const STORAGE_KEY = "blondel-jardin-cookie-consent-v1";
+function saveConsent(analytics: boolean, marketing: boolean) {
+  const consent: Consent = {
+    necessary: true,
+    analytics,
+    marketing,
+    savedAt: new Date().toISOString(),
+  };
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
+
+  window.dispatchEvent(
+    new CustomEvent("blondel-cookie-consent", {
+      detail: consent,
+    })
+  );
+}
 
 export function CookieConsent() {
-  const [consent, setConsent] = useState<Consent | null>(null);
-  const [showBanner, setShowBanner] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [customizing, setCustomizing] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(STORAGE_KEY);
 
-      if (stored) {
-        const parsed = JSON.parse(stored) as Consent;
-
-        if (
-          typeof parsed.analytics === "boolean" &&
-          typeof parsed.marketing === "boolean"
-        ) {
-          setConsent(parsed);
-          setAnalytics(parsed.analytics);
-          setMarketing(parsed.marketing);
-        } else {
-          setShowBanner(true);
-        }
-      } else {
-        setShowBanner(true);
+    if (stored) {
+      try {
+        const consent = JSON.parse(stored) as Consent;
+        setAnalytics(consent.analytics === true);
+        setMarketing(consent.marketing === true);
+        setVisible(false);
+      } catch {
+        setVisible(true);
       }
-    } catch {
-      setShowBanner(true);
+    } else {
+      setVisible(true);
     }
   }, []);
 
-  function save(next: { analytics: boolean; marketing: boolean }) {
-    const value: Consent = {
-      necessary: true,
-      ...next,
-      savedAt: new Date().toISOString(),
-    };
+  function acceptAll() {
+    saveConsent(true, true);
+    setAnalytics(true);
+    setMarketing(true);
+    setVisible(false);
+    setCustomizing(false);
+  }
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
-    setConsent(value);
-    setAnalytics(value.analytics);
-    setMarketing(value.marketing);
-    setShowBanner(false);
-    setShowSettings(false);
+  function rejectAll() {
+    saveConsent(false, false);
+    setAnalytics(false);
+    setMarketing(false);
+    setVisible(false);
+    setCustomizing(false);
+  }
 
-    window.dispatchEvent(
-      new CustomEvent("blondel-cookie-consent", {
-        detail: value,
-      })
-    );
+  function savePreferences() {
+    saveConsent(analytics, marketing);
+    setVisible(false);
+    setCustomizing(false);
+  }
+
+  function reopenPreferences() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+
+    if (stored) {
+      try {
+        const consent = JSON.parse(stored) as Consent;
+        setAnalytics(consent.analytics === true);
+        setMarketing(consent.marketing === true);
+      } catch {
+        setAnalytics(false);
+        setMarketing(false);
+      }
+    }
+
+    setCustomizing(true);
+    setVisible(true);
   }
 
   return (
     <>
-      {!showBanner && (
-        <button
-          type="button"
-          onClick={() => {
-            setAnalytics(consent?.analytics ?? false);
-            setMarketing(consent?.marketing ?? false);
-            setShowSettings(true);
-            setShowBanner(true);
-          }}
-          className="fixed bottom-3 left-3 z-[90] rounded-full border border-[#d8cfbd] bg-[#f7f3e9] px-3 py-2 text-xs font-medium text-[#244333] shadow-lg"
-        >
-          Préférences cookies
-        </button>
-      )}
-
-      {showBanner && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="cookie-title"
-          className="fixed inset-x-0 bottom-0 z-[100] border-t border-[#d8cfbd] bg-[#f7f3e9] px-4 py-5 text-[#243b30] shadow-lg sm:px-6"
-        >
-          <div className="mx-auto max-w-6xl">
-            <p id="cookie-title" className="text-base font-semibold">
+      {visible && (
+        <div className="fixed bottom-4 left-4 right-4 z-[9999] mx-auto max-w-3xl rounded-xl border border-[#dce8df] bg-white p-5 shadow-2xl">
+          <div className="mb-3">
+            <h2 className="text-base font-semibold text-[#20543b]">
               Votre confidentialité compte pour nous
-            </p>
+            </h2>
 
-            <p className="mt-1 text-sm leading-relaxed text-[#526257]">
+            <p className="mt-2 text-sm leading-relaxed text-[#78917f]">
               Blondel Jardin utilise des cookies nécessaires au fonctionnement
-              du site. Avec votre accord, nous pouvons aussi mesurer l’audience
-              et améliorer nos publicités.
+              du site. Avec votre accord, nous pouvons également mesurer
+              l’audience et améliorer nos publicités.
             </p>
 
             <a
               href="/politique-confidentialite"
-              className="mt-2 inline-block text-xs underline"
+              className="mt-2 inline-block text-xs text-[#20543b] underline"
             >
               En savoir plus sur la confidentialité
             </a>
+          </div>
 
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-              <button
-                type="button"
-                onClick={() => save({ analytics: false, marketing: false })}
-                className="rounded-md border border-[#315440] px-4 py-2.5 text-sm font-semibold"
-              >
-                Tout refuser
-              </button>
+          {customizing && (
+            <div className="my-4 space-y-3 border-y border-[#e5eee7] py-4">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium text-[#20543b]">
+                    Cookies nécessaires
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Indispensables au fonctionnement du site.
+                  </p>
+                </div>
+                <span className="text-xs font-medium text-[#20543b]">
+                  Toujours actifs
+                </span>
+              </div>
 
+              <label className="flex cursor-pointer items-center justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium text-[#20543b]">
+                    Cookies analytiques
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Nous aident à comprendre la fréquentation du site.
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={analytics}
+                  onChange={(event) => setAnalytics(event.target.checked)}
+                />
+              </label>
+
+              <label className="flex cursor-pointer items-center justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium text-[#20543b]">
+                    Cookies publicitaires
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Permettent de mesurer et d’améliorer nos publicités.
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={marketing}
+                  onChange={(event) => setMarketing(event.target.checked)}
+                />
+              </label>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={rejectAll}
+              className="rounded-full border border-[#b9d2c1] px-4 py-2 text-xs font-medium text-[#20543b] hover:bg-[#f3f8f4]"
+            >
+              Tout refuser
+            </button>
+
+            {!customizing && (
               <button
-                type="button"
-                onClick={() => setShowSettings(!showSettings)}
-                className="rounded-md border border-[#315440] px-4 py-2.5 text-sm font-semibold"
+                onClick={() => setCustomizing(true)}
+                className="rounded-full border border-[#b9d2c1] px-4 py-2 text-xs font-medium text-[#20543b] hover:bg-[#f3f8f4]"
               >
                 Personnaliser
               </button>
-
-              <button
-                type="button"
-                onClick={() => save({ analytics: true, marketing: true })}
-                className="rounded-md bg-[#244333] px-4 py-2.5 text-sm font-semibold text-white"
-              >
-                Tout accepter
-              </button>
-            </div>
-
-            {showSettings && (
-              <div className="mt-5 grid gap-3 border-t border-[#d8cfbd] pt-4 sm:grid-cols-3">
-                <div className="text-sm">
-                  <p className="font-semibold">Cookies nécessaires</p>
-                  <p className="text-xs">Toujours actifs.</p>
-                </div>
-
-                <label className="flex gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={analytics}
-                    onChange={(event) => setAnalytics(event.target.checked)}
-                  />
-                  Mesure d’audience
-                </label>
-
-                <label className="flex gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={marketing}
-                    onChange={(event) => setMarketing(event.target.checked)}
-                  />
-                  Publicité (Pixel Meta)
-                </label>
-
-                <button
-                  type="button"
-                  onClick={() => save({ analytics, marketing })}
-                  className="rounded-md bg-[#244333] px-5 py-2.5 text-sm font-semibold text-white sm:col-span-3 sm:justify-self-start"
-                >
-                  Enregistrer mes choix
-                </button>
-              </div>
             )}
+
+            {customizing && (
+              <button
+                onClick={savePreferences}
+                className="rounded-full border border-[#b9d2c1] px-4 py-2 text-xs font-medium text-[#20543b] hover:bg-[#f3f8f4]"
+              >
+                Enregistrer mes choix
+              </button>
+            )}
+
+            <button
+              onClick={acceptAll}
+              className="rounded-full bg-[#286447] px-4 py-2 text-xs font-medium text-white hover:bg-[#1d4e36]"
+            >
+              Tout accepter
+            </button>
           </div>
         </div>
       )}
+
+      <button
+        type="button"
+        onClick={reopenPreferences}
+        className="fixed bottom-3 left-3 z-[9998] text-[10px] text-[#20543b] hover:underline"
+      >
+        Préférences cookies
+      </button>
     </>
   );
 }
