@@ -12,5 +12,14 @@ export const envoyerDevis = createServerFn({ method: "POST" })
       _prestations: data.prestations, _prestation_confirmee: data.prestationConfirmee,
     });
     if (error) throw new Error("Impossible d’enregistrer votre demande. Réessayez dans quelques minutes ou appelez-nous.");
+    try {
+      const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+      await sendTemplateEmail("nouveau-devis", "cblondel26@gmail.com", {
+        templateData: { nom: data.nom, email: data.email, telephone: data.telephone, prestations: data.prestations, message: data.message },
+        idempotencyKey: `nouveau-devis-${data.id}`,
+      });
+    } catch (e) {
+      console.error("Envoi de l’e-mail de devis impossible", e);
+    }
     return { saved: true };
   });
