@@ -1,4 +1,4 @@
-
+import { MetaPixel } from "../components/meta-pixel";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
