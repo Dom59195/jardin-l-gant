@@ -23,7 +23,7 @@ export const envoyerDevis = createServerFn({ method: "POST" })
     }
 
     try {
-      const { sendTemplateEmail } = await import("@/lib/email.template/send-email");
+      const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
       await sendTemplateEmail("nouveau-devis", "blondeljardin@gmail.com", {
         templateData: {
           nom: data.nom,
