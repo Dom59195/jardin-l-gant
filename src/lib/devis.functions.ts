@@ -8,7 +8,7 @@ export const envoyerDevis = createServerFn({ method: "POST" })
     if (data.website) throw new Error("Demande refusée.");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("submit_quote").insert({
+    const { error } = await supabaseAdmin.rpc("submit_quote", {
       _id: data.id,
       _nom: data.nom,
       _email: data.email,
@@ -24,7 +24,7 @@ export const envoyerDevis = createServerFn({ method: "POST" })
 
     try {
       const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
-      await sendTemplateEmail("nouveau-devis", "blondeljardin@gmail.com", {
+      await sendTemplateEmail("nouveau-devis", "cblondel26@gmail.com", {
         templateData: {
           nom: data.nom,
           email: data.email,
