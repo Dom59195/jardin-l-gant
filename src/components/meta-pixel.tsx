@@ -32,7 +32,6 @@ function hasMarketingConsent(): boolean {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) return false;
-
     const consent = JSON.parse(stored) as Partial<Consent>;
     return consent.marketing === true;
   } catch {
@@ -53,7 +52,6 @@ function loadMetaPixel() {
     fbq.queue = [];
     fbq.loaded = true;
     fbq.version = "2.0";
-
     window.fbq = fbq;
     window._fbq = fbq;
 
@@ -86,7 +84,6 @@ export function MetaPixel() {
     };
 
     window.addEventListener("blondel-cookie-consent", onConsentChange);
-
     return () => {
       window.removeEventListener("blondel-cookie-consent", onConsentChange);
     };
